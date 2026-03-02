@@ -1,0 +1,4 @@
+repository "Card Game Compiler/Card Game Compiler@1375887250046@cloud"
+  path "/"
+    br "/main"
+    co "/main"
