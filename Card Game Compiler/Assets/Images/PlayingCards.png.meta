@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -47,13 +47,13 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 1
-  spriteMeshType: 1
+  spriteExtrude: 0
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 1
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spriteGenerateFallbackPhysicsShape: 1
+  spriteGenerateFallbackPhysicsShape: 0
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -117,9 +117,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 2848
-        width: 456
-        height: 712
+        y: 356
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -138,10 +138,10 @@ TextureImporter:
       name: PlayingCards_1
       rect:
         serializedVersion: 2
-        x: 456
-        y: 2848
-        width: 456
-        height: 712
+        x: 57
+        y: 356
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -160,10 +160,10 @@ TextureImporter:
       name: PlayingCards_2
       rect:
         serializedVersion: 2
-        x: 912
-        y: 2848
-        width: 456
-        height: 712
+        x: 114
+        y: 356
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -182,10 +182,10 @@ TextureImporter:
       name: PlayingCards_3
       rect:
         serializedVersion: 2
-        x: 1368
-        y: 2848
-        width: 456
-        height: 712
+        x: 171
+        y: 356
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -204,10 +204,10 @@ TextureImporter:
       name: PlayingCards_4
       rect:
         serializedVersion: 2
-        x: 1824
-        y: 2848
-        width: 456
-        height: 712
+        x: 228
+        y: 356
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -226,10 +226,10 @@ TextureImporter:
       name: PlayingCards_5
       rect:
         serializedVersion: 2
-        x: 2280
-        y: 2848
-        width: 456
-        height: 712
+        x: 285
+        y: 356
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -248,10 +248,10 @@ TextureImporter:
       name: PlayingCards_6
       rect:
         serializedVersion: 2
-        x: 2736
-        y: 2848
-        width: 456
-        height: 712
+        x: 342
+        y: 356
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -270,10 +270,10 @@ TextureImporter:
       name: PlayingCards_7
       rect:
         serializedVersion: 2
-        x: 3192
-        y: 2848
-        width: 456
-        height: 712
+        x: 399
+        y: 356
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -292,10 +292,10 @@ TextureImporter:
       name: PlayingCards_8
       rect:
         serializedVersion: 2
-        x: 3648
-        y: 2848
-        width: 456
-        height: 712
+        x: 456
+        y: 356
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -314,10 +314,10 @@ TextureImporter:
       name: PlayingCards_9
       rect:
         serializedVersion: 2
-        x: 4104
-        y: 2848
-        width: 456
-        height: 712
+        x: 513
+        y: 356
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -336,10 +336,10 @@ TextureImporter:
       name: PlayingCards_10
       rect:
         serializedVersion: 2
-        x: 4560
-        y: 2848
-        width: 456
-        height: 712
+        x: 570
+        y: 356
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -358,10 +358,10 @@ TextureImporter:
       name: PlayingCards_11
       rect:
         serializedVersion: 2
-        x: 5016
-        y: 2848
-        width: 456
-        height: 712
+        x: 627
+        y: 356
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -380,10 +380,10 @@ TextureImporter:
       name: PlayingCards_12
       rect:
         serializedVersion: 2
-        x: 5472
-        y: 2848
-        width: 456
-        height: 712
+        x: 684
+        y: 356
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -403,9 +403,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 2136
-        width: 456
-        height: 712
+        y: 267
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -424,10 +424,10 @@ TextureImporter:
       name: PlayingCards_14
       rect:
         serializedVersion: 2
-        x: 456
-        y: 2136
-        width: 456
-        height: 712
+        x: 57
+        y: 267
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -446,10 +446,10 @@ TextureImporter:
       name: PlayingCards_15
       rect:
         serializedVersion: 2
-        x: 912
-        y: 2136
-        width: 456
-        height: 712
+        x: 114
+        y: 267
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -468,10 +468,10 @@ TextureImporter:
       name: PlayingCards_16
       rect:
         serializedVersion: 2
-        x: 1368
-        y: 2136
-        width: 456
-        height: 712
+        x: 171
+        y: 267
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -490,10 +490,10 @@ TextureImporter:
       name: PlayingCards_17
       rect:
         serializedVersion: 2
-        x: 1824
-        y: 2136
-        width: 456
-        height: 712
+        x: 228
+        y: 267
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -512,10 +512,10 @@ TextureImporter:
       name: PlayingCards_18
       rect:
         serializedVersion: 2
-        x: 2280
-        y: 2136
-        width: 456
-        height: 712
+        x: 285
+        y: 267
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -534,10 +534,10 @@ TextureImporter:
       name: PlayingCards_19
       rect:
         serializedVersion: 2
-        x: 2736
-        y: 2136
-        width: 456
-        height: 712
+        x: 342
+        y: 267
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -556,10 +556,10 @@ TextureImporter:
       name: PlayingCards_20
       rect:
         serializedVersion: 2
-        x: 3192
-        y: 2136
-        width: 456
-        height: 712
+        x: 399
+        y: 267
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -578,10 +578,10 @@ TextureImporter:
       name: PlayingCards_21
       rect:
         serializedVersion: 2
-        x: 3648
-        y: 2136
-        width: 456
-        height: 712
+        x: 456
+        y: 267
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -600,10 +600,10 @@ TextureImporter:
       name: PlayingCards_22
       rect:
         serializedVersion: 2
-        x: 4104
-        y: 2136
-        width: 456
-        height: 712
+        x: 513
+        y: 267
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -622,10 +622,10 @@ TextureImporter:
       name: PlayingCards_23
       rect:
         serializedVersion: 2
-        x: 4560
-        y: 2136
-        width: 456
-        height: 712
+        x: 570
+        y: 267
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -644,10 +644,10 @@ TextureImporter:
       name: PlayingCards_24
       rect:
         serializedVersion: 2
-        x: 5016
-        y: 2136
-        width: 456
-        height: 712
+        x: 627
+        y: 267
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -666,10 +666,10 @@ TextureImporter:
       name: PlayingCards_25
       rect:
         serializedVersion: 2
-        x: 5472
-        y: 2136
-        width: 456
-        height: 712
+        x: 684
+        y: 267
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -689,9 +689,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 1424
-        width: 456
-        height: 712
+        y: 178
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -710,10 +710,10 @@ TextureImporter:
       name: PlayingCards_27
       rect:
         serializedVersion: 2
-        x: 456
-        y: 1424
-        width: 456
-        height: 712
+        x: 57
+        y: 178
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -732,10 +732,10 @@ TextureImporter:
       name: PlayingCards_28
       rect:
         serializedVersion: 2
-        x: 912
-        y: 1424
-        width: 456
-        height: 712
+        x: 114
+        y: 178
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -754,10 +754,10 @@ TextureImporter:
       name: PlayingCards_29
       rect:
         serializedVersion: 2
-        x: 1368
-        y: 1424
-        width: 456
-        height: 712
+        x: 171
+        y: 178
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -776,10 +776,10 @@ TextureImporter:
       name: PlayingCards_30
       rect:
         serializedVersion: 2
-        x: 1824
-        y: 1424
-        width: 456
-        height: 712
+        x: 228
+        y: 178
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -798,10 +798,10 @@ TextureImporter:
       name: PlayingCards_31
       rect:
         serializedVersion: 2
-        x: 2280
-        y: 1424
-        width: 456
-        height: 712
+        x: 285
+        y: 178
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -820,10 +820,10 @@ TextureImporter:
       name: PlayingCards_32
       rect:
         serializedVersion: 2
-        x: 2736
-        y: 1424
-        width: 456
-        height: 712
+        x: 342
+        y: 178
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -842,10 +842,10 @@ TextureImporter:
       name: PlayingCards_33
       rect:
         serializedVersion: 2
-        x: 3192
-        y: 1424
-        width: 456
-        height: 712
+        x: 399
+        y: 178
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -864,10 +864,10 @@ TextureImporter:
       name: PlayingCards_34
       rect:
         serializedVersion: 2
-        x: 3648
-        y: 1424
-        width: 456
-        height: 712
+        x: 456
+        y: 178
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -886,10 +886,10 @@ TextureImporter:
       name: PlayingCards_35
       rect:
         serializedVersion: 2
-        x: 4104
-        y: 1424
-        width: 456
-        height: 712
+        x: 513
+        y: 178
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -908,10 +908,10 @@ TextureImporter:
       name: PlayingCards_36
       rect:
         serializedVersion: 2
-        x: 4560
-        y: 1424
-        width: 456
-        height: 712
+        x: 570
+        y: 178
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -930,10 +930,10 @@ TextureImporter:
       name: PlayingCards_37
       rect:
         serializedVersion: 2
-        x: 5016
-        y: 1424
-        width: 456
-        height: 712
+        x: 627
+        y: 178
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -952,10 +952,10 @@ TextureImporter:
       name: PlayingCards_38
       rect:
         serializedVersion: 2
-        x: 5472
-        y: 1424
-        width: 456
-        height: 712
+        x: 684
+        y: 178
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -975,9 +975,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 712
-        width: 456
-        height: 712
+        y: 89
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -996,10 +996,10 @@ TextureImporter:
       name: PlayingCards_40
       rect:
         serializedVersion: 2
-        x: 456
-        y: 712
-        width: 456
-        height: 712
+        x: 57
+        y: 89
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1018,10 +1018,10 @@ TextureImporter:
       name: PlayingCards_41
       rect:
         serializedVersion: 2
-        x: 912
-        y: 712
-        width: 456
-        height: 712
+        x: 114
+        y: 89
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1040,10 +1040,10 @@ TextureImporter:
       name: PlayingCards_42
       rect:
         serializedVersion: 2
-        x: 1368
-        y: 712
-        width: 456
-        height: 712
+        x: 171
+        y: 89
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1062,10 +1062,10 @@ TextureImporter:
       name: PlayingCards_43
       rect:
         serializedVersion: 2
-        x: 1824
-        y: 712
-        width: 456
-        height: 712
+        x: 228
+        y: 89
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1084,10 +1084,10 @@ TextureImporter:
       name: PlayingCards_44
       rect:
         serializedVersion: 2
-        x: 2280
-        y: 712
-        width: 456
-        height: 712
+        x: 285
+        y: 89
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1106,10 +1106,10 @@ TextureImporter:
       name: PlayingCards_45
       rect:
         serializedVersion: 2
-        x: 2736
-        y: 712
-        width: 456
-        height: 712
+        x: 342
+        y: 89
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1128,10 +1128,10 @@ TextureImporter:
       name: PlayingCards_46
       rect:
         serializedVersion: 2
-        x: 3192
-        y: 712
-        width: 456
-        height: 712
+        x: 399
+        y: 89
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1150,10 +1150,10 @@ TextureImporter:
       name: PlayingCards_47
       rect:
         serializedVersion: 2
-        x: 3648
-        y: 712
-        width: 456
-        height: 712
+        x: 456
+        y: 89
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1172,10 +1172,10 @@ TextureImporter:
       name: PlayingCards_48
       rect:
         serializedVersion: 2
-        x: 4104
-        y: 712
-        width: 456
-        height: 712
+        x: 513
+        y: 89
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1194,10 +1194,10 @@ TextureImporter:
       name: PlayingCards_49
       rect:
         serializedVersion: 2
-        x: 4560
-        y: 712
-        width: 456
-        height: 712
+        x: 570
+        y: 89
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1216,10 +1216,10 @@ TextureImporter:
       name: PlayingCards_50
       rect:
         serializedVersion: 2
-        x: 5016
-        y: 712
-        width: 456
-        height: 712
+        x: 627
+        y: 89
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1238,10 +1238,10 @@ TextureImporter:
       name: PlayingCards_51
       rect:
         serializedVersion: 2
-        x: 5472
-        y: 712
-        width: 456
-        height: 712
+        x: 684
+        y: 89
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1262,8 +1262,8 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 456
-        height: 712
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1282,10 +1282,10 @@ TextureImporter:
       name: PlayingCards_53
       rect:
         serializedVersion: 2
-        x: 456
+        x: 57
         y: 0
-        width: 456
-        height: 712
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1304,10 +1304,10 @@ TextureImporter:
       name: PlayingCards_54
       rect:
         serializedVersion: 2
-        x: 912
+        x: 114
         y: 0
-        width: 456
-        height: 712
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1326,10 +1326,10 @@ TextureImporter:
       name: PlayingCards_55
       rect:
         serializedVersion: 2
-        x: 1368
+        x: 171
         y: 0
-        width: 456
-        height: 712
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1348,10 +1348,10 @@ TextureImporter:
       name: PlayingCards_56
       rect:
         serializedVersion: 2
-        x: 1824
+        x: 228
         y: 0
-        width: 456
-        height: 712
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1367,13 +1367,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayingCards_63
+      name: PlayingCards_57
       rect:
         serializedVersion: 2
-        x: 5016
+        x: 627
         y: 0
-        width: 456
-        height: 712
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1382,20 +1382,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 92c3e71a88d90b84fa287c32975f8f1c
-      internalID: -501245913
+      spriteID: 702386a29629752469ea40456ffb7ee6
+      internalID: 1940818735
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayingCards_64
+      name: PlayingCards_58
       rect:
         serializedVersion: 2
-        x: 5472
+        x: 684
         y: 0
-        width: 456
-        height: 712
+        width: 57
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1404,8 +1404,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3f5284eaef5193d46a03bc3d9ea8a3d8
-      internalID: -1310460674
+      spriteID: 6c3484288a924e4409f18bf813c58cef
+      internalID: -1279209041
       vertices: []
       indices: 
       edges: []
@@ -1424,7 +1424,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":13.0,"y":5.0},"gridSpriteSize":{"x":456.0,"y":712.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":13.0,"y":5.0},"gridSpriteSize":{"x":57.0,"y":89.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       PlayingCards_0: -2865969986998129914
       PlayingCards_1: 499741468
@@ -1481,13 +1481,7 @@ TextureImporter:
       PlayingCards_56: -2058621307
       PlayingCards_57: 1940818735
       PlayingCards_58: -1279209041
-      PlayingCards_59: 352104100
       PlayingCards_6: -1526302685
-      PlayingCards_60: -1507929661
-      PlayingCards_61: 1460778914
-      PlayingCards_62: -284327075
-      PlayingCards_63: -501245913
-      PlayingCards_64: -1310460674
       PlayingCards_7: -1225430519
       PlayingCards_8: 1780081952
       PlayingCards_9: -1501868092

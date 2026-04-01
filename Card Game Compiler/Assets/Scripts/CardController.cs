@@ -5,7 +5,6 @@ public class CardController : MonoBehaviour
     public int value;
     public int suit;
     public bool hidden;
-    public bool isJoker;
     public int backValue;
     private SpriteRenderer spR;
     public Sprite[] cardSprites;
@@ -13,7 +12,12 @@ public class CardController : MonoBehaviour
     void Start()
     {
         spR = GetComponent<SpriteRenderer>();
-        updateCard(value,suit,hidden,isJoker);
+        updateCard(value,suit,hidden);
+    }
+
+    public void Initialize(bool hiddenI)
+    {
+        hidden = hiddenI;
     }
 
     // Update is called once per frame in constant time
@@ -25,14 +29,15 @@ public class CardController : MonoBehaviour
     //updates itself based on its native values
     public void selfUpdate()
     {
-        updateCard(value,suit,hidden,isJoker);
+        updateCard(value,suit,hidden);
     }
 
     /*
     VALID RANGES
     newValue 0-12
-    newSuit 0-3
-    (newSuit if newJoker is true) 0-1
+    
+    newSuit 0-4
+    (newValue if newSuit is 4) 0-1
 
     changes the card to a new sprite based on the given input
     if newHidden is true it will hide the card and all other values are overlooked.
@@ -40,9 +45,9 @@ public class CardController : MonoBehaviour
     if the other two are false it will change the card face to the given value and suit.
     */
 
-    public bool updateCard(int newValue, int newSuit, bool newHidden, bool newJoker)
+    public bool updateCard(int newValue, int newSuit, bool newHidden)
     {
-        if(newValue >= 13 || newSuit >= 4 || backValue >= 5 || (newJoker && (newSuit >= 2)))
+        if(newValue >= 13 || newSuit >= 5 || backValue >= 5 || (newSuit == 4 && (newValue >= 2)))
         {
             Debug.Log("Error Out of bounds");
             return false;
@@ -56,16 +61,16 @@ public class CardController : MonoBehaviour
             suit = 0;
         }
 
-        else if(newJoker == true)
+        else if(suit == 4)
         {
-            spR.sprite = cardSprites[52+newSuit];
-            value = 0;
+            spR.sprite = cardSprites[52+newValue];
+            value = newValue;
             suit = newSuit;
         }
 
         else
         {
-            spR.sprite = cardSprites[newValue*newSuit];
+            spR.sprite = cardSprites[newValue+13*newSuit];
             value = newValue;
             suit = newSuit;
         }
