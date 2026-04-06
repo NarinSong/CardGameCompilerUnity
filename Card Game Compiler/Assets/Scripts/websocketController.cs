@@ -7,11 +7,24 @@ using UnityEngine.UI;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using TMPro;
+using System.Threading.Tasks;
 
 public class websocketController : MonoBehaviour
 {
     public SocketIOUnity socket;
     public buttonCreator bC; 
+    public TMP_Text userText;
+    public TMP_Text ErrorSignUp;
+    public TMP_Text ErrorLogIn;
+    public TMP_InputField SUusername;
+    public TMP_InputField SUpassword;
+    public TMP_InputField SUdisplayName;
+    public TMP_InputField LIusername;
+    public TMP_InputField LIpassword;
+    public GameObject signUpPanel;
+    public GameObject logInPanel;
+    public GameObject authButtons;
+    public GameObject signedInButtons;
 
     // Start is called before the first frame update
     void Start()
@@ -143,5 +156,85 @@ public class websocketController : MonoBehaviour
     {
         Debug.Log("Clicked!");
         socket.Emit("playerClickEvent",(Callback)=>{Debug.Log("Click Recieved");});
+    }
+
+    public void EmitClientRequestSignUp()
+    {
+        string username = SUusername.text.ToLower();
+        string password = SUpassword.text;
+        string displayName = SUdisplayName.text;
+        Debug.Log(username + " " + password + " " + displayName);
+        if(username.Length < 3)
+        {
+            ErrorSignUp.text = "Username is too short";
+            Debug.Log("error");
+            return;
+        }
+        if(password.Length < 4)
+        {
+            ErrorSignUp.text = "Password is too short";
+            return;
+        }
+        if(displayName.Length < 3)
+        {
+            ErrorSignUp.text = "Display Name is too short";
+            return;
+        }
+        if(username.Length > 16)
+        {
+            ErrorSignUp.text = "Username is too long";
+            return;
+        }
+        if(password.Length > 20)
+        {
+            ErrorSignUp.text = "Password is too long";
+            return;
+        }
+        if(displayName.Length > 16)
+        {
+            ErrorSignUp.text = "Display Name is too long";
+            return;
+        }
+        Debug.Log("Attempting Sign Up...");
+        socket.Emit("clientRequestSignUp",(Callback)=>{Debug.Log(Callback);},username,password,displayName);
+        signUpPanel.SetActive(false);
+        socket.Emit("clientRequestSignIn",(Callback)=>{Debug.Log(Callback);},username,password);
+        loginSuccess(username);
+    }
+
+    public void EmitClientLoginRequest()
+    {
+        string username = LIusername.text;
+        string password = LIpassword.text;
+        if(username.Length < 3)
+        {
+            ErrorLogIn.text = "Username is too short";
+            return;
+        }
+        if(password.Length < 4)
+        {
+            ErrorLogIn.text = "Password is too short";
+            return;
+        }
+        Debug.Log("Attempting Log In...");
+        socket.Emit("clientRequestSignIn",(Callback)=>{Debug.Log(Callback);},username,password);
+        logInPanel.SetActive(false);
+        loginSuccess(username);
+    }
+
+    public void EmitClientSignOut()
+    {
+        socket.Emit("clientRequestSignOut",(Callback)=>{Debug.Log("Signed Out");});
+        userText.text = "Not Signed In";
+        authButtons.SetActive(true);
+        signedInButtons.SetActive(false);
+    }
+
+    public void loginSuccess(string displayName)
+    {
+        userText.text = "Signed in as " + displayName;
+        authButtons.SetActive(false);
+        signedInButtons.SetActive(true);
+        Debug.Log("Welcome User " + displayName);
     }
 }

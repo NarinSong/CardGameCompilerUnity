@@ -41,10 +41,13 @@ public class buttonCreator : MonoBehaviour
     public string gameList;
     public bool drawnButtons;
     private float startingX;
+    private float startingY;
+    public List<GameObject> buttons;
 
     void Start()
     {
         startingX = transform.position.x;
+        startingY = transform.position.y;
     }
 
     void Update()
@@ -52,8 +55,10 @@ public class buttonCreator : MonoBehaviour
         if(drawnButtons == false)
         {
             drawnButtons = true;
-            gameList = @"[{'name':'War','id':0},{'name':'Pickup','id':1},{'name':'filler','id':2},{'name':'test','id':3},{'name':'this exist','id':4},{'name':'mahjong','id':5}]";
-            List<DynaButton> gL = JsonConvert.DeserializeObject<List<DynaButton>>(gameList);
+            gameList = gameList.Replace('"', '\'');
+            gameList = gameList[1..^1];
+            Debug.Log(gameList);
+            DynaButton[] gL = JsonConvert.DeserializeObject<DynaButton[]>(gameList);
             foreach(var DB in gL)
             {
                 Debug.Log(DB.toString());
@@ -68,12 +73,13 @@ public class buttonCreator : MonoBehaviour
         gameList = games;
     }
 
-    public void drawHostButtons(List<DynaButton> games)
+    public void drawHostButtons(DynaButton[] games)
     {
-        for(int i = 0; i < games.Count; i++)
+        for(int i = 0; i < games.Length; i++)
         {
-            Debug.Log("Drawing Buttons..." + games.Count);
+            //Debug.Log("Drawing Buttons..." + games.Count);
             GameObject newButton = Instantiate(gameButton,buttonParent);
+            buttons.Add(newButton);
             dynamicButton dB = newButton.GetComponent<dynamicButton>();
             dB.Init(games[i].getName(),games[i].getId(),transform.position);
             transform.position += new Vector3(incX,0,0);
@@ -83,6 +89,17 @@ public class buttonCreator : MonoBehaviour
                 counter = 0;
                 transform.position = new Vector3(startingX,transform.position.y+incY,0);
             }
+        }
+    }
+
+    public void destroyButtons()
+    {
+        counter = 0;
+        transform.position = new Vector3(startingX,startingY,0);
+        foreach(GameObject b in buttons)
+        {
+            Debug.Log("destroying button");
+            Destroy(b);
         }
     }
 }
