@@ -52,25 +52,20 @@ public class buttonCreator : MonoBehaviour
 
     void Update()
     {
-        if(drawnButtons == false)
-        {
-            drawnButtons = true;
-            gameList = gameList.Replace('"', '\'');
-            gameList = gameList[1..^1];
-            Debug.Log(gameList);
-            DynaButton[] gL = JsonConvert.DeserializeObject<DynaButton[]>(gameList);
-            foreach(var DB in gL)
-            {
-                Debug.Log(DB.toString());
-            }
-            drawHostButtons(gL);
-        }
     }
 
-    public void updateGameList(string games)
+    public void updateGameList(string gameList)
     {
-        drawnButtons = false;
-        gameList = games;
+        drawnButtons = true;
+        gameList = gameList.Replace('"', '\'');
+        gameList = gameList[1..^1];
+        Debug.Log(gameList);
+        DynaButton[] gL = JsonConvert.DeserializeObject<DynaButton[]>(gameList);
+        foreach(var DB in gL)
+        {
+            Debug.Log(DB.toString());
+        }
+        drawHostButtons(gL);
     }
 
     public void drawHostButtons(DynaButton[] games)

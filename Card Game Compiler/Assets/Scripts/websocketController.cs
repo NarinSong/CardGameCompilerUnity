@@ -121,7 +121,13 @@ public class websocketController : MonoBehaviour
     public void EmitFetchGames()
     {
         Debug.Log("Fetching Games...");
-        socket.Emit("getAvailableGames",(Message) => {ParseGames(Message.ToString());});
+        socket.Emit("getAvailableGames",(Message) => 
+        {
+            UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            {
+                ParseGames(Message.ToString());
+            });
+        });
     }
 
     //parses the games into button objects that will load the game scene on press and call the start game function sending the game data
@@ -148,7 +154,7 @@ public class websocketController : MonoBehaviour
     public void EmitStartGame(int id)
     {
         Debug.Log("Starting Game...");
-        socket.Emit("startNewGame",(Callback)=>{Debug.Log("Started");});
+        socket.Emit("startNewGame",(Callback)=>{Debug.Log(Callback);}, id);
     }
 
     //sends a click event to the server
@@ -180,26 +186,23 @@ public class websocketController : MonoBehaviour
             ErrorSignUp.text = "Display Name is too short";
             return;
         }
-        if(username.Length > 16)
-        {
-            ErrorSignUp.text = "Username is too long";
-            return;
-        }
-        if(password.Length > 20)
-        {
-            ErrorSignUp.text = "Password is too long";
-            return;
-        }
-        if(displayName.Length > 16)
-        {
-            ErrorSignUp.text = "Display Name is too long";
-            return;
-        }
         Debug.Log("Attempting Sign Up...");
-        socket.Emit("clientRequestSignUp",(Callback)=>{Debug.Log(Callback);},username,password,displayName);
-        signUpPanel.SetActive(false);
-        socket.Emit("clientRequestSignIn",(Callback)=>{Debug.Log(Callback);},username,password);
-        loginSuccess(username);
+        socket.Emit("signUp",(Callback)=>
+        {
+            UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            {
+                if(Callback.ToString() == "[null]") 
+                {
+                    ErrorSignUp.text = "Error";
+                } 
+                else 
+                {
+                    signUpPanel.SetActive(false); 
+                    loginSuccess(displayName);
+                }
+            });
+        },username,password,displayName);
+        //signUpPanel.SetActive(false); loginSuccess(displayName);
     }
 
     public void EmitClientLoginRequest()
@@ -217,14 +220,28 @@ public class websocketController : MonoBehaviour
             return;
         }
         Debug.Log("Attempting Log In...");
-        socket.Emit("clientRequestSignIn",(Callback)=>{Debug.Log(Callback);},username,password);
-        logInPanel.SetActive(false);
-        loginSuccess(username);
+        socket.Emit("signIn",(Callback)=>
+        {
+            UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            {
+                if(Callback.ToString() == "[null]") 
+                {
+                    ErrorLogIn.text = "Error";
+                } 
+                else 
+                {
+                    logInPanel.SetActive(false); 
+                    Debug.Log(Callback.GetValue<string>(1));
+                    loginSuccess(Callback.GetValue<string>(1));
+                }
+            });
+        },username,password);
+        //logInPanel.SetActive(false); loginSuccess(username);
     }
 
     public void EmitClientSignOut()
     {
-        socket.Emit("clientRequestSignOut",(Callback)=>{Debug.Log("Signed Out");});
+        socket.Emit("signOut",(Callback)=>{Debug.Log("Signed Out");});
         userText.text = "Not Signed In";
         authButtons.SetActive(true);
         signedInButtons.SetActive(false);
