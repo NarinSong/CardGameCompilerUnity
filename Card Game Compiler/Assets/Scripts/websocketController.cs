@@ -67,6 +67,11 @@ public class websocketController : MonoBehaviour
             Debug.Log($"{DateTime.Now} Reconnecting: attempt = {e}");
         };
         ////
+        /// 
+        socket.On("gamestate", message =>
+        {
+            Debug.Log(message);
+        });
 
         Debug.Log("Connecting...");
         socket.Connect();
