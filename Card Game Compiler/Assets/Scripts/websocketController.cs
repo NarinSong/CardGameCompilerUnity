@@ -3,34 +3,70 @@ using System.Collections.Generic;
 using SocketIOClient;
 using SocketIOClient.Newtonsoft.Json;
 using UnityEngine;
-using UnityEngine.UI;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using TMPro;
-using System.Threading.Tasks;
+using UnityEngine.UI;
+
+public class LobbyInfo
+{
+    public user host {get; set;}
+    public user[] players {get; set;}
+    public string code {get; set;}
+    public string game {get; set;}    
+}
+
+public class gameInfo
+{
+    public string name {get; set;}
+    public string description {get; set;}
+}
 
 public class websocketController : MonoBehaviour
 {
+    public string username;
+    public string displayName;
     public SocketIOUnity socket;
-    public buttonCreator bC; 
+    public buttonCreator bC;
+    public gamestateController gsC; 
+    public lobbyController lC;
     public TMP_Text userText;
     public TMP_Text ErrorSignUp;
     public TMP_Text ErrorLogIn;
+    public TMP_Text errorTechMessage;
+    public TMP_Text lobbyCode;
+    public TMP_Text lobbyGameText;
+    public TMP_Text lobbyGameInfo;
     public TMP_InputField SUusername;
     public TMP_InputField SUpassword;
     public TMP_InputField SUdisplayName;
     public TMP_InputField LIusername;
     public TMP_InputField LIpassword;
+    public TMP_InputField LobbyCodeRequest;
+    public TMP_InputField changeDisplayName;
     public GameObject signUpPanel;
     public GameObject logInPanel;
     public GameObject authButtons;
     public GameObject signedInButtons;
+    public GameObject errorBoard;
+    public GameObject lobbyPanel;
+    public GameObject joinPanel;
+    public GameObject gameSelector;
+    public GameObject menuCanvas;
+    public GameObject gameCanvas;
+    public GameObject editorCanvas;
+    public GameObject menuButton;
+    public GameObject userSettingsPanel;
+    public Slider rSlider;
+    public Slider gSlider;
+    public Slider bSlider;
+    public colorPicker colorBlock;
+    public int selectedGameID;
 
     // Start is called before the first frame update
     void Start()
     {
         //Connects to the websocket using the socketIO plugin for unity
-        DontDestroyOnLoad(this.gameObject);
         var uri = new Uri("https://cg.smach.us/");
         socket = new SocketIOUnity(uri, new SocketIOOptions
         {
@@ -66,11 +102,35 @@ public class websocketController : MonoBehaviour
         {
             Debug.Log($"{DateTime.Now} Reconnecting: attempt = {e}");
         };
+
         ////
-        /// 
+        
         socket.On("gamestate", message =>
         {
-            Debug.Log(message);
+            UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            {
+                //Debug.Log(message);
+                menuCanvas.SetActive(false);
+                menuButton.SetActive(true);
+                gsC.updateGamestate(message);
+            });
+        });
+
+        socket.On("lobbyClosed", message =>
+        {
+            UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            {
+                lobbyPanel.SetActive(false);
+            });
+        });
+
+        socket.On("lobbyStatus", message =>
+        {
+            UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            {         
+                Debug.Log(message);
+                lC.updateLobbyInfo(message.GetValue<LobbyInfo>(0), username);
+            });
         });
 
         Debug.Log("Connecting...");
@@ -130,16 +190,35 @@ public class websocketController : MonoBehaviour
         {
             UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
-                ParseGames(Message.ToString());
+                bC.updateGameList(Message.ToString());
             });
         });
     }
 
-    //parses the games into button objects that will load the game scene on press and call the start game function sending the game data
-    public void ParseGames(string gameList)
+    public void EmitFetchGameInfo(int id)
     {
-        Debug.Log(gameList);
-        bC.updateGameList(gameList);
+        socket.Emit("getGameInfo",(Message) => 
+        {
+            UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            {
+                Debug.Log(Message);
+                gameInfo temp = Message.GetValue<gameInfo>(0);
+                selectedGameID = id;
+                lobbyGameText.text = temp.name;
+                lobbyGameInfo.text = temp.description;
+            });
+        },id);
+
+        socket.Emit("selectGame",(Callback) =>
+        {
+            UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            {
+                if(Callback.GetValue<bool>(0) == false)
+                {
+                    throwError("Select Game");
+                }
+            });
+        },id);
     }
 
     //fetches the block JSON from the server and calls parseblocks
@@ -155,27 +234,20 @@ public class websocketController : MonoBehaviour
         Debug.Log(blockList);
     }
 
-    //Emits the stat came to the server and once the started ping is recieved load the game scene with the game info
-    public void EmitStartGame(int id)
-    {
-        Debug.Log("Starting Game...");
-        socket.Emit("startNewGame",(Callback)=>{Debug.Log(Callback);}, id);
-    }
-
     //sends a click event to the server
-    public void EmitPlayerClickEvent()
+    public void EmitPlayerClickEvent(int id, string label)
     {
         Debug.Log("Clicked!");
-        socket.Emit("playerClickEvent",(Callback)=>{Debug.Log("Click Recieved");});
+        socket.Emit("playerClickEvent",(Callback)=>{Debug.Log("Click Recieved");},label,id);
     }
 
     public void EmitClientRequestSignUp()
     {
-        string username = SUusername.text.ToLower();
+        string usernameD = SUusername.text.ToLower();
         string password = SUpassword.text;
-        string displayName = SUdisplayName.text;
-        Debug.Log(username + " " + password + " " + displayName);
-        if(username.Length < 3)
+        string displayNameD = SUdisplayName.text;
+        //Debug.Log(usernameD + " " + password + " " + displayNameD);
+        if(usernameD.Length < 3)
         {
             ErrorSignUp.text = "Username is too short";
             Debug.Log("error");
@@ -186,7 +258,7 @@ public class websocketController : MonoBehaviour
             ErrorSignUp.text = "Password is too short";
             return;
         }
-        if(displayName.Length < 3)
+        if(displayNameD.Length < 3)
         {
             ErrorSignUp.text = "Display Name is too short";
             return;
@@ -203,18 +275,18 @@ public class websocketController : MonoBehaviour
                 else 
                 {
                     signUpPanel.SetActive(false); 
-                    loginSuccess(displayName);
+                    loginSuccess(usernameD, displayNameD);
                 }
             });
-        },username,password,displayName);
+        },usernameD,password,displayNameD);
         //signUpPanel.SetActive(false); loginSuccess(displayName);
     }
 
     public void EmitClientLoginRequest()
     {
-        string username = LIusername.text;
+        string usernameD = LIusername.text;
         string password = LIpassword.text;
-        if(username.Length < 3)
+        if(usernameD.Length < 3)
         {
             ErrorLogIn.text = "Username is too short";
             return;
@@ -237,11 +309,10 @@ public class websocketController : MonoBehaviour
                 {
                     logInPanel.SetActive(false); 
                     Debug.Log(Callback.GetValue<string>(1));
-                    loginSuccess(Callback.GetValue<string>(1));
+                    loginSuccess(usernameD, Callback.GetValue<string>(1));
                 }
             });
-        },username,password);
-        //logInPanel.SetActive(false); loginSuccess(username);
+        },usernameD,password);
     }
 
     public void EmitClientSignOut()
@@ -252,11 +323,213 @@ public class websocketController : MonoBehaviour
         signedInButtons.SetActive(false);
     }
 
-    public void loginSuccess(string displayName)
+    public void loginSuccess(string usernameD, string displayNameD)
     {
-        userText.text = "Signed in as " + displayName;
+        userText.text = "Signed in as " + displayNameD;
         authButtons.SetActive(false);
         signedInButtons.SetActive(true);
-        Debug.Log("Welcome User " + displayName);
+        username = usernameD;
+        displayName = displayNameD;
+        Debug.Log("Welcome User " + displayNameD);
     }
+
+    public void hostLobby()
+    {
+        socket.Emit("hostLobby",(Callback)=>
+        {
+            UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            {
+                if(Callback.ToString() == "[{}]")
+                {
+                    throwError("Host Lobby");
+                }
+                else
+                {
+                    string lobbyID = Callback.GetValue<string>(0);
+                    Debug.Log(lobbyID);
+                    lobbyPanel.SetActive(true);
+                    lobbyCode.text = "Lobby Code - " + lobbyID;
+                }
+            });
+        });
+    }
+
+    public void joinLobby()
+    {
+        string code = LobbyCodeRequest.text;
+        if(code.Length != 6)
+        {
+            throwError("Invalid Lobby Code");
+        }
+        socket.Emit("joinLobby",(Callback)=>
+        {
+            UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            {
+                Debug.Log(Callback);
+                if(Callback.GetValue<bool>(0) == false)
+                {
+                    throwError("Join Lobby");
+                }
+                else
+                {
+                    joinPanel.SetActive(false);
+                    lobbyPanel.SetActive(true);
+                    lobbyCode.text = "Lobby Code - " + code;
+                }
+            });
+        },code);
+    }
+
+    private void throwError(string callstack)
+    {
+        errorTechMessage.text = "Stack Trace - " + callstack; 
+        errorBoard.SetActive(true);
+        Debug.Log(callstack);
+    }
+
+    public void leaveLobby()
+    {
+        socket.Emit("leaveLobby",(Callback)=>
+        {
+            UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            {
+                if(Callback.GetValue<bool>(0) == false)
+                {
+                    throwError("Leave Lobby");
+                }
+                lobbyPanel.SetActive(false);
+            });
+        });
+    }
+
+    public void removeFromLobby(string usernameX)
+    {
+        socket.Emit("removeFromLobby",(Callback)=>
+        {
+            UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            {
+                if(Callback.GetValue<bool>(0) == false)
+                {
+                    throwError("Remove From Lobby");
+                }
+                else
+                {
+                    
+                }
+            });
+        },usernameX);
+    }
+
+    public void closeGameList()
+    {
+        gameSelector.SetActive(false);
+    }
+
+    public void startGame()
+    {
+        Debug.Log("Starting Game");
+        socket.Emit("startNewGame",(Callback)=>
+        {
+            UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            {
+                Debug.Log(Callback);
+                if(Callback.ToString() == "[false]")
+                {
+                    throwError("Start Game");
+                }
+                else
+                {
+                }
+            });
+        });
+    }
+
+    public void emitSetColor()
+    {
+        string color = rgbToHex(rSlider.value,gSlider.value,bSlider.value);
+        Debug.Log("Changing Color to" + color);
+        socket.Emit("setColor",(Callback)=>
+        {
+            UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            {
+                //CODE GOES HERE
+            });
+        },color);
+    }
+
+    public void emitChangeDisplayName()
+    {
+        string newName = changeDisplayName.text;
+        if(newName.Length < 3)
+        {
+            ErrorSignUp.text = "Display Name is too short";
+            return;
+        }
+        socket.Emit("setDisplayName",(Callback)=>
+        {
+            UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            {
+                if(Callback.GetValue<bool>(0) == false)
+                {
+                    throwError("Change Display Name");
+                    userSettingsPanel.SetActive(false);
+                }
+                else
+                {
+                    displayName = newName;
+                    userText.text = "Signed in as " + newName;
+                }
+            });
+        },newName);
+    }
+
+    public void emtiGetColor()
+    {
+        socket.Emit("getColor",(Callback)=>
+        {
+            UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            {
+                float[] color = hexToRGB(Callback.GetValue<string>(0));
+                Debug.Log("Converted " + Callback.GetValue<string>(0) + " to " + color[0] + "," + color[1] + "," + color[2]);
+                rSlider.value = color[0];
+                gSlider.value = color[1];
+                bSlider.value = color[2];
+                colorBlock.init(color[0],color[1],color[2]);
+                changeDisplayName.text = displayName;
+            });
+        });
+    }
+
+    public string rgbToHex(float r, float g, float b)
+    {
+        int rdec = (int)(r*255);
+        string rHex = rdec.ToString("x2");
+        int gdec = (int)(g*255);
+        string gHex = gdec.ToString("x2");
+        int bdec = (int)(b*255);
+        string bHex = bdec.ToString("x2");
+        return "#" + rHex + gHex + bHex;
+    }
+
+    public float[] hexToRGB(string hex)
+    {
+        hex = hex.Substring(1);
+        int rVal = Convert.ToInt32(hex.Substring(0,2),16);
+        int gVal = Convert.ToInt32(hex.Substring(2,2),16);
+        int bVal = Convert.ToInt32(hex.Substring(4,2),16);
+        return new float[] {rVal/255f,gVal/255f,bVal/255f};
+    }
+
+    /*
+    public void socketTemplate()
+    {
+        socket.Emit("SIGNALNAME",(Callback)=>
+        {
+            UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            {
+                //CODE GOES HERE
+            });
+        },EXTRA PARAMS);
+    }
+    */
 }

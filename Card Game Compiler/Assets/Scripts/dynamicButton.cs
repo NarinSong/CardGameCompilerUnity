@@ -12,7 +12,7 @@ public class dynamicButton : MonoBehaviour
 
     public void Init(string gN, int gId, Vector3 pos)
     {
-        Debug.Log("initializing button " + gN + gId);
+        //Debug.Log("initializing button " + gN + gId);
         button = GetComponent<Button>();
         buttonText = GetComponentInChildren<TextMeshProUGUI>(true);
         websocket = GameObject.Find("Websocketer").GetComponent<websocketController>();
@@ -22,13 +22,9 @@ public class dynamicButton : MonoBehaviour
         transform.position = pos;
     }
 
-    void start()
-    {
-        
-    }
-
     public void ClickTask()
     {
-        websocket.EmitStartGame(id);
+        websocket.EmitFetchGameInfo(id);
+        websocket.closeGameList();
     }
 }

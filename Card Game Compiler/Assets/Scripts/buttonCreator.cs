@@ -39,7 +39,6 @@ public class buttonCreator : MonoBehaviour
     private int counter;
     public Transform buttonParent;
     public string gameList;
-    public bool drawnButtons;
     private float startingX;
     private float startingY;
     public List<GameObject> buttons;
@@ -56,23 +55,24 @@ public class buttonCreator : MonoBehaviour
 
     public void updateGameList(string gameList)
     {
-        drawnButtons = true;
         gameList = gameList.Replace('"', '\'');
         gameList = gameList[1..^1];
-        Debug.Log(gameList);
+        //Debug.Log(gameList);
         DynaButton[] gL = JsonConvert.DeserializeObject<DynaButton[]>(gameList);
-        foreach(var DB in gL)
-        {
-            Debug.Log(DB.toString());
-        }
         drawHostButtons(gL);
     }
 
     public void drawHostButtons(DynaButton[] games)
     {
+        transform.position = new Vector3(startingX,startingY,0);
+        counter = 0;
+        foreach (Transform child in buttonParent) 
+        {
+            Destroy(child.gameObject);
+        }
         for(int i = 0; i < games.Length; i++)
         {
-            //Debug.Log("Drawing Buttons..." + games.Count);
+            //Debug.Log("Drawing Buttons..." + games.Length);
             GameObject newButton = Instantiate(gameButton,buttonParent);
             buttons.Add(newButton);
             dynamicButton dB = newButton.GetComponent<dynamicButton>();
@@ -93,7 +93,7 @@ public class buttonCreator : MonoBehaviour
         transform.position = new Vector3(startingX,startingY,0);
         foreach(GameObject b in buttons)
         {
-            Debug.Log("destroying button");
+            //Debug.Log("destroying button");
             Destroy(b);
         }
     }

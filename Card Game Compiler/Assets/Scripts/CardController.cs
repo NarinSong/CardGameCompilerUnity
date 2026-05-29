@@ -6,13 +6,13 @@ public class CardController : MonoBehaviour
     public int suit;
     public bool hidden;
     public int backValue;
-    private SpriteRenderer spR;
+    public SpriteRenderer spR;
     public Sprite[] cardSprites;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         spR = GetComponent<SpriteRenderer>();
-        updateCard(value,suit,hidden);
+        //updateCard(value,suit,hidden);
     }
 
     public void Initialize(bool hiddenI)

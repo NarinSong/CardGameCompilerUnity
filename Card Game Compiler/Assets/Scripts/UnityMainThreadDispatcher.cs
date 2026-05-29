@@ -107,7 +107,7 @@ using System.Threading.Tasks;
 		void Awake() {
 			if (_instance == null) {
 				_instance = this;
-				DontDestroyOnLoad(this.gameObject);
+				//DontDestroyOnLoad(this.gameObject);
 			}
 		}
 
