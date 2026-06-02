@@ -1,6 +1,7 @@
 using UnityEngine;
 using SocketIOClient;
 using System.Collections.Generic;
+using System;
 public enum vis
 {
     FACE_DOWN,
@@ -13,6 +14,12 @@ public enum playerType
     HUMAN,
     ROBOT,
     AI
+}
+
+public enum ButtonType
+{
+    CLICK,
+    NUMBER
 }
 
 public class card
@@ -48,6 +55,18 @@ public class pile
     public string[] actionRoles {get; set;}
 }
 
+public class button
+{
+    public int number {get; set;}
+    public vis visibility {get; set;}
+    public string label {get; set;}
+    public string[] actionRoles {get; set;}
+    public string displayName {get; set;}
+    public ButtonType type {get; set;}
+    //IDK how to implement the range functionality. TODO ask sam
+    //public int range {get; set;}
+}
+
 public class board
 {
     
@@ -57,6 +76,7 @@ public class gamestate
 {
     public pile[] piles {get; set;}
     public counter[] counters {get; set;}
+    public button[] buttons {get; set;}
     public player[] players {get; set;}
     //public board boardstate {get; set;}
 }
@@ -67,10 +87,13 @@ public class gamestateController : MonoBehaviour
     public gamestate currentGamestate;
     public List<GameObject> counterObjects;
     public List<GameObject> pileObjects;
+    public List<GameObject> buttonObjects;
     public Transform counterParent;
     public Transform pileParent;
+    public Transform buttonParent;
     public GameObject counterPrefab;
     public GameObject pilePrefab;
+    public GameObject buttonPrefab;
     public void updateGamestate(SocketIOResponse x)
     {
         Debug.Log(x);

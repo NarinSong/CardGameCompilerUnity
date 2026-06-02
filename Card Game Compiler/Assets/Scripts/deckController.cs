@@ -1,5 +1,8 @@
 using UnityEngine;
 
+//THIS CODE IS NO LONGER USED IN THE PROJECT THE CURENT PILE HANDLING IS DONE BY pileController.cs and CardController.cs
+
+
 public class deckController : MonoBehaviour
 {
     public int size;

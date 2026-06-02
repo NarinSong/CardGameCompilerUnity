@@ -23,11 +23,18 @@ public class pileController : MonoBehaviour
         WS = GameObject.Find("Websocketer").GetComponent<websocketController>();
         if(visibility == vis.FACE_UP)
         {
-            CC.updateCard(cards[0].rank,cards[0].suit,false);
+            if(!isEmpty())
+            {
+                CC.updateCard(cards[0].rank,cards[0].suit,false,isEmpty());
+            }
+            else
+            {
+                CC.updateCard(0,0,true,isEmpty());
+            }
         }
         if(visibility == vis.FACE_DOWN)
         {
-            CC.updateCard(0,0,true);
+            CC.updateCard(0,0,true,isEmpty());
         }
     }
 
@@ -36,11 +43,27 @@ public class pileController : MonoBehaviour
         Debug.Log("Pile " + label + " clicked");
         if(visibility == vis.FACE_UP)
         {
-            WS.EmitPlayerClickEvent(cards[0].id,label);
+            if(isEmpty())
+            {
+                WS.EmitPlayerClickEvent(0,label);
+            }
+            else
+            {
+                WS.EmitPlayerClickEvent(cards[0].id,label);
+            }
         }
         if(visibility == vis.FACE_DOWN)
         {
             WS.EmitPlayerClickEvent(0,label);
         }
+    }
+
+    public bool isEmpty()
+    {
+        if(cards.Length == 0)
+        {
+            return true;
+        }
+        return false;
     }
 }

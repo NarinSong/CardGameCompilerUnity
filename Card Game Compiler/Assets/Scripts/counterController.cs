@@ -8,6 +8,7 @@ public class counterController : MonoBehaviour
     public string label;
     public string displayName;
     public string[] actionRoles;
+    public websocketController WS;
     public void Init(int ownerP, vis visP, int valueP, string labelP, string displayNameP, string[] actionRolesP)
     {
         owner = ownerP;
@@ -16,12 +17,13 @@ public class counterController : MonoBehaviour
         label = labelP;
         displayName = displayNameP;
         actionRoles = actionRolesP;
+        WS = GameObject.Find("Websocketer").GetComponent<websocketController>();
     }
 
-    
+    //TODO counter prefab so counters can be drawn
 
     public void clickEvent()
     {
-        //do Counters need click events?
+        WS.EmitPlayerClickEvent(0,label);
     }
 }

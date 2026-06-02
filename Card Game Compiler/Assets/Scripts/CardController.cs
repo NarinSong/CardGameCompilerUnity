@@ -29,7 +29,7 @@ public class CardController : MonoBehaviour
     //updates itself based on its native values
     public void selfUpdate()
     {
-        updateCard(value,suit,hidden);
+        updateCard(value,suit,hidden,false);
     }
 
     /*
@@ -45,18 +45,23 @@ public class CardController : MonoBehaviour
     if the other two are false it will change the card face to the given value and suit.
     */
 
-    public bool updateCard(int newValue, int newSuit, bool newHidden)
+    public bool updateCard(int newValue, int newSuit, bool newHidden,bool isEmpty)
     {
         if(newValue >= 13 || newSuit >= 5 || backValue >= 5 || (newSuit == 4 && (newValue >= 2)))
         {
             Debug.Log("Error Out of bounds");
             return false;
         }
+        if(isEmpty)
+        {
+            spR.sprite = cardSprites[54];
+            return true;
+        }
 
         hidden = newHidden;
         if(newHidden == true)
         {
-            spR.sprite = cardSprites[54+backValue];
+            spR.sprite = cardSprites[55+backValue];
             value = 0;
             suit = 0;
         }
