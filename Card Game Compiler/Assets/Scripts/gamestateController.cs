@@ -22,6 +22,12 @@ public enum ButtonType
     NUMBER
 }
 
+public class loc
+{
+    public float x {get; set;}
+    public float y {get; set;}
+}
+
 public class card
 {
     public int rank {get; set;}
@@ -41,6 +47,7 @@ public class counter
     public int owner {get; set;}
     public vis visibility {get; set;}
     public int value {get; set;}
+    public loc location {get; set;}
     public string label {get; set;}
     public string displayName {get; set;}
     public string[] actionRoles {get; set;}
@@ -50,21 +57,29 @@ public class pile
     public int owner {get; set;}
     public vis visibility {get; set;}
     public card[] cards {get; set;}
+    public loc location {get; set;}
     public string label {get; set;}
     public string displayName {get; set;}
     public string[] actionRoles {get; set;}
 }
 
+public class rangeObj
+{
+    public float min {get; set;}
+    public float max {get; set;}
+    public float increment {get; set;}
+}
+
 public class button
 {
-    public int number {get; set;}
+    public int owner {get; set;}
     public vis visibility {get; set;}
     public string label {get; set;}
+    public loc location {get; set;}
     public string[] actionRoles {get; set;}
     public string displayName {get; set;}
     public ButtonType type {get; set;}
-    //IDK how to implement the range functionality. TODO ask sam
-    //public int range {get; set;}
+    public rangeObj range {get; set;}
 }
 
 public class board
@@ -100,6 +115,7 @@ public class gamestateController : MonoBehaviour
         currentGamestate = x.GetValue<gamestate>(0);
         drawCounters();
         drawPiles();
+        drawButtons();
     }
 
     public void drawCounters()
@@ -114,7 +130,7 @@ public class gamestateController : MonoBehaviour
             GameObject y = Instantiate(counterPrefab, counterParent.position + new Vector3(f,0,0), counterParent.rotation, counterParent);
             counterController CC = y.GetComponent<counterController>();
             counterObjects.Add(y);
-            CC.Init(currentGamestate.counters[i].owner,currentGamestate.counters[i].visibility,currentGamestate.counters[i].value,currentGamestate.counters[i].label,currentGamestate.counters[i].displayName,currentGamestate.counters[i].actionRoles);
+            CC.Init(currentGamestate.counters[i].owner,currentGamestate.counters[i].visibility,currentGamestate.counters[i].value,currentGamestate.counters[i].label,currentGamestate.counters[i].displayName,currentGamestate.counters[i].actionRoles,currentGamestate.counters[i].location);
         }
     }
 
@@ -136,7 +152,24 @@ public class gamestateController : MonoBehaviour
             GameObject y = Instantiate(pilePrefab, pileParent.position + new Vector3(fx,fy,0), pileParent.rotation, pileParent);
             pileController PC = y.GetComponent<pileController>();
             pileObjects.Add(y);
-            PC.Init(currentGamestate.piles[i].owner,currentGamestate.piles[i].visibility,currentGamestate.piles[i].cards,currentGamestate.piles[i].label,currentGamestate.piles[i].displayName,currentGamestate.piles[i].actionRoles);
+            PC.Init(currentGamestate.piles[i].owner,currentGamestate.piles[i].visibility,currentGamestate.piles[i].cards,currentGamestate.piles[i].location,currentGamestate.piles[i].label,currentGamestate.piles[i].displayName,currentGamestate.piles[i].actionRoles);
+            fx += 1f;
+        }
+    }
+
+    public void drawButtons()
+    {
+        foreach(Transform child in buttonParent) 
+        {
+            Destroy(child.gameObject);
+        }
+        float fx = 0f;
+        for(int i = 0; i < currentGamestate.buttons.Length; i++)
+        {
+            GameObject y = Instantiate(buttonPrefab, buttonParent.position + new Vector3(fx,0,0), buttonParent.rotation, buttonParent);
+            buttonController BC = y.GetComponent<buttonController>();
+            buttonObjects.Add(y);
+            BC.Init(currentGamestate.buttons[i].owner,currentGamestate.buttons[i].visibility,currentGamestate.buttons[i].label,currentGamestate.buttons[i].displayName,currentGamestate.buttons[i].actionRoles,currentGamestate.buttons[i].range,currentGamestate.buttons[i].location);
             fx += 1f;
         }
     }

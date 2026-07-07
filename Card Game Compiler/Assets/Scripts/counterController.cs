@@ -9,7 +9,7 @@ public class counterController : MonoBehaviour
     public string displayName;
     public string[] actionRoles;
     public websocketController WS;
-    public void Init(int ownerP, vis visP, int valueP, string labelP, string displayNameP, string[] actionRolesP)
+    public void Init(int ownerP, vis visP, int valueP, string labelP, string displayNameP, string[] actionRolesP, loc local)
     {
         owner = ownerP;
         visibility = visP;
@@ -17,6 +17,7 @@ public class counterController : MonoBehaviour
         label = labelP;
         displayName = displayNameP;
         actionRoles = actionRolesP;
+        transform.position = new Vector3(local.x,local.y,0);
         WS = GameObject.Find("Websocketer").GetComponent<websocketController>();
     }
 

@@ -1,5 +1,4 @@
 using UnityEngine;
-
 public class pileController : MonoBehaviour
 {
     public int owner;
@@ -8,17 +7,20 @@ public class pileController : MonoBehaviour
     public string label;
     public string displayName;
     public string[] actionRoles;
+    public loc location;
     public GameObject ObjectCards;
     public websocketController WS;
     public CardController CC;
-    public void Init(int ownerP, vis visP, card[] cardsP, string labelP, string displayNameP, string[] actionRolesP)
+    public void Init(int ownerP, vis visP, card[] cardsP, loc local, string labelP, string displayNameP, string[] actionRolesP)
     {
         owner = ownerP;
         visibility = visP;
         cards = cardsP;
+        location = local;
         label = labelP;
         displayName = displayNameP;
         actionRoles = actionRolesP;
+        transform.position = new Vector3(local.x,local.y,0);
         ObjectCards = transform.GetChild(0).gameObject;
         WS = GameObject.Find("Websocketer").GetComponent<websocketController>();
         if(visibility == vis.FACE_UP)

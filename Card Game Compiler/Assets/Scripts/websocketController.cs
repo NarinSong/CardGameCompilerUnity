@@ -4,9 +4,9 @@ using SocketIOClient;
 using SocketIOClient.Newtonsoft.Json;
 using UnityEngine;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
 using TMPro;
 using UnityEngine.UI;
+using System.Text.Json;
 
 public class LobbyInfo
 {
@@ -22,6 +22,30 @@ public class gameInfo
     public string description {get; set;}
 }
 
+public class block
+{
+    public string name {get; set;}
+    public string displayName {get; set;}
+    public string returnType {get; set;}
+    public args[] arguments {get; set;}
+    public override string ToString()
+    {
+        return name + " " + displayName + " " + returnType + " " + arguments + "\n";
+    }
+}
+
+public class args
+{
+    public string name {get; set;}
+    public string displayName {get; set;}
+    public string type {get; set;}
+    public bool optional {get; set;}
+    public override string ToString()
+    {
+        return name + " " + displayName + " " + type + " " + optional +"\n";
+    }
+}
+
 public class websocketController : MonoBehaviour
 {
     public string username;
@@ -30,6 +54,8 @@ public class websocketController : MonoBehaviour
     public buttonCreator bC;
     public gamestateController gsC; 
     public lobbyController lC;
+    public PageManager PM;
+    public editorBlockManager eBM;
     public TMP_Text userText;
     public TMP_Text ErrorSignUp;
     public TMP_Text ErrorLogIn;
@@ -37,6 +63,7 @@ public class websocketController : MonoBehaviour
     public TMP_Text lobbyCode;
     public TMP_Text lobbyGameText;
     public TMP_Text lobbyGameInfo;
+    public TMP_Text connInfo;
     public TMP_InputField SUusername;
     public TMP_InputField SUpassword;
     public TMP_InputField SUdisplayName;
@@ -52,16 +79,15 @@ public class websocketController : MonoBehaviour
     public GameObject lobbyPanel;
     public GameObject joinPanel;
     public GameObject gameSelector;
-    public GameObject menuCanvas;
-    public GameObject gameCanvas;
-    public GameObject editorCanvas;
     public GameObject menuButton;
     public GameObject userSettingsPanel;
     public Slider rSlider;
     public Slider gSlider;
     public Slider bSlider;
     public colorPicker colorBlock;
+    public List<block> blocks;
     public int selectedGameID;
+    private int reconTries;
 
     // Start is called before the first frame update
     void Start()
@@ -84,7 +110,11 @@ public class websocketController : MonoBehaviour
         ///// reserved socketio events
         socket.OnConnected += (sender, e) =>
         {
-            Debug.Log("socket.OnConnected");
+            UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            {
+                Debug.Log("socket.OnConnected");
+                connInfo.text = "Connected to Server";
+            });
         };
         socket.OnPing += (sender, e) =>
         {
@@ -97,10 +127,35 @@ public class websocketController : MonoBehaviour
         socket.OnDisconnected += (sender, e) =>
         {
             Debug.Log("disconnect: " + e);
+            connInfo.text = "Disconnected from Server";
+
         };
         socket.OnReconnectAttempt += (sender, e) =>
         {
-            Debug.Log($"{DateTime.Now} Reconnecting: attempt = {e}");
+            UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            {
+                Debug.Log($"{DateTime.Now} Reconnecting: attempt = {e}");
+                if(reconTries == 3)
+                {
+                    connInfo.text = "Attempting Reconnect";
+                    reconTries = 0;
+                }
+                if(reconTries == 2)
+                {
+                    connInfo.text = "Attempting Reconnect . . .";
+                    reconTries ++;
+                }
+                if(reconTries == 1)
+                {
+                    connInfo.text = "Attempting Reconnect . .";
+                    reconTries ++;
+                }
+                if(reconTries == 0)
+                {
+                    connInfo.text = "Attempting Reconnect .";
+                    reconTries ++;
+                }
+            });
         };
 
         ////
@@ -110,7 +165,7 @@ public class websocketController : MonoBehaviour
             UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 //Debug.Log(message);
-                menuCanvas.SetActive(false);
+                PM.setGame();
                 menuButton.SetActive(true);
                 gsC.updateGamestate(message);
             });
@@ -130,6 +185,14 @@ public class websocketController : MonoBehaviour
             {         
                 Debug.Log(message);
                 lC.updateLobbyInfo(message.GetValue<LobbyInfo>(0), username);
+            });
+        });
+
+        socket.On("gameEnded", message =>
+        {
+            UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            {         
+                PM.setMain();
             });
         });
 
@@ -225,13 +288,19 @@ public class websocketController : MonoBehaviour
     public void EmitFetchBlocks()
     {
         Debug.Log("Fetching Blocks...");
-        socket.Emit("getAvailableBlocks",Message=>{ParseBlocks(Message.ToString());});
-    }
-
-    //parses the blocks into block objects that will be loaded in the editior scene maybe save the last loaded blocks to a local state for future use?
-    public void ParseBlocks(string blockList)
-    {
-        Debug.Log(blockList);
+        socket.Emit("getAvailableBlocks",Message=>
+        {
+            UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            {
+                Debug.Log(Message);
+                string blockList = Message.ToString();
+                blockList = blockList[1..^1];
+                blocks = JsonSerializer.Deserialize<List<block>>(blockList);
+                eBM.setBlockList(blocks);
+                eBM.drawBlocks();
+                Debug.Log(blocks.Count);
+            });
+        });
     }
 
     //sends a click event to the server
@@ -496,6 +565,17 @@ public class websocketController : MonoBehaviour
                 bSlider.value = color[2];
                 colorBlock.init(color[0],color[1],color[2]);
                 changeDisplayName.text = displayName;
+            });
+        });
+    }
+
+    public void leaveGame()
+    {
+        socket.Emit("leaveGame",(Callback)=>
+        {
+            UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            {
+                PM.setMain();
             });
         });
     }
