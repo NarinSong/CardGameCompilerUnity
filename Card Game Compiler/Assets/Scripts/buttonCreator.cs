@@ -3,33 +3,6 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
-public class DynaButton
-{
-    public int id {get; set;}
-    public string name {get; set;}
-
-    public DynaButton(string gName, int Gid)
-    {
-        id = Gid;
-        name = gName;
-    }
-
-    public string toString()
-    {
-        return name + " : " + id;
-    }
-
-    public string getName()
-    {
-        return name;
-    }
-
-    public int getId()
-    {
-        return id;
-    }
-}
-
 public class buttonCreator : MonoBehaviour
 {
     public GameObject gameButton;

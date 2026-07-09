@@ -8,44 +8,6 @@ using TMPro;
 using UnityEngine.UI;
 using System.Text.Json;
 
-public class LobbyInfo
-{
-    public user host {get; set;}
-    public user[] players {get; set;}
-    public string code {get; set;}
-    public string game {get; set;}    
-}
-
-public class gameInfo
-{
-    public string name {get; set;}
-    public string description {get; set;}
-}
-
-public class block
-{
-    public string name {get; set;}
-    public string displayName {get; set;}
-    public string returnType {get; set;}
-    public args[] arguments {get; set;}
-    public override string ToString()
-    {
-        return name + " " + displayName + " " + returnType + " " + arguments + "\n";
-    }
-}
-
-public class args
-{
-    public string name {get; set;}
-    public string displayName {get; set;}
-    public string type {get; set;}
-    public bool optional {get; set;}
-    public override string ToString()
-    {
-        return name + " " + displayName + " " + type + " " + optional +"\n";
-    }
-}
-
 public class websocketController : MonoBehaviour
 {
     public string username;

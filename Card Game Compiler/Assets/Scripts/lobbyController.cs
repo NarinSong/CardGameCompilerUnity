@@ -5,34 +5,6 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System;
 
-public class user
-{
-    public string username {get; set;}
-    public string displayName {get; set;}
-    public string color {get; set;}
-
-    public user(string nameX,string displayX)
-    {
-        username = nameX;
-        displayName = displayX;
-    }
-
-    public string toString()
-    {
-        return username + " : " + displayName;
-    }
-
-    public string getName()
-    {
-        return username;
-    }
-
-    public string getDisplay()
-    {
-        return displayName;
-    }
-}
-
 public class lobbyController : MonoBehaviour
 {
     public GameObject UserObj;

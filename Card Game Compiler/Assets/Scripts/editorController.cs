@@ -4,34 +4,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class editorState
-{
-    public phase[] phases;
-    //add meta
-}
-
-public class phase
-{
-    public string name {get; set;}
-    public step[] steps;
-
-    public phase(string n)
-    {
-        name = n;
-    }
-}
-
-public class step
-{
-    public string name {get; set;}
-    public block[][] blockstate;
-
-    public step(string n)
-    {
-        name = n;
-    }
-}
-
 public class editorController : MonoBehaviour
 {
     public List<GameObject> phases;
