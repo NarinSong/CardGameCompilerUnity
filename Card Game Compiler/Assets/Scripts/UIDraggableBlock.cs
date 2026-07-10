@@ -176,7 +176,7 @@ public class UIDraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, 
 
     public void TrySnapToNearbyBlock()
     {
-        UIDraggableBlock[] allBlocks = FindObjectsOfType<UIDraggableBlock>();
+        UIDraggableBlock[] allBlocks = FindObjectsByType<UIDraggableBlock>(FindObjectsSortMode.None);
         UIDraggableBlock closest = null;
         float closestDist = snapDistance;
 

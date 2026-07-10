@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -37,5 +38,15 @@ public class editorBlockManager : MonoBehaviour
             newBlock.GetComponent<blockController>().Init(b.name,b.displayName,b.returnType,b.arguments);
             y -= 0.75f;
         }
+    }
+
+    public void drawMetaBlocks(List<string> variables, List<string> piles, List<string> buttons, List<string> counters, List<string> locations, List<string> pRoles, List<string> aRoles)
+    {
+        
+    }
+
+    public void updateStepsPhasesBlocks(List<string> steps, List<string> phases)
+    {
+        
     }
 }

@@ -85,25 +85,55 @@ public class pilesType
 {
     public string pName {get; set;}
     public int type {get; set;}
+    public pilesType()
+    {
+        pName = "NewPile";
+        type = 0;
+    }
 }
 
 public class buttonsType
 {
     public string bName {get; set;}
     public int type {get; set;}
+    public buttonsType()
+    {
+        bName = "NewButton";
+        type = 0;
+    }
 }
 
 public class countersType
 {
-    public string bName {get; set;}
+    public string cName {get; set;}
     public rangeObj range {get; set;}
+    public countersType()
+    {
+        cName = "NewCounter";
+        range = new rangeObj();
+    }
 }
 
 public class locationsType
 {
     public string lName {get; set;}
-    public int x {get; set;}
-    public int y {get; set;}
+    public float x {get; set;}
+    public float y {get; set;}
+    public float xOff {get; set;} 
+    public float yOff {get; set;}
+    public float wrapAt {get; set;}
+    public float wrapTo {get; set;}
+    public locationRenderType vertHori {get; set;}
+    public locationsType()
+    {
+        x = 0;
+        y = 0;
+        xOff = 0;
+        yOff = 0;
+        wrapAt = 0;
+        wrapTo= 0;
+        vertHori = locationRenderType.HORIZONTAL;
+    }
 }
 
 public class LobbyInfo
@@ -164,6 +194,12 @@ public enum ButtonType
     NUMBER
 }
 
+public enum locationRenderType
+{
+    VERTICAL,
+    HORIZONTAL
+}
+
 public class loc
 {
     public float x {get; set;}
@@ -210,6 +246,12 @@ public class rangeObj
     public float min {get; set;}
     public float max {get; set;}
     public float increment {get; set;}
+    public rangeObj()
+    {
+        min = float.NaN;
+        max = float.NaN;
+        increment = 0;
+    }
 }
 
 public class button
