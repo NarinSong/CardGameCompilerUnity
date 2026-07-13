@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
@@ -7,16 +8,22 @@ public class variableController : MonoBehaviour
 {
     public editorBlockManager bM;
     public List<string> masterList;
+
     [Header("Variables")]
     public TMP_Dropdown variablesD;
     public TMP_InputField variableName;
-    public List<string> variablesList;
+    public List<variablesType> variablesList;
+    public List<string> variableNames;
+    public TMP_Dropdown variableType;
     public int currentVariable;
 
     [Header("Piles")]
     public TMP_Dropdown pilesD;
     public TMP_InputField pileName;
     public TMP_Dropdown pileType;
+    public TMP_Dropdown pileVis;
+    public TMP_Dropdown pileLoc;
+    public TMP_Dropdown pileARole;
     public List<pilesType> pilesList;
     public List<string> pileNames;
     public int currentPile;
@@ -25,6 +32,12 @@ public class variableController : MonoBehaviour
     public TMP_Dropdown buttonsD;
     public TMP_InputField buttonName;
     public TMP_Dropdown buttonType;
+    public TMP_Dropdown buttonVis;
+    public TMP_Dropdown buttonLoc;
+    public TMP_Dropdown buttonARole;
+    public TMP_Dropdown buttonRange;
+    public TMP_InputField rangeIn;
+    public GameObject buttonRangeObj;
     public List<buttonsType> buttonsList;
     public List<string> buttonNames;
     public int currentButton;
@@ -32,8 +45,11 @@ public class variableController : MonoBehaviour
     [Header("Counters")]
     public TMP_Dropdown countersD;
     public TMP_InputField counterName;
+    public TMP_InputField counterValue;
     public TMP_Dropdown counterOption;
-    public TMP_InputField counterOptionIN;
+    public TMP_Dropdown counterVis;
+    public TMP_Dropdown counterLoc;
+    public TMP_Dropdown counterARole;
     public List<countersType> countersList;
     public List<string> counterNames;
     public int currentCounter;
@@ -67,7 +83,8 @@ public class variableController : MonoBehaviour
 
     void Start()
     {
-        variablesList = new List<string>();
+        variableNames = new List<string>();
+        variablesList = new List<variablesType>();
         pilesList = new List<pilesType>();
         pileNames = new List<string>();
         buttonsList = new List<buttonsType>();
@@ -78,6 +95,38 @@ public class variableController : MonoBehaviour
         locationNames = new List<string>();
         pRolesList = new List<string>();
         aRolesList = new List<string>();
+        newLocation();
+        modifyLocation();
+    }
+
+    public int[] bitFieldToInt(int bitfield)
+    {
+        Debug.Log(bitfield);
+        BitArray bits = new BitArray(new int[] { bitfield });
+        int[] result = new int[bits.Count];
+        for (int i = 0; i < bits.Count; i++)
+        {
+            result[i] = bits[i] ? 1 : 0;
+        }
+        return result;
+    }
+
+    public int InttoBitfield(List<string> list)
+    {
+        BitArray bF = new BitArray(aRolesList.Count);
+        for(int i = 0; i < aRolesList.Count; i ++)
+        {
+            for(int j = 0; j < list.Count; j++)
+            {
+                if(aRolesList[i] == list[j])
+                {
+                    bF.Set(i,true);
+                }
+            }
+        }
+        int[] x = new int[1];
+        bF.CopyTo(x, 0);
+        return x[0];
     }
 
     public void throwError(string er)
@@ -89,7 +138,7 @@ public class variableController : MonoBehaviour
     {
         masterList = new List<string>();
         masterList.Clear();
-        masterList.AddRange(variablesList);
+        masterList.AddRange(variableNames);
         masterList.AddRange(pileNames);
         masterList.AddRange(buttonNames);
         masterList.AddRange(counterNames);
@@ -113,24 +162,25 @@ public class variableController : MonoBehaviour
             }
         }
         Debug.Log("variable name check passed");
-        foreach(countersType x in countersList)
+        foreach(buttonsType x in buttonsList)
         {
-            if(x.range.min > x.range.max)
+            if(x.range.min > x.range.max && x.type == ButtonType.NUMBER)
             {
-                throwError("Counter: " + x.cName + " has an invalid range");
+                throwError("Counter: " + x.bName + " has an invalid range");
                 return;
             }
         }
         Debug.Log("counter check passed");
-        bM.drawMetaBlocks(variablesList, pileNames, buttonNames, counterNames, locationNames, aRolesList, pRolesList);
+        bM.drawMetaBlocks(variablesList, pilesList, buttonsList, countersList, locationsList, aRolesList, pRolesList);
     }
 
 //  VARIABLES =========================
     public void newVariable()
     {
-        variablesList.Add("NewVariable");
+        variablesList.Add(new variablesType());
+        variableNames.Add("NewVariable");
         variablesD.ClearOptions();
-        variablesD.AddOptions(variablesList);
+        variablesD.AddOptions(variableNames);
         currentVariable = variablesList.Count-1;
         variablesD.value = currentVariable;
         loadVariable();
@@ -142,8 +192,9 @@ public class variableController : MonoBehaviour
         if(variablesList.Count > 0)
         {
             variablesList.RemoveAt(currentVariable);
+            variableNames.RemoveAt(currentVariable);
             variablesD.ClearOptions();
-            variablesD.AddOptions(variablesList);
+            variablesD.AddOptions(variableNames);
             if(variablesList.Count > 0)
             {
                 variablesD.value = currentVariable;
@@ -161,9 +212,11 @@ public class variableController : MonoBehaviour
     {
         if(variablesList.Count > 0)
         {
-            variablesList[currentVariable] = variableName.text;
+            variableNames[currentVariable] = variableName.text;
+            variablesList[currentVariable].vName = variableName.text;
+            variablesList[currentVariable].type = variableType.value;
             variablesD.ClearOptions();
-            variablesD.AddOptions(variablesList);
+            variablesD.AddOptions(variableNames);
             variablesD.value = currentVariable;
             loadVariable();
         }
@@ -175,11 +228,13 @@ public class variableController : MonoBehaviour
         if(variablesList.Count > 0)
         {
             currentVariable = variablesD.value;
-            variableName.text = variablesList[currentVariable];
+            variableName.text = variableNames[currentVariable];
+            variableType.value = variablesList[currentVariable].type;
         }
         else
         {
             currentVariable = 0;
+            variableType.value = 0;
             variableName.text = "";
         }
     }
@@ -189,7 +244,7 @@ public class variableController : MonoBehaviour
     public void newPile()
     {
         pileNames.Add("NewPile");
-        pilesList.Add(new pilesType());
+        pilesList.Add(new pilesType(locationsList[0]));
         pilesD.ClearOptions();
         pilesD.AddOptions(pileNames);
         currentPile = pilesList.Count-1;
@@ -223,7 +278,34 @@ public class variableController : MonoBehaviour
         if(pilesList.Count > 0)
         {
             pileNames[currentPile] = pileName.text;
+            pilesList[currentVariable].pName = pileName.text;
             pilesList[currentPile].type = pileType.value;
+            if(locationsList.Count > 0)
+            {
+                pilesList[currentPile].location = locationsList[pileLoc.value];
+            }
+            if(pileVis.value == 0)
+            {
+                pilesList[currentPile].visibility = vis.FACE_UP;
+            }
+            else if(pileVis.value == 1)
+            {
+                pilesList[currentPile].visibility = vis.FACE_DOWN;
+            }
+            else if(pileVis.value == 2)
+            {
+                pilesList[currentPile].visibility = vis.INVISIBLE;
+            }
+            int[] r = bitFieldToInt(pileARole.value);
+            List<string> temp = new List<string>();
+            for(int i = 0; i < aRolesList.Count; i++)
+            {
+                if(r[i] == 1)
+                {
+                    temp.Add(aRolesList[i]);
+                }
+            }
+            pilesList[currentPile].actionRoles = temp;
             pilesD.ClearOptions();
             pilesD.AddOptions(pileNames);
             pilesD.value = currentPile;
@@ -239,12 +321,32 @@ public class variableController : MonoBehaviour
             currentPile = pilesD.value;
             pileName.text = pileNames[currentPile];
             pileType.value = pilesList[currentPile].type;
+            if(locationsList.Count > 0)
+            {
+                pileLoc.value = pilesList[currentPile].location.index;
+            }
+            if(pilesList[currentPile].visibility == vis.FACE_UP)
+            {
+                pileVis.value = 0;
+            }
+            else if(pilesList[currentPile].visibility == vis.FACE_DOWN)
+            {
+                pileVis.value = 1;
+            }
+            if(pilesList[currentPile].visibility == vis.INVISIBLE)
+            {
+                pileVis.value = 2;
+            }
+            pileARole.value = InttoBitfield(pilesList[currentPile].actionRoles);
         }
         else
         {
             currentPile = 0;
             pileName.text = "";
             pileType.value = 0;
+            pileLoc.value = 0;
+            pileVis.value = 0;
+            pileARole.value = 0;
         }
     }
 
@@ -252,14 +354,12 @@ public class variableController : MonoBehaviour
 //  BUTTONS =========================
     public void newButton()
     {
-        Debug.Log("Adding Button");
         buttonNames.Add("NewButton");
-        buttonsList.Add(new buttonsType());
+        buttonsList.Add(new buttonsType(locationsList[0]));
         buttonsD.ClearOptions();
         buttonsD.AddOptions(buttonNames);
         currentButton = buttonsList.Count-1;
         buttonsD.value = currentButton;
-        Debug.Log("Button Added");
         loadButton();
     }
 
@@ -289,7 +389,73 @@ public class variableController : MonoBehaviour
         if(buttonsList.Count > 0)
         {
             buttonNames[currentButton] = buttonName.text;
-            buttonsList[currentButton].type = buttonType.value;
+            buttonsList[currentVariable].bName = buttonName.text;
+            if(buttonType.value == 0)
+            {
+                buttonsList[currentButton].type = ButtonType.CLICK;
+            }
+            else
+            {
+                buttonsList[currentButton].type = ButtonType.NUMBER;
+            }
+            if(locationsList.Count > 0)
+            {
+                buttonsList[currentButton].location = locationsList[buttonLoc.value];
+            }
+            if(buttonVis.value == 0)
+            {
+                buttonsList[currentButton].visibility = vis.FACE_UP;
+            }
+            else if(buttonVis.value == 1)
+            {
+                buttonsList[currentButton].visibility = vis.FACE_DOWN;
+            }
+            else if(buttonVis.value == 2)
+            {
+                buttonsList[currentButton].visibility = vis.INVISIBLE;
+            }
+            int[] r = bitFieldToInt(buttonARole.value);
+            List<string> temp = new List<string>();
+            for(int i = 0; i < aRolesList.Count; i++)
+            {
+                if(r[i] == 1)
+                {
+                    temp.Add(aRolesList[i]);
+                }
+            }
+            if(buttonType.value == 1)
+            {
+                float outVal;
+                buttonNames[currentButton] = buttonName.text;
+                if(buttonRange.value == 0)
+                {
+                    if(float.TryParse(rangeIn.text, out outVal))
+                    {
+                        buttonsList[currentButton].range.min = outVal;
+                    }
+                    else
+                    {
+                        buttonsList[currentButton].range.min = float.NaN;
+                    }
+                }
+                else if(buttonRange.value == 1)
+                {
+                    if(float.TryParse(rangeIn.text,out outVal))
+                    {
+                        buttonsList[currentButton].range.max = outVal;
+                    }
+                    else
+                    {
+                        buttonsList[currentButton].range.max = float.NaN;
+                    }
+                }
+                else if(buttonRange.value == 2)
+                {
+                    float.TryParse(rangeIn.text, out outVal);
+                    buttonsList[currentButton].range.increment = outVal;
+                }
+            }
+            buttonsList[currentButton].actionRoles = temp;
             buttonsD.ClearOptions();
             buttonsD.AddOptions(buttonNames);
             buttonsD.value = currentButton;
@@ -303,13 +469,70 @@ public class variableController : MonoBehaviour
         {
             currentButton = buttonsD.value;
             buttonName.text = buttonNames[currentButton];
-            buttonType.value = buttonsList[currentButton].type;
+            if(buttonsList[currentButton].type == ButtonType.CLICK)
+            {
+                buttonType.value = 0;
+                buttonRangeObj.SetActive(false);
+            }
+            if(buttonsList[currentButton].type == ButtonType.NUMBER)
+            {
+                buttonType.value = 1;
+                buttonRangeObj.SetActive(true);
+            }
+            if(locationsList.Count > 0)
+            {
+                buttonLoc.value = buttonsList[currentButton].location.index;
+            }
+            if(buttonsList[currentButton].visibility == vis.FACE_UP)
+            {
+                buttonVis.value = 0;
+            }
+            else if(buttonsList[currentButton].visibility == vis.FACE_DOWN)
+            {
+                buttonVis.value = 1;
+            }
+            if(buttonsList[currentButton].visibility == vis.INVISIBLE)
+            {
+                buttonVis.value = 2;
+            }
+            buttonARole.value = InttoBitfield(buttonsList[currentButton].actionRoles);
+
+            loadMinMaxButton();
         }
         else
         {
             currentButton = 0;
             buttonName.text = "";
             buttonType.value = 0;
+            buttonRangeObj.SetActive(false);
+            buttonLoc.value = 0;
+            buttonVis.value = 0;
+            buttonARole.value = 0;
+        }
+    }
+
+    public void loadMinMaxButton()
+    {
+        if(buttonsList.Count > 0)
+        {
+            currentMMVal = buttonRange.value;
+            if(currentMMVal == 0)
+            {
+                rangeIn.text = buttonsList[currentButton].range.min.ToString();
+            }
+            else if(currentMMVal == 1)
+            {
+                rangeIn.text = buttonsList[currentButton].range.max.ToString();
+            }
+            else if(currentMMVal == 2)
+            {
+                rangeIn.text = buttonsList[currentButton].range.increment.ToString();
+            }
+        }
+        else
+        {
+            buttonRange.value = 0;
+            rangeIn.text = "";
         }
     }
 
@@ -318,12 +541,11 @@ public class variableController : MonoBehaviour
     public void newCounter()
     {
         counterNames.Add("NewCounter");
-        countersList.Add(new countersType());
+        countersList.Add(new countersType(locationsList[0]));
         countersD.ClearOptions();
         countersD.AddOptions(counterNames);
         currentCounter = countersList.Count-1;
         countersD.value = currentCounter;
-        counterOption.value = 0;
         loadCounter();
     }
 
@@ -352,35 +574,37 @@ public class variableController : MonoBehaviour
     {
         if(countersList.Count > 0)
         {
-            float outVal;
             counterNames[currentCounter] = counterName.text;
-            if(counterOption.value == 0)
+            countersList[currentVariable].cName = counterName.text;
+            float outVal;
+            float.TryParse(counterValue.text, out outVal);
+            countersList[currentCounter].number = outVal; 
+            if(locationsList.Count > 0)
             {
-                if(float.TryParse(counterOptionIN.text, out outVal))
+                countersList[currentCounter].location = locationsList[counterLoc.value];
+            }
+            if(counterVis.value == 0)
+            {
+                countersList[currentCounter].visibility = vis.FACE_UP;
+            }
+            else if(counterVis.value == 1)
+            {
+                countersList[currentCounter].visibility = vis.FACE_DOWN;
+            }
+            else if(counterVis.value == 2)
+            {
+                countersList[currentCounter].visibility = vis.INVISIBLE;
+            }
+            int[] r = bitFieldToInt(counterARole.value);
+            List<string> temp = new List<string>();
+            for(int i = 0; i < aRolesList.Count; i++)
+            {
+                if(r[i] == 1)
                 {
-                    countersList[currentCounter].range.min = outVal;
-                }
-                else
-                {
-                    countersList[currentCounter].range.min = float.NaN;
+                    temp.Add(aRolesList[i]);
                 }
             }
-            else if(counterOption.value == 1)
-            {
-                if(float.TryParse(counterOptionIN.text,out outVal))
-                {
-                    countersList[currentCounter].range.max = outVal;
-                }
-                else
-                {
-                    countersList[currentCounter].range.max = float.NaN;
-                }
-            }
-            else if(counterOption.value == 2)
-            {
-                float.TryParse(counterOptionIN.text, out outVal);
-                countersList[currentCounter].range.increment = outVal;
-            }
+            countersList[currentCounter].actionRoles = temp;
             countersD.ClearOptions();
             countersD.AddOptions(counterNames);
             countersD.value = currentCounter;
@@ -390,39 +614,37 @@ public class variableController : MonoBehaviour
 
     public void loadCounter()
     {
-        //DO NOT SET COUNTERSD.VALUE IN THIS FUNCTION
         if(countersList.Count > 0)
         {
             currentCounter = countersD.value;
-            loadMinMaxCounter();
             counterName.text = counterNames[currentCounter];
+            counterValue.text = countersList[currentCounter].number.ToString();
+            if(locationsList.Count > 0)
+            {
+                counterLoc.value = countersList[currentCounter].location.index;
+            }
+            if(countersList[currentCounter].visibility == vis.FACE_UP)
+            {
+                counterVis.value = 0;
+            }
+            else if(countersList[currentCounter].visibility == vis.FACE_DOWN)
+            {
+                counterVis.value = 1;
+            }
+            if(countersList[currentCounter].visibility == vis.INVISIBLE)
+            {
+                counterVis.value = 2;
+            }
+            counterARole.value = InttoBitfield(countersList[currentCounter].actionRoles);
         }
         else
         {
             currentCounter = 0;
             counterName.text = "";
-            counterOption.value = 0;
-            counterOptionIN.text = "";
-        }
-    }
-
-    public void loadMinMaxCounter()
-    {
-        if(countersList.Count > 0)
-        {
-            currentMMVal = counterOption.value;
-            if(currentMMVal == 0)
-            {
-                counterOptionIN.text = countersList[currentCounter].range.min.ToString();
-            }
-            else if(currentMMVal == 1)
-            {
-            counterOptionIN.text = countersList[currentCounter].range.max.ToString();
-            }
-            else if(currentMMVal == 2)
-            {
-                counterOptionIN.text = countersList[currentCounter].range.increment.ToString();
-            }
+            counterValue.text = "";
+            counterLoc.value = 0;
+            counterVis.value = 0;
+            counterARole.value = 0;
         }
     }
 
@@ -441,7 +663,7 @@ public class variableController : MonoBehaviour
 
     public void deleteLocation()
     {
-        if(locationsList.Count > 0)
+        if(locationsList.Count > 1 && locationsD.value > 0)
         {
             locationsList.RemoveAt(currentLocation);
             locationNames.RemoveAt(currentLocation);
@@ -466,6 +688,7 @@ public class variableController : MonoBehaviour
         {
             float outVal;
             locationNames[currentLocation] = locationName.text;
+            locationsList[currentVariable].lName = locationName.text;
             float.TryParse(locationX.text,out outVal);
             locationsList[currentLocation].x = outVal;
             float.TryParse(locationY.text,out outVal);
@@ -498,6 +721,7 @@ public class variableController : MonoBehaviour
         if(locationsList.Count > 0)
         {
             currentLocation = locationsD.value;
+            locationsList[currentLocation].index = currentLocation;
             locationName.text = locationNames[currentLocation];
             locationX.text = locationsList[currentLocation].x.ToString();
             locationY.text = locationsList[currentLocation].y.ToString();
@@ -513,6 +737,7 @@ public class variableController : MonoBehaviour
             {
                 locationOption.value = 1;
             }
+            redrawLocations();
         }
         else
         {
@@ -525,6 +750,49 @@ public class variableController : MonoBehaviour
             locationWrapAt.text = "";
             locationWrapTo.text = "";
             locationOption.value = 0;
+        }
+    }
+
+    public void redrawLocations()
+    {
+        pileLoc.ClearOptions();
+        pileLoc.AddOptions(locationNames);
+        if(pilesList.Count > 0)
+        {
+            if(pilesList[currentPile].location.index < locationsList.Count)
+            {
+                pileLoc.value = pilesList[currentPile].location.index;
+            }
+        }
+        else
+        {
+            pileLoc.value = 0;
+        }
+        buttonLoc.ClearOptions();
+        buttonLoc.AddOptions(locationNames);
+        if(buttonsList.Count > 0)
+        {
+            if(buttonsList[currentButton].location.index < locationsList.Count)
+            {
+                buttonLoc.value = buttonsList[currentButton].location.index;
+            }
+        }
+        else
+        {
+            buttonLoc.value = 0;
+        }
+        counterLoc.ClearOptions();
+        counterLoc.AddOptions(locationNames);
+        if(countersList.Count > 0)
+        {
+            if(countersList[currentCounter].location.index < locationsList.Count)
+            {
+                counterLoc.value = countersList[currentCounter].location.index;
+            }
+        }
+        else
+        {
+            counterLoc.value = 0;
         }
     }
 
@@ -641,6 +909,41 @@ public class variableController : MonoBehaviour
         {
             currentARole = 0;
             aRoleName.text = "";
+        }
+        redrawARoles();
+    }
+
+    public void redrawARoles()
+    {
+        pileARole.ClearOptions();
+        pileARole.AddOptions(aRolesList);
+        if(pilesList.Count > 0)
+        {
+            pileARole.value = InttoBitfield(pilesList[currentPile].actionRoles);
+        }
+        else
+        {
+            pileARole.value = 0;
+        }
+        counterARole.ClearOptions();
+        counterARole.AddOptions(aRolesList);
+        if(countersList.Count > 0)
+        {
+            counterARole.value = InttoBitfield(countersList[currentCounter].actionRoles);
+        }
+        else
+        {
+            counterARole.value = 0;
+        }
+        buttonARole.ClearOptions();
+        buttonARole.AddOptions(aRolesList);
+        if(buttonsList.Count > 0)
+        {
+            buttonARole.value = InttoBitfield(buttonsList[currentButton].actionRoles);
+        }
+        else
+        {
+            buttonARole.value = 0;
         }
     }
 }

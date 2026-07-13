@@ -18,6 +18,7 @@ public class editorController : MonoBehaviour
     public GameObject stepPrefab;
     public Transform phaseParent;
     public Transform stepParent;
+    public editorBlockManager bM;
 
     public void Start()
     {
@@ -31,6 +32,20 @@ public class editorController : MonoBehaviour
         List<GameObject> startList = new List<GameObject>();
         startList.Add(GameObject.Find("Step"));
         steps.Add(startList);
+        bM.updateStepsPhasesBlocks(stepNames[currentPhase],phaseNames);
+    }
+
+    public void drawBlocksFromSP()
+    {
+        List<string> max = new List<string>();
+        foreach(List<string> x in stepNames)
+        {
+            if(x.Count > max.Count)
+            {
+                max = x;
+            }
+        }
+        bM.updateStepsPhasesBlocks(max,phaseNames);
     }
 
     public void removePhase()
@@ -52,6 +67,7 @@ public class editorController : MonoBehaviour
             phaseList.value = currentPhase;
             stepList.ClearOptions();
             stepList.AddOptions(stepNames[currentPhase]);
+            drawBlocksFromSP();
         }
     }
 
@@ -71,6 +87,7 @@ public class editorController : MonoBehaviour
             stepList.ClearOptions();
             stepList.AddOptions(stepNames[currentPhase]);
             stepList.value = currentStep;
+            drawBlocksFromSP();
         }
     }
 
@@ -96,6 +113,7 @@ public class editorController : MonoBehaviour
         stepList.ClearOptions();
         stepList.AddOptions(stepNames[currentPhase]);
         //phaseList.value = phases.Count-1;
+        drawBlocksFromSP();
     }
 
     public void addStep()
@@ -110,6 +128,7 @@ public class editorController : MonoBehaviour
         stepList.value = steps[currentPhase].Count-1;
         setStep(steps[currentPhase].Count-1);
         //stepList.value = steps[currentPhase].Count-1;
+        drawBlocksFromSP();
     }
 
     public void setPhase(int c)

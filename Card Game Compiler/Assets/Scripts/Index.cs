@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 public class DynaButton
 {
     public int id {get; set;}
@@ -81,42 +84,121 @@ public class user
     }
 }
 
+public class variablesType
+{
+    public string vName {get; set;}
+    public int type {get; set;}
+
+    public variablesType()
+    {
+        vName = "NewVariable";
+        type = 0;
+    }
+    public string returnType()
+    {
+        switch(type)
+        {
+            case 0:
+                return "Number";
+            case 1:
+                return "String";
+            case 2:
+                return "Boolean";
+            case 3:
+                return "PileLabel";
+            case 4:
+                return "CounterLabel";
+            case 5:
+                return "ButtonLabel";
+            case 6:
+                return "ActionRole";
+            case 7:
+                return "PileState";
+            case 8:
+                return "Visibility";
+            case 9:
+                return "Card";
+            case 10:
+                return "ID";
+            case 11:
+                return "Player";
+            case 12:
+                return "PlayerRole";
+            case 13:
+                return "Phase";
+            case 14:
+                return "Step";
+            case 15:
+                return "Location";
+            case 16:
+                return "ButtonRange";
+            case 17:
+                return "Rank";
+            case 18:
+                return "Suit";
+
+        }
+        return "null";
+    }
+}
+
 public class pilesType
 {
     public string pName {get; set;}
     public int type {get; set;}
-    public pilesType()
+    public vis visibility {get; set;}
+    public locationsType location {get; set;}
+    public List<string> actionRoles {get; set;}
+    public pilesType(locationsType def)
     {
         pName = "NewPile";
         type = 0;
+        visibility = vis.FACE_UP;
+        location = def;
+        actionRoles = new List<string>();
     }
 }
 
 public class buttonsType
 {
     public string bName {get; set;}
-    public int type {get; set;}
-    public buttonsType()
+    public ButtonType type {get; set;}
+    public vis visibility {get; set;}
+    public locationsType location {get; set;}
+    public List<string> actionRoles {get; set;}
+    public rangeObj range {get; set;}
+    public buttonsType(locationsType def)
     {
         bName = "NewButton";
-        type = 0;
+        type = ButtonType.CLICK;
+        visibility = vis.FACE_UP;
+        location = def;
+        actionRoles = new List<string>();
+        range = new rangeObj();
     }
 }
 
 public class countersType
 {
     public string cName {get; set;}
-    public rangeObj range {get; set;}
-    public countersType()
+    public float number {get; set;}
+    public vis visibility {get; set;}
+    public locationsType location {get; set;}
+    public List<string> actionRoles {get; set;}
+    public countersType(locationsType def)
     {
         cName = "NewCounter";
-        range = new rangeObj();
+        number = 0;
+        visibility = vis.FACE_UP;
+        location = def;
+        actionRoles = new List<string>();
     }
 }
 
 public class locationsType
 {
     public string lName {get; set;}
+    public int index {get; set;}
     public float x {get; set;}
     public float y {get; set;}
     public float xOff {get; set;} 
@@ -128,10 +210,11 @@ public class locationsType
     {
         x = 0;
         y = 0;
+        index = 0;
         xOff = 0;
         yOff = 0;
         wrapAt = 0;
-        wrapTo= 0;
+        wrapTo = 0;
         vertHori = locationRenderType.HORIZONTAL;
     }
 }
