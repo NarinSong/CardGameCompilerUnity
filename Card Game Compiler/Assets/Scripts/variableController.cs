@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -8,6 +9,7 @@ public class variableController : MonoBehaviour
 {
     public editorBlockManager bM;
     public List<string> masterList;
+    public bool inLoad = false;
 
     [Header("Variables")]
     public TMP_Dropdown variablesD;
@@ -101,7 +103,7 @@ public class variableController : MonoBehaviour
 
     public int[] bitFieldToInt(int bitfield)
     {
-        Debug.Log(bitfield);
+        //Debug.Log(bitfield);
         BitArray bits = new BitArray(new int[] { bitfield });
         int[] result = new int[bits.Count];
         for (int i = 0; i < bits.Count; i++)
@@ -210,7 +212,7 @@ public class variableController : MonoBehaviour
 
     public void modifyVariable()
     {
-        if(variablesList.Count > 0)
+        if(variablesList.Count > 0 && inLoad == false)
         {
             variableNames[currentVariable] = variableName.text;
             variablesList[currentVariable].vName = variableName.text;
@@ -225,6 +227,7 @@ public class variableController : MonoBehaviour
     public void loadVariable()
     {
         //DO NOT SET VARIABLESD.VALUE IN THIS FUNCTION
+        inLoad = true;
         if(variablesList.Count > 0)
         {
             currentVariable = variablesD.value;
@@ -237,6 +240,7 @@ public class variableController : MonoBehaviour
             variableType.value = 0;
             variableName.text = "";
         }
+        inLoad = false;
     }
 
 
@@ -275,10 +279,11 @@ public class variableController : MonoBehaviour
 
     public void modifyPile()
     {
-        if(pilesList.Count > 0)
+        Debug.Log("pile Modified!");
+        if(pilesList.Count > 0 && inLoad == false)
         {
             pileNames[currentPile] = pileName.text;
-            pilesList[currentVariable].pName = pileName.text;
+            pilesList[currentPile].pName = pileName.text;
             pilesList[currentPile].type = pileType.value;
             if(locationsList.Count > 0)
             {
@@ -316,6 +321,7 @@ public class variableController : MonoBehaviour
     public void loadPile()
     {
         //DO NOT SET PILESD.VALUE IN THIS FUNCTION
+        inLoad = true;
         if(pilesList.Count > 0)
         {
             currentPile = pilesD.value;
@@ -333,7 +339,7 @@ public class variableController : MonoBehaviour
             {
                 pileVis.value = 1;
             }
-            if(pilesList[currentPile].visibility == vis.INVISIBLE)
+            else if(pilesList[currentPile].visibility == vis.INVISIBLE)
             {
                 pileVis.value = 2;
             }
@@ -348,6 +354,7 @@ public class variableController : MonoBehaviour
             pileVis.value = 0;
             pileARole.value = 0;
         }
+        inLoad = false;
     }
 
 
@@ -386,10 +393,10 @@ public class variableController : MonoBehaviour
 
     public void modifyButton()
     {
-        if(buttonsList.Count > 0)
+        if(buttonsList.Count > 0 && inLoad == false)
         {
             buttonNames[currentButton] = buttonName.text;
-            buttonsList[currentVariable].bName = buttonName.text;
+            buttonsList[currentButton].bName = buttonName.text;
             if(buttonType.value == 0)
             {
                 buttonsList[currentButton].type = ButtonType.CLICK;
@@ -465,10 +472,11 @@ public class variableController : MonoBehaviour
 
     public void loadButton()
     {
+        inLoad = true;
         if(buttonsList.Count > 0)
         {
             currentButton = buttonsD.value;
-            buttonName.text = buttonNames[currentButton];
+            buttonARole.value = InttoBitfield(buttonsList[currentButton].actionRoles);
             if(buttonsList[currentButton].type == ButtonType.CLICK)
             {
                 buttonType.value = 0;
@@ -491,12 +499,11 @@ public class variableController : MonoBehaviour
             {
                 buttonVis.value = 1;
             }
-            if(buttonsList[currentButton].visibility == vis.INVISIBLE)
+            else if(buttonsList[currentButton].visibility == vis.INVISIBLE)
             {
                 buttonVis.value = 2;
             }
-            buttonARole.value = InttoBitfield(buttonsList[currentButton].actionRoles);
-
+            buttonName.text = buttonNames[currentButton];
             loadMinMaxButton();
         }
         else
@@ -509,6 +516,7 @@ public class variableController : MonoBehaviour
             buttonVis.value = 0;
             buttonARole.value = 0;
         }
+        inLoad = false;
     }
 
     public void loadMinMaxButton()
@@ -572,10 +580,10 @@ public class variableController : MonoBehaviour
 
     public void modifyCounter()
     {
-        if(countersList.Count > 0)
+        if(countersList.Count > 0 && inLoad == false)
         {
             counterNames[currentCounter] = counterName.text;
-            countersList[currentVariable].cName = counterName.text;
+            countersList[currentCounter].cName = counterName.text;
             float outVal;
             float.TryParse(counterValue.text, out outVal);
             countersList[currentCounter].number = outVal; 
@@ -614,6 +622,7 @@ public class variableController : MonoBehaviour
 
     public void loadCounter()
     {
+        inLoad = true;
         if(countersList.Count > 0)
         {
             currentCounter = countersD.value;
@@ -631,7 +640,7 @@ public class variableController : MonoBehaviour
             {
                 counterVis.value = 1;
             }
-            if(countersList[currentCounter].visibility == vis.INVISIBLE)
+            else if(countersList[currentCounter].visibility == vis.INVISIBLE)
             {
                 counterVis.value = 2;
             }
@@ -646,6 +655,7 @@ public class variableController : MonoBehaviour
             counterVis.value = 0;
             counterARole.value = 0;
         }
+        inLoad = false;
     }
 
 
@@ -657,6 +667,7 @@ public class variableController : MonoBehaviour
         locationsD.ClearOptions();
         locationsD.AddOptions(locationNames);
         currentLocation = locationsList.Count-1;
+        locationsList[currentLocation].index = currentLocation;
         locationsD.value = currentLocation;
         loadLocation();
     }
@@ -684,11 +695,11 @@ public class variableController : MonoBehaviour
 
     public void modifyLocation()
     {
-        if(locationsList.Count > 0)
+        if(locationsList.Count > 0 && inLoad == false)
         {
             float outVal;
             locationNames[currentLocation] = locationName.text;
-            locationsList[currentVariable].lName = locationName.text;
+            locationsList[currentLocation].lName = locationName.text;
             float.TryParse(locationX.text,out outVal);
             locationsList[currentLocation].x = outVal;
             float.TryParse(locationY.text,out outVal);
@@ -718,6 +729,7 @@ public class variableController : MonoBehaviour
 
     public void loadLocation()
     {
+        inLoad = true;
         if(locationsList.Count > 0)
         {
             currentLocation = locationsD.value;
@@ -751,6 +763,7 @@ public class variableController : MonoBehaviour
             locationWrapTo.text = "";
             locationOption.value = 0;
         }
+        inLoad = false;
     }
 
     public void redrawLocations()
