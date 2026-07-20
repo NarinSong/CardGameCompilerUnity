@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 534412173823343704}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -18.488, y: -3.91, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::pileController
   owner: 0
-  vis: 1
+  visibility: 0
   label: 
   displayName: 
   actionRoles: []
@@ -88,6 +88,14 @@ PrefabInstance:
     - target: {fileID: 6700089534280120147, guid: 4a0b6910fe5f4f845b7fbcd8654ac924, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6700089534280120147, guid: 4a0b6910fe5f4f845b7fbcd8654ac924, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6700089534280120147, guid: 4a0b6910fe5f4f845b7fbcd8654ac924, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6700089534280120147, guid: 4a0b6910fe5f4f845b7fbcd8654ac924, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

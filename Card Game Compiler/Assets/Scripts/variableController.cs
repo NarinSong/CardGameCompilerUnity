@@ -10,6 +10,8 @@ public class variableController : MonoBehaviour
     public editorBlockManager bM;
     public List<string> masterList;
     public bool inLoad = false;
+    public float maxX;
+    public float maxY;
 
     [Header("Variables")]
     public TMP_Dropdown variablesD;
@@ -99,6 +101,19 @@ public class variableController : MonoBehaviour
         aRolesList = new List<string>();
         newLocation();
         modifyLocation();
+    }
+
+    public float clamp(float max, float min, float inp)
+    {
+        if(inp > max)
+        {
+            return max;
+        }
+        else if(inp < min)
+        {
+            return min;
+        }
+        return inp;
     }
 
     public int[] bitFieldToInt(int bitfield)
@@ -701,16 +716,32 @@ public class variableController : MonoBehaviour
             locationNames[currentLocation] = locationName.text;
             locationsList[currentLocation].lName = locationName.text;
             float.TryParse(locationX.text,out outVal);
-            locationsList[currentLocation].x = outVal;
+            locationsList[currentLocation].x = clamp(maxX/2, -maxX/2, outVal);
             float.TryParse(locationY.text,out outVal);
-            locationsList[currentLocation].y = outVal;
+            locationsList[currentLocation].y = clamp(maxY/2, -maxY/2, outVal);
             float.TryParse(locationXOff.text,out outVal);
-            locationsList[currentLocation].xOff = outVal;
+            locationsList[currentLocation].xOff = clamp(maxX, -maxX, outVal);
             float.TryParse(locationYOff.text,out outVal);
-            locationsList[currentLocation].yOff = outVal;
+            locationsList[currentLocation].yOff = clamp(maxY, -maxY, outVal);
             float.TryParse(locationWrapAt.text,out outVal);
+            if(locationOption.value == 0)
+            {
+                outVal = clamp(maxX,-maxX,outVal);
+            }
+            else
+            {
+                outVal = clamp(maxY,-maxY,outVal);
+            }
             locationsList[currentLocation].wrapAt = outVal;
             float.TryParse(locationWrapTo.text,out outVal);
+            if(locationOption.value == 0)
+            {
+                outVal = clamp(maxX,-maxX,outVal);
+            }
+            else
+            {
+                outVal = clamp(maxY,-maxY,outVal);
+            }
             locationsList[currentLocation].wrapTo = outVal;
             if(locationOption.value == 0)
             {

@@ -20,7 +20,8 @@ public class pileController : MonoBehaviour
         label = labelP;
         displayName = displayNameP;
         actionRoles = actionRolesP;
-        transform.position = new Vector3(local.x,local.y,0);
+        Debug.Log("Drawing at " + local.x + ", " + local.y + ", " + 0);
+        transform.position = new Vector3(local.x/100,local.y/100,0);
         ObjectCards = transform.GetChild(0).gameObject;
         WS = GameObject.Find("Websocketer").GetComponent<websocketController>();
         if(visibility == vis.FACE_UP)
