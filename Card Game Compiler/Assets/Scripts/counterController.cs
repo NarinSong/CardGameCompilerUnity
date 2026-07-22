@@ -19,7 +19,8 @@ public class counterController : MonoBehaviour
         label = labelP;
         displayName = displayNameP;
         actionRoles = actionRolesP;
-        transform.position = new Vector3(local.x,local.y,0);
+        Debug.Log("drawng counter at " + local.x/100 + ", " + local.y/100);
+        transform.position = new Vector3(local.x/100,local.y/100,0);
         displayText.text = valueP.ToString();
         WS = GameObject.Find("Websocketer").GetComponent<websocketController>();
     }

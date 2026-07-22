@@ -21,7 +21,8 @@ public class buttonController : MonoBehaviour
         label = labelX;
         displayName = displayNameX;
         actionRoles = actionRolesX;
-        transform.position = new Vector3(local.x,local.y,0);
+        Debug.Log("drawng button at " + local.x + ", " + local.y);
+        transform.position = new Vector3(local.x/100,local.y/100,0);
         WS = GameObject.Find("Websocketer").GetComponent<websocketController>();
         if(type == ButtonType.CLICK)
         {

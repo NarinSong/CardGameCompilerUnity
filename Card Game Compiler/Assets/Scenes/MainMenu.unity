@@ -6450,16 +6450,13 @@ MonoBehaviour:
   variableBlockParent: {fileID: 793601403}
   objectBlockParent: {fileID: 1091129127}
   sPBlockParent: {fileID: 1258853218}
-  mainBlockPrefab: {fileID: 4025812495762750249, guid: ec9be9246fa5ccb469c1a0294f80552b, type: 3}
-  variableBlockPrefab: {fileID: 0}
-  buttonBlockPrefab: {fileID: 0}
-  pileBlockPrefab: {fileID: 0}
-  counterBlockPrefab: {fileID: 0}
-  stepBlockPrefab: {fileID: 0}
-  phaseBlockPrefab: {fileID: 0}
-  actionRoleBlockPrefab: {fileID: 0}
-  playerRoleBlockPrefab: {fileID: 0}
-  locationBlockPrefab: {fileID: 0}
+  actionPrefab: {fileID: 4025812495762750249, guid: d6cff7a2517b90c4c89484a37e2f772e, type: 3}
+  noArgPrefab: {fileID: 4025812495762750249, guid: ec9be9246fa5ccb469c1a0294f80552b, type: 3}
+  logicPrefab: {fileID: 4025812495762750249, guid: c8c2dbee50878c24c811d1716c1835b7, type: 3}
+  oneArgPrefab: {fileID: 4025812495762750249, guid: 4ac612683564d9a4d87266a8d24709c7, type: 3}
+  twoArgPrefab: {fileID: 4025812495762750249, guid: da54bc8580c18a5419a61e689ae38604, type: 3}
+  threeArgPrefab: {fileID: 4025812495762750249, guid: 54f88cdca45e353479d0d2288526ed97, type: 3}
+  objectPrefab: {fileID: 4025812495762750249, guid: 7377641faeb2e8f448ae1917af7d25e6, type: 3}
   y: 0
   v: 0
   o: 0
@@ -30032,7 +30029,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &837719083
 RectTransform:
   m_ObjectHideFlags: 0
@@ -31166,7 +31163,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1796095234}
   m_Direction: 2
   m_Value: 1.0000004
-  m_Size: 0.5057406
+  m_Size: 0.5057405
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -37198,7 +37195,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -694, y: 286}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1059531459
@@ -44076,9 +44073,9 @@ MonoBehaviour:
   counterParent: {fileID: 1059524865}
   pileParent: {fileID: 1561912409}
   buttonParent: {fileID: 639345775}
-  counterPrefab: {fileID: 3025172563304643104, guid: b33445339b03dbc4697a60fa27b22944, type: 3}
+  counterPrefab: {fileID: 3461786956600137608, guid: cc1c4c8a02e2f004582d846071f9eec5, type: 3}
   pilePrefab: {fileID: 534412173823343704, guid: d554c55ac29d7264f91aa6802e731739, type: 3}
-  buttonPrefab: {fileID: 0}
+  buttonPrefab: {fileID: 1639262537412299794, guid: 97d560f007039c4478f9f71c4913be1f, type: 3}
 --- !u!1 &1238370745
 GameObject:
   m_ObjectHideFlags: 0

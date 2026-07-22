@@ -90,7 +90,6 @@ public class websocketController : MonoBehaviour
         {
             Debug.Log("disconnect: " + e);
             connInfo.text = "Disconnected from Server";
-
         };
         socket.OnReconnectAttempt += (sender, e) =>
         {
