@@ -18,6 +18,7 @@ public class websocketController : MonoBehaviour
     public lobbyController lC;
     public PageManager PM;
     public editorBlockManager eBM;
+    public TabNavigation tN;
     public TMP_Text userText;
     public TMP_Text ErrorSignUp;
     public TMP_Text ErrorLogIn;
@@ -128,6 +129,7 @@ public class websocketController : MonoBehaviour
                 //Debug.Log(message);
                 PM.setGame();
                 menuButton.SetActive(true);
+                tN.swapFields("game");
                 gsC.updateGamestate(message);
             });
         });
@@ -137,6 +139,7 @@ public class websocketController : MonoBehaviour
             UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 lobbyPanel.SetActive(false);
+                tN.swapFields("postAuth");
             });
         });
 
@@ -154,6 +157,7 @@ public class websocketController : MonoBehaviour
             UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {         
                 PM.setMain();
+                tN.swapFields("lobbyVar");
             });
         });
 
@@ -192,6 +196,7 @@ public class websocketController : MonoBehaviour
     //disconnects the socket on close
     async void OnApplicationQuit()
     {
+        EmitClientSignOut();
         if (socket != null && socket.Connected) 
         {
             await socket.DisconnectAsync();
@@ -228,8 +233,9 @@ public class websocketController : MonoBehaviour
                 Debug.Log(Message);
                 gameInfo temp = Message.GetValue<gameInfo>(0);
                 selectedGameID = id;
-                lobbyGameText.text = temp.name;
-                lobbyGameInfo.text = temp.description;
+                tN.swapFields("lobbyVar");
+                //lobbyGameText.text = temp.name;
+                //lobbyGameInfo.text = temp.description;
             });
         },id);
 
@@ -351,6 +357,7 @@ public class websocketController : MonoBehaviour
         userText.text = "Not Signed In";
         authButtons.SetActive(true);
         signedInButtons.SetActive(false);
+        tN.swapFields("preAuth");
     }
 
     public void loginSuccess(string usernameD, string displayNameD)
@@ -361,6 +368,7 @@ public class websocketController : MonoBehaviour
         username = usernameD;
         displayName = displayNameD;
         Debug.Log("Welcome User " + displayNameD);
+        tN.swapFields("postAuth");
     }
 
     public void hostLobby()
@@ -375,6 +383,7 @@ public class websocketController : MonoBehaviour
                 }
                 else
                 {
+                    tN.swapFields("lobbyHost");
                     string lobbyID = Callback.GetValue<string>(0);
                     Debug.Log(lobbyID);
                     lobbyPanel.SetActive(true);
@@ -404,6 +413,7 @@ public class websocketController : MonoBehaviour
                 {
                     joinPanel.SetActive(false);
                     lobbyPanel.SetActive(true);
+                    tN.swapFields("lobbyUser");
                     lobbyCode.text = "Lobby Code - " + code;
                 }
             });
@@ -414,6 +424,7 @@ public class websocketController : MonoBehaviour
     {
         errorTechMessage.text = "Stack Trace - " + callstack; 
         errorBoard.SetActive(true);
+        tN.swapFields("error");
         Debug.Log(callstack);
     }
 
@@ -428,6 +439,7 @@ public class websocketController : MonoBehaviour
                     throwError("Leave Lobby");
                 }
                 lobbyPanel.SetActive(false);
+                tN.swapFields("postAuth");
             });
         });
     }
@@ -453,6 +465,7 @@ public class websocketController : MonoBehaviour
     public void closeGameList()
     {
         gameSelector.SetActive(false);
+        tN.swapFields("lobbyVar");
     }
 
     public void startGame()
@@ -478,6 +491,7 @@ public class websocketController : MonoBehaviour
     {
         string color = rgbToHex(rSlider.value,gSlider.value,bSlider.value);
         Debug.Log("Changing Color to" + color);
+        tN.swapFields("postAuth");
         socket.Emit("setColor",(Callback)=>
         {
             UnityMainThreadDispatcher.Instance().Enqueue(() =>
@@ -506,6 +520,7 @@ public class websocketController : MonoBehaviour
                 }
                 else
                 {
+                    tN.swapFields("postAuth");
                     displayName = newName;
                     userText.text = "Signed in as " + newName;
                 }
@@ -537,6 +552,7 @@ public class websocketController : MonoBehaviour
             UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 PM.setMain();
+                tN.swapFields("lobbyVar");
             });
         });
     }

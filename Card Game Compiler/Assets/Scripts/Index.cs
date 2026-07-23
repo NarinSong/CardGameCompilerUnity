@@ -224,7 +224,8 @@ public class LobbyInfo
     public user host {get; set;}
     public user[] players {get; set;}
     public string code {get; set;}
-    public string game {get; set;}    
+    public string game {get; set;}
+    public string gameDescription {get; set;}    
 }
 
 public class gameInfo

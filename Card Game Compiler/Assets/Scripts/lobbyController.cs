@@ -12,12 +12,14 @@ public class lobbyController : MonoBehaviour
     public TMP_Text lobbyCodeText;
     public TMP_Text playerCountText;
     public TMP_Text gameSelectionText;
+    public TMP_Text gameDescriptionText;
     public List<GameObject> userList;
     public GameObject setGameButton;
     public GameObject startGameButton;
     public int players;
     public bool isHost = false;
     public string currentUser;
+    public TabNavigation tN;
     public void updateLobbyInfo(LobbyInfo lobby, string username)
     {
         user host = lobby.host;
@@ -30,12 +32,14 @@ public class lobbyController : MonoBehaviour
             isHost = false;
             setGameButton.SetActive(false);
             startGameButton.SetActive(false);
+            tN.swapFields("lobbyUser");
         }
         userList.Clear();
         updatePlayerList(users);
         players = users.Length;
         lobbyCodeText.text = "Lobby Code - " + code;
-        gameSelectionText.text = "Selected Game - " + game;
+        gameSelectionText.text = game;
+        gameDescriptionText.text = lobby.gameDescription;
         playerCountText.text = "Current Players " + players + "/32";
         if(currentUser == host.getName())
         {
@@ -70,10 +74,12 @@ public class lobbyController : MonoBehaviour
         if(game != "No Game Selected")
         {
             startGameButton.SetActive(true);
+            tN.swapFields("lobbyHostGame");
         }
         else
         {
             startGameButton.SetActive(false);
+            tN.swapFields("lobbyHost");
         }
     }
 }
