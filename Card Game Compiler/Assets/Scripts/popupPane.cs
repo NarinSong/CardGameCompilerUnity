@@ -1,48 +1,39 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class popupPane : MonoBehaviour
 {
-    public float timer;
-    public float timerStart;
-    public bool timerActive;
+    public int msgID;
     public TMP_Text tb;
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        if(timerActive)
-        {
-            timer -= 1;
-            if(timer < 0)
-            {
-                ResetPanel();
-            }
-        }
-    }
+    public RectTransform pane;
+    public Scrollbar sb;
 
     public void startPanel(string text)
     {
-        if(timerActive == true)
+        tb.text = tb.text + "\n" + "[" + msgID + "] " + text;
+        msgID += 1;
+        if(msgID > 112)
         {
-            tb.text = text + "\n" + tb.text;
-            timer = timerStart;
-        }
-        else
-        {
-            tb.text = text;
-            timer = timerStart;
-            timerActive = true;
+            pane.sizeDelta = new Vector2(414,(tb.textInfo.lineCount-12)*28.57f+400);
+            sb.value = 0;
         }
     }
 
     public void ResetPanel()
     {
-        timerActive = false;
-        this.gameObject.SetActive(false);
+        tb.text = "";
+        msgID = 100;
+    }
+
+    public void HidePanel()
+    {
+        this.GetComponent<RectTransform>().sizeDelta = new Vector2(430,0);
+    }
+
+    public void UnhidePanel()
+    {
+        this.GetComponent<RectTransform>().sizeDelta = new Vector2(430,400);
+        sb.value = 0;
     }
 }

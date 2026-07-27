@@ -163,6 +163,7 @@ public class UIDraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, 
         originalParent = transform.parent;
         originalSiblingIndex = transform.GetSiblingIndex();
         originalPosition = rectTransform.position;
+        List<SnappablePart> toRemove = new List<SnappablePart>();
 
         transform.SetParent(rootCanvas.transform);
         transform.SetAsLastSibling();
@@ -176,19 +177,45 @@ public class UIDraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, 
             if(x.transform.IsChildOf(this.transform)) continue;
             foreach(SnappablePart y in myParts)
             {
-                x.parent.GetComponent<UIDraggableBlock>().snappedTo.Remove(y);
+                if(y.name == "Top Snapping Point")
+                {
+                    x.parent.GetComponent<UIDraggableBlock>().snappedTo.Remove(y);
+                    toRemove.Add(x);
+                }
+            }
+            if(x.name == "Bottom Snapping Point")
+            {
+                if(x.logicPad != null)
+                {
+                    x.logicPad.GetComponent<RectTransform>().anchoredPosition += new Vector2(0,71.3071f*findLogicPadAmt());
+                    foreach(SnappablePart pt in this.GetComponentsInChildren<SnappablePart>())
+                    {
+                        pt.logicPad = null;
+                    }
+                }
             }
             x.GetComponent<SnappablePart>().setIsOn(true);
             if(x.name == "Nested Snapping Point")
             {
+                if(x.logicPad != null)
+                {
+                    x.logicPad.GetComponent<RectTransform>().anchoredPosition += new Vector2(0,71.3071f*findLogicPadAmt());
+                    foreach(SnappablePart pt in this.GetComponentsInChildren<SnappablePart>())
+                    {
+                        pt.logicPad = null;
+                    }
+                }
                 Transform TargetBound = x.transform.parent.Find("Bound");
-                //Debug.Log(TargetBound);
                 if(TargetBound != null)
                 {
                     TargetBound.GetComponent<RectTransform>().anchoredPosition -= blockOffset - new Vector2(81,0);
                 }
                 Transform recursiveBound = x.parent.transform;
                 recursiveBound.GetComponent<UIDraggableBlock>().blockOffset -= blockOffset - new Vector2(81,0);
+                if(recursiveBound.parent.gameObject.name == "Top Snapping Point" || recursiveBound.parent.gameObject.name == "Bottom Snapping Point")
+                {
+                    recursiveBound = null;
+                }
                 while(recursiveBound != null)
                 {
                     recursiveBound = recursiveBound.parent.parent.Find("Bound");
@@ -204,6 +231,10 @@ public class UIDraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, 
                             {
                                 recursiveBound = temp.parent.transform;
                                 recursiveBound.GetComponent<UIDraggableBlock>().blockOffset -= blockOffset - new Vector2(81,0);
+                                if(recursiveBound.parent.gameObject.name == "Top Snapping Point" || recursiveBound.parent.gameObject.name == "Bottom Snapping Point")
+                                {
+                                    break;
+                                }
                             }
                         }
                         else
@@ -214,7 +245,7 @@ public class UIDraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, 
                 }
             }
         }
-        snappedTo.Clear();
+        snappedTo = snappedTo.Except(toRemove).ToList();
         canvasGroup.alpha = 0.75f;
         canvasGroup.blocksRaycasts = false;
     }
@@ -245,6 +276,7 @@ public class UIDraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, 
         SnappablePart[] allParts = Object.FindObjectsByType<SnappablePart>(FindObjectsSortMode.None);
         SnappablePart bestMyPart = null;
         SnappablePart bestTargetPart = null;
+        List<SnappablePart> toRemove = new List<SnappablePart>();
         float closestDistance = snapDistance;
         foreach (SnappablePart myPart in myParts)
         {
@@ -257,7 +289,8 @@ public class UIDraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, 
                 if(myPart.GetComponent<SnappablePart>().notNestable && targetPart.name == "Nested Snapping Point") continue;
                 if(!myPart.GetComponent<SnappablePart>().var && targetPart.GetComponent<SnappablePart>().varOnly) continue;
                 if(myPart.name == "Nested Snapping Point") continue;
-                if (targetPart.transform.IsChildOf(this.transform)) continue;
+                if(targetPart.transform.IsChildOf(this.transform)) continue;
+                if(targetPart.name == "Top Snapping Point") continue;
 
                 float distance = Vector3.Distance(myPart.transform.position, targetPart.transform.position);
 
@@ -277,15 +310,55 @@ public class UIDraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, 
             bestTargetPart.setIsOn(false);
             snappedTo.Add(bestTargetPart);
             bestTargetPart.parent.GetComponent<UIDraggableBlock>().snappedTo.Add(bestMyPart);
+            bestMyPart.transform.parent.SetParent(bestTargetPart.transform,true);
+            if(bestTargetPart.name == "Bottom Snapping Point")
+            {
+                bestTargetPart.padAmt += 1;
+                if(bestTargetPart.logicPad != null)
+                {
+                    bestTargetPart.logicPad.GetComponent<RectTransform>().anchoredPosition -= new Vector2(0,71.3071f*findLogicPadAmt());
+                    foreach(SnappablePart part in myParts)
+                    {
+                        if(part.name == "Bottom Snapping Point")
+                        {
+                            part.logicPad = bestTargetPart.logicPad;
+                        }
+                    }
+                }
+            }
             if(bestTargetPart.name == "Nested Snapping Point")
             {
-                bestMyPart.transform.parent.SetParent(bestTargetPart.transform,true);
                 foreach(SnappablePart part in myParts)
                 {
                     if(part.name == "Top Snapping Point" || part.name == "Bottom Snapping Point")
                     {
+                        if(bestTargetPart.logical && part.name == "Bottom Snapping Point")
+                        {
+                            part.logicPad = bestTargetPart.logicPad;
+                            part.logicPad.GetComponent<RectTransform>().anchoredPosition -= new Vector2(0,71.3071f*(findLogicPadAmt()+1));
+                            continue;
+                        }
                         part.setIsOn(false);
                     }
+                }
+                foreach(SnappablePart part in snappedTo)
+                {
+                    List<SnappablePart> toRemove2 = new List<SnappablePart>();
+                    foreach(SnappablePart partInc in part.parent.GetComponent<UIDraggableBlock>().snappedTo)
+                    {
+                        if(part.name == "Top Snapping Point" && partInc.name == "Bottom Snapping Point")
+                        {
+                            if(bestTargetPart.logical) continue;
+                            part.parent.transform.SetParent(originalParent);
+                            foreach(SnappablePart partMe in myParts)
+                            {
+                                toRemove2.Add(partMe);
+                            }
+                            part.isOn = true;
+                            toRemove.Add(part);
+                        }
+                    }
+                    part.parent.GetComponent<UIDraggableBlock>().snappedTo = part.parent.GetComponent<UIDraggableBlock>().snappedTo.Except(toRemove2).ToList();
                 }
                 Transform TargetBound = bestTargetPart.transform.parent.Find("Bound");
                 //Debug.Log(TargetBound);
@@ -295,13 +368,15 @@ public class UIDraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, 
                 }
                 bestTargetPart.parent.GetComponent<UIDraggableBlock>().blockOffset += blockOffset - new Vector2(81,0);
                 Transform recursiveBound = bestTargetPart.parent.transform;
-                Debug.Log(recursiveBound.name);
+                if(recursiveBound.parent.gameObject.name == "Top Snapping Point" || recursiveBound.parent.gameObject.name == "Bottom Snapping Point")
+                {
+                    recursiveBound = null;
+                }
                 while(recursiveBound != null)
                 {
                     recursiveBound = recursiveBound.parent.parent.Find("Bound");
                     if(recursiveBound != null)
                     {
-                        Debug.Log("moving bound " + TargetBound.name);
                         recursiveBound.GetComponent<RectTransform>().anchoredPosition += blockOffset - new Vector2(81,0);
                         SnappablePart temp = null;
                         Transform tempTrans = recursiveBound.parent.Find("Nested Snapping Point");
@@ -311,6 +386,10 @@ public class UIDraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, 
                             {
                                 recursiveBound = temp.parent.transform;
                                 recursiveBound.GetComponent<UIDraggableBlock>().blockOffset += blockOffset - new Vector2(81,0);
+                                if(recursiveBound.parent.gameObject.name == "Top Snapping Point" || recursiveBound.parent.gameObject.name == "Bottom Snapping Point")
+                                {
+                                    break;
+                                }
                             }
                         }
                         else
@@ -322,6 +401,7 @@ public class UIDraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, 
                 }
             }
         }
+        snappedTo = snappedTo.Except(toRemove).ToList();
     }
 
     public void undoSnapPadding()
@@ -333,9 +413,20 @@ public class UIDraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, 
             {
                 x.parent.GetComponent<UIDraggableBlock>().snappedTo.Remove(y);
             }
+            if(x.name == "Bottom Snapping Point")
+            {
+                if(x.logicPad != null)
+                {
+                    x.logicPad.GetComponent<RectTransform>().anchoredPosition += new Vector2(0,71.3071f*findLogicPadAmt());
+                }
+            }
             if(x.name == "Nested Snapping Point")
             {
                 Transform TargetBound = x.transform.parent.Find("Bound");
+                if(x.logicPad != null)
+                {
+                    x.logicPad.GetComponent<RectTransform>().anchoredPosition += new Vector2(0,71.3071f*(findLogicPadAmt()+1));
+                }
                 //Debug.Log(TargetBound);
                 if(TargetBound != null)
                 {
@@ -343,6 +434,10 @@ public class UIDraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, 
                 }
                 Transform recursiveBound = x.parent.transform;
                 recursiveBound.GetComponent<UIDraggableBlock>().blockOffset -= blockOffset - new Vector2(81,0);
+                if(recursiveBound.parent.gameObject.name == "Top Snapping Point" || recursiveBound.parent.gameObject.name == "Bottom Snapping Point")
+                {
+                    recursiveBound = null;
+                }
                 while(recursiveBound != null)
                 {
                     recursiveBound = recursiveBound.parent.parent.Find("Bound");
@@ -358,6 +453,10 @@ public class UIDraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, 
                             {
                                 recursiveBound = temp.parent.transform;
                                 recursiveBound.GetComponent<UIDraggableBlock>().blockOffset -= blockOffset - new Vector2(81,0);
+                                if(recursiveBound.parent.gameObject.name == "Top Snapping Point" || recursiveBound.parent.gameObject.name == "Bottom Snapping Point")
+                                {
+                                    break;
+                                }
                             }
                         }
                         else
@@ -383,5 +482,23 @@ public class UIDraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, 
             if (steps != null) return steps;
         }
         return null;
+    }
+
+    public int findLogicPadAmt()
+    {
+        UIDraggableBlock[] blockArr = this.GetComponentsInChildren<UIDraggableBlock>();
+        int count = 0;
+        foreach(UIDraggableBlock block in blockArr)
+        {
+            if(block.transform.parent.name == "Nested Snapping Point")
+            {
+                continue;
+            }
+            else
+            {
+                count ++;
+            }
+        }
+        return count;
     }
 }

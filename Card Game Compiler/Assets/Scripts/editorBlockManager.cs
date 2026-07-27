@@ -16,6 +16,7 @@ public class editorBlockManager : MonoBehaviour
     public GameObject actionPrefab;
     public GameObject noArgPrefab;
     public GameObject logicPrefab;
+    public GameObject logicWPrefab;
     public GameObject oneArgPrefab;
     public GameObject twoArgPrefab;
     public GameObject threeArgPrefab;
@@ -42,15 +43,21 @@ public class editorBlockManager : MonoBehaviour
             Destroy(child.gameObject);
         }
         GameObject newBlock = null;
-        newBlock = Instantiate(actionPrefab, blockParent.position + new Vector3(0.5f,y,0), Quaternion.identity, blockParent);
+        newBlock = Instantiate(actionPrefab, blockParent.position + new Vector3(0.75f,y,0), Quaternion.identity, blockParent);
         newBlock.GetComponent<blockController>().Init("Action","Action",null,null);
-        y -= 1.25f;
+        y -= 1.455f;
         foreach(block b in blockList)
         {
-            if(b.name == "IF" || b.name == "WHILE")
+            if(b.name == "IF")
             {
                 y -= 0.05f;
                 newBlock = Instantiate(logicPrefab, blockParent.position + new Vector3(-0.1f,y,0), Quaternion.identity, blockParent);
+                y -= 1.05f;
+            }
+            else if(b.name == "WHILE")
+            {
+                y -= 0.05f;
+                newBlock = Instantiate(logicWPrefab, blockParent.position + new Vector3(-0.1f,y,0), Quaternion.identity, blockParent);
                 y -= 1.05f;
             }
             else if(b.arguments.Length == 0)

@@ -37,6 +37,7 @@ public class buttonController : MonoBehaviour
         WS = GameObject.Find("Websocketer").GetComponent<websocketController>();
         if(type == ButtonType.NUMBER)
         {
+            val = 0;
             //Debug.Log(range.ToString() + float.NaN);
             if(range.increment == float.NaN)
             {
@@ -54,10 +55,13 @@ public class buttonController : MonoBehaviour
             {
                 max = int.MaxValue;
             }
+            if(0 < min)
+            {
+                val = min;
+            }
             RangeIn.SetActive(true);
             incDownText.text = "-" + (int)range.increment;
             incUpText.text = "+" + (int)range.increment;
-            val = 0;
             updateNumText();
         }
     }

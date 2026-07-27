@@ -234,6 +234,7 @@ MonoBehaviour:
   blockOffset: {x: 281, y: 0}
   snappedTo: []
   xButton: {fileID: 276379616325612547}
+  myParts: []
 --- !u!114 &5504538427691382844
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -302,9 +303,11 @@ MonoBehaviour:
   rectTransform: {fileID: 2802746026532854051}
   technical: 
   notNestable: 0
+  logical: 0
   varOnly: 0
   var: 0
   parent: {fileID: 4025812495762750249}
+  logicPad: {fileID: 0}
 --- !u!1 &6203674461975814054
 GameObject:
   m_ObjectHideFlags: 0
@@ -495,9 +498,11 @@ MonoBehaviour:
   rectTransform: {fileID: 2314885666329331214}
   technical: 
   notNestable: 0
+  logical: 0
   varOnly: 0
   var: 0
   parent: {fileID: 4025812495762750249}
+  logicPad: {fileID: 0}
 --- !u!1 &8048733403789907417
 GameObject:
   m_ObjectHideFlags: 0
@@ -763,6 +768,8 @@ MonoBehaviour:
   rectTransform: {fileID: 662774987492109473}
   technical: 
   notNestable: 0
+  logical: 0
   varOnly: 0
   var: 0
   parent: {fileID: 4025812495762750249}
+  logicPad: {fileID: 0}

@@ -8,9 +8,12 @@ public class SnappablePart : MonoBehaviour
     public RectTransform rectTransform;
     public string technical;
     public bool notNestable;
+    public bool logical;
     public bool varOnly;
     public bool var;
+    public float padAmt;
     public GameObject parent;
+    public GameObject logicPad;
 
     void Start()
     {
