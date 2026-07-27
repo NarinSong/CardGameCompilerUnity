@@ -8,7 +8,6 @@ public class blockController : MonoBehaviour
     public string returnType;
     public args[] argumentsList;
     public TMP_Text display;
-
     public void Init(string n, string dN, string rT, args[] arg)
     {
         bname = n;

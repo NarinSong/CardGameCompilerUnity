@@ -27,6 +27,6 @@ public class counterController : MonoBehaviour
 
     public void clickEvent()
     {
-        WS.EmitPlayerClickEvent(0,label);
+        WS.EmitPlayerClickEvent(value,label);
     }
 }

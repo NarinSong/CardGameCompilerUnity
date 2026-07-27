@@ -25,6 +25,10 @@ public class TabNavigation : MonoBehaviour
     public Selectable[] userSettings;
     public Selectable[] var;
     public Selectable[] lobbyVar;
+    public Button signUpB;
+    public Button signInB;
+    public Button userSettingsB;
+    public string selectedField;
 
     void Start()
     {
@@ -74,10 +78,26 @@ public class TabNavigation : MonoBehaviour
                 }
             }
         }
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            if(selectedField == "signIn")
+            {
+                signInB.onClick.Invoke(); 
+            }
+            else if(selectedField == "signUp")
+            {
+                signUpB.onClick.Invoke(); 
+            }
+            else if(selectedField == "userSettings")
+            {
+                userSettingsB.onClick.Invoke(); 
+            }
+        }
     }
 
     public void swapFields(string newFields)
     {
+        selectedField = newFields;
         if(newFields != "var")
         {
             var = fields;
@@ -144,6 +164,45 @@ public class TabNavigation : MonoBehaviour
             case "lobbyVar":
                 fields = lobbyVar;
                 break;
+
         }
+        bool reverse = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
+            GameObject current = EventSystem.current.currentSelectedGameObject;
+            int index = -1;
+
+            for (int i = 0; i < fields.Length; i++)
+            {
+                if (fields[i] != null && fields[i].gameObject == current)
+                {
+                    index = i;
+                    break;
+                }
+            }
+
+            int nextIndex;
+            if (index == -1)
+            {
+                nextIndex = 0;
+            }
+            else if (reverse)
+            {
+                nextIndex = (index - 1 + fields.Length) % fields.Length;
+            }
+            else
+            {
+                nextIndex = (index + 1) % fields.Length;
+            }
+
+            Selectable next = fields[nextIndex];
+            if (next != null)
+            {
+                next.Select();
+
+                TMP_InputField tmpField = next.GetComponent<TMP_InputField>();
+                if (tmpField != null)
+                {
+                    tmpField.ActivateInputField();
+                }
+            }
     }
 }

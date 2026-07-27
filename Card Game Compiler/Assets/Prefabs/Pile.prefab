@@ -53,6 +53,7 @@ MonoBehaviour:
   ObjectCards: {fileID: 7787895280761271918}
   WS: {fileID: 0}
   CC: {fileID: 4678884709458452499}
+  pilePrefab: {fileID: 534412173823343704}
 --- !u!1001 &426265526222906281
 PrefabInstance:
   m_ObjectHideFlags: 0

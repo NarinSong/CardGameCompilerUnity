@@ -262,7 +262,11 @@ public enum vis
 {
     FACE_DOWN,
     FACE_UP,
-    INVISIBLE
+    INVISIBLE,
+    FACE_UP_SPREAD,
+    FACE_DOWN_SPREAD,
+    PRIVATE,
+    PRIVATE_SPREAD
 }
 
 public enum playerType
@@ -335,6 +339,11 @@ public class rangeObj
         min = float.NaN;
         max = float.NaN;
         increment = 0;
+    }
+
+    public override string ToString()
+    {
+        return "min: " + min + " max: " + max + " inc: " + increment;
     }
 }
 

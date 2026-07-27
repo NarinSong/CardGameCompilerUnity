@@ -51,6 +51,7 @@ public class websocketController : MonoBehaviour
     public List<block> blocks;
     public int selectedGameID;
     private int reconTries;
+    public GameObject popupPane;
 
     // Start is called before the first frame update
     void Start()
@@ -161,6 +162,15 @@ public class websocketController : MonoBehaviour
             });
         });
 
+        socket.On("popup", message =>
+        {
+            UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            {         
+                popupPane.SetActive(true);
+                popupPane.GetComponent<popupPane>().startPanel(message.GetValue<string>());
+            });
+        });
+
         Debug.Log("Connecting...");
         socket.Connect();
 
@@ -196,7 +206,6 @@ public class websocketController : MonoBehaviour
     //disconnects the socket on close
     async void OnApplicationQuit()
     {
-        EmitClientSignOut();
         if (socket != null && socket.Connected) 
         {
             await socket.DisconnectAsync();
