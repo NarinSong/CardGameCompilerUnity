@@ -189,8 +189,10 @@ MonoBehaviour:
   logical: 0
   varOnly: 0
   var: 0
+  padAmt: 0
   parent: {fileID: 4025812495762750249}
   logicPad: {fileID: 0}
+  nestedSpot: 0
 --- !u!1 &3351862476148783664
 GameObject:
   m_ObjectHideFlags: 0
@@ -427,7 +429,10 @@ MonoBehaviour:
   blockOffset: {x: 150, y: 0}
   snappedTo: []
   xButton: {fileID: 2755921150170592325}
-  myParts: []
+  myParts:
+  - {fileID: 3314621943436408875}
+  - {fileID: 6580622860993719699}
+  actionBlock: 0
 --- !u!114 &5504538427691382844
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -499,8 +504,10 @@ MonoBehaviour:
   logical: 0
   varOnly: 0
   var: 0
+  padAmt: 0
   parent: {fileID: 4025812495762750249}
   logicPad: {fileID: 0}
+  nestedSpot: 0
 --- !u!1 &8184848788077827552
 GameObject:
   m_ObjectHideFlags: 0

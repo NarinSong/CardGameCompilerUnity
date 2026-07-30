@@ -53,9 +53,13 @@ MonoBehaviour:
   rectTransform: {fileID: 3111311640945598652}
   technical: 
   notNestable: 0
+  logical: 0
   varOnly: 0
   var: 1
+  padAmt: 0
   parent: {fileID: 4025812495762750249}
+  logicPad: {fileID: 0}
+  nestedSpot: 0
 --- !u!1 &4025812495762750249
 GameObject:
   m_ObjectHideFlags: 0
@@ -155,6 +159,10 @@ MonoBehaviour:
   blockOffset: {x: 150, y: 0}
   snappedTo: []
   xButton: {fileID: 5550743420816133714}
+  myParts:
+  - {fileID: 2677369153089478954}
+  - {fileID: 389270381722678019}
+  actionBlock: 0
 --- !u!114 &5504538427691382844
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -493,9 +501,13 @@ MonoBehaviour:
   rectTransform: {fileID: 5511431302039857652}
   technical: 
   notNestable: 0
+  logical: 0
   varOnly: 0
   var: 1
+  padAmt: 0
   parent: {fileID: 4025812495762750249}
+  logicPad: {fileID: 0}
+  nestedSpot: 0
 --- !u!1 &8184848788077827552
 GameObject:
   m_ObjectHideFlags: 0

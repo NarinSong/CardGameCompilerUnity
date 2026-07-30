@@ -130,9 +130,13 @@ MonoBehaviour:
   rectTransform: {fileID: 3017508085963045680}
   technical: 
   notNestable: 0
+  logical: 0
   varOnly: 0
   var: 0
+  padAmt: 0
   parent: {fileID: 4025812495762750249}
+  logicPad: {fileID: 0}
+  nestedSpot: 2
 --- !u!1 &2228679302728297771
 GameObject:
   m_ObjectHideFlags: 0
@@ -446,6 +450,14 @@ MonoBehaviour:
   blockOffset: {x: 674, y: 0}
   snappedTo: []
   xButton: {fileID: 8118545274029285032}
+  myParts:
+  - {fileID: 793126018220821355}
+  - {fileID: 3556815984182499747}
+  - {fileID: 5450107113054999833}
+  - {fileID: 1788188526069370258}
+  - {fileID: 901081726325658744}
+  - {fileID: 5471819844268777993}
+  actionBlock: 0
 --- !u!114 &5504538427691382844
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -514,9 +526,13 @@ MonoBehaviour:
   rectTransform: {fileID: 2802746026532854051}
   technical: 
   notNestable: 0
+  logical: 0
   varOnly: 0
   var: 0
+  padAmt: 0
   parent: {fileID: 4025812495762750249}
+  logicPad: {fileID: 0}
+  nestedSpot: 0
 --- !u!1 &5700043344144638019
 GameObject:
   m_ObjectHideFlags: 0
@@ -570,9 +586,13 @@ MonoBehaviour:
   rectTransform: {fileID: 2944170292154001738}
   technical: 
   notNestable: 0
+  logical: 0
   varOnly: 0
   var: 0
+  padAmt: 0
   parent: {fileID: 4025812495762750249}
+  logicPad: {fileID: 0}
+  nestedSpot: 3
 --- !u!1 &6245661604138910682
 GameObject:
   m_ObjectHideFlags: 0
@@ -626,9 +646,13 @@ MonoBehaviour:
   rectTransform: {fileID: 2314885666329331214}
   technical: 
   notNestable: 0
+  logical: 0
   varOnly: 0
   var: 0
+  padAmt: 0
   parent: {fileID: 4025812495762750249}
+  logicPad: {fileID: 0}
+  nestedSpot: 0
 --- !u!1 &7544855855252568468
 GameObject:
   m_ObjectHideFlags: 0
@@ -682,9 +706,13 @@ MonoBehaviour:
   rectTransform: {fileID: 5604877607431853044}
   technical: 
   notNestable: 0
+  logical: 0
   varOnly: 0
   var: 0
+  padAmt: 0
   parent: {fileID: 4025812495762750249}
+  logicPad: {fileID: 0}
+  nestedSpot: 1
 --- !u!1 &7704227412093687404
 GameObject:
   m_ObjectHideFlags: 0
@@ -1162,6 +1190,10 @@ MonoBehaviour:
   rectTransform: {fileID: 662774987492109473}
   technical: 
   notNestable: 0
+  logical: 0
   varOnly: 0
   var: 0
+  padAmt: 0
   parent: {fileID: 4025812495762750249}
+  logicPad: {fileID: 0}
+  nestedSpot: 0

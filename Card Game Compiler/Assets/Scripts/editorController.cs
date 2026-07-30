@@ -168,4 +168,21 @@ public class editorController : MonoBehaviour
         Debug.Log("called");
         setPhase(phaseList.value);
     }
+
+    public void compile()
+    {
+        for(int x = 0; x < phases.Count; x++)
+        {
+            setPhase(x);
+            for(int y = 0; y < steps[x].Count; y++)
+            {
+                setStep(y);
+                actionBlockController[] actionBlocks = steps[x][y].GetComponentsInChildren<actionBlockController>();
+                foreach(actionBlockController block in actionBlocks)
+                {
+                    block.GetComponent<UIDraggableBlock>().evalutate();
+                }
+            }
+        }
+    }
 }

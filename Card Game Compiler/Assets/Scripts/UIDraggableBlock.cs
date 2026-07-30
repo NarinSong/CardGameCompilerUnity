@@ -40,6 +40,7 @@ public class UIDraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, 
     public List<SnappablePart> snappedTo;
     public GameObject xButton;
     public SnappablePart[] myParts;
+    public bool actionBlock;
 
     void Awake()
     {
@@ -102,7 +103,6 @@ public class UIDraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, 
             cloneScript.isPaletteItem = false;
             cloneScript.xButton.SetActive(true);
             //Debug.Log("setting snapping points to not palette items");
-            cloneScript.myParts = cloneScript.GetComponentsInChildren<SnappablePart>();
             SnappablePart[] myPartsTemp = cloneScript.myParts;
             foreach(SnappablePart x in myPartsTemp)
             {
@@ -500,5 +500,23 @@ public class UIDraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, 
             }
         }
         return count;
+    }
+
+    public void evalutate()
+    {
+        foreach(SnappablePart part in myParts)
+        {
+            if(part.name == "Nested Snapping Point")
+            {
+                //add checks for nested snapping value for final assignment
+                UIDraggableBlock temp = part.transform.GetComponentInChildren<UIDraggableBlock>();
+                temp.evalutate();
+            }
+            if(part.name == "Bottom Snapping Point")
+            {
+                UIDraggableBlock temp = part.transform.GetComponentInChildren<UIDraggableBlock>();
+                temp.evalutate();
+            }
+        }
     }
 }

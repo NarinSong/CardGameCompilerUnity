@@ -14,6 +14,7 @@ public class SnappablePart : MonoBehaviour
     public float padAmt;
     public GameObject parent;
     public GameObject logicPad;
+    public int nestedSpot;
 
     void Start()
     {

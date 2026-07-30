@@ -14,5 +14,12 @@ public class blockController : MonoBehaviour
         returnType = rT;
         argumentsList = arg;
         display.text = dN;
+        if(arg != null)
+        {
+            foreach(args argX in argumentsList)
+            {
+                Debug.Log(argX.ToString());
+            }
+        }
     }
 }

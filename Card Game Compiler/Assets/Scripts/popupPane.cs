@@ -24,6 +24,7 @@ public class popupPane : MonoBehaviour
     {
         tb.text = "";
         msgID = 100;
+        pane.sizeDelta = new Vector2(414,400);
     }
 
     public void HidePanel()

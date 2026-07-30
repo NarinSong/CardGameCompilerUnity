@@ -288,6 +288,12 @@ public enum locationRenderType
     HORIZONTAL
 }
 
+public enum triggerType
+{
+    AUTO,
+    CLICK,
+}
+
 public class loc
 {
     public float x {get; set;}
@@ -371,4 +377,53 @@ public class gamestate
     public button[] buttons {get; set;}
     public player[] players {get; set;}
     //public board boardstate {get; set;}
+}
+
+public class phaseExport
+{
+    public string name {get; set;}
+    public stepExport[] steps {get; set;}
+}
+
+public class stepExport
+{
+    public string name {get; set;}
+    public actionExport[] actions {get; set;}
+}
+
+public class actionExport
+{
+    public triggerExport trigger {get; set;}
+    public filterExport filterExport {get; set;}
+    public resultExport result {get; set;}
+}
+
+public class blockExport
+{
+    public string kind {get; set;}
+    public string block {get; set;}
+    public argExport args {get; set;}
+}
+
+public class triggerExport
+{
+    public triggerType type {get; set;}
+    public string target {get; set;}
+}
+
+public class filterExport
+{
+    public string idk {get; set;}
+}
+
+public class resultExport
+{
+    public string kind {get; set;}
+    public blockExport blocks {get; set;}
+}
+
+public class argExport
+{
+    public string kind {get; set;}
+    public string block {get; set;}
 }

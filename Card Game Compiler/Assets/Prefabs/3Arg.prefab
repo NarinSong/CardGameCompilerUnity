@@ -265,9 +265,13 @@ MonoBehaviour:
   rectTransform: {fileID: 3017508085963045680}
   technical: 
   notNestable: 0
+  logical: 0
   varOnly: 0
   var: 0
+  padAmt: 0
   parent: {fileID: 4025812495762750249}
+  logicPad: {fileID: 0}
+  nestedSpot: 2
 --- !u!1 &4025812495762750249
 GameObject:
   m_ObjectHideFlags: 0
@@ -369,6 +373,13 @@ MonoBehaviour:
   blockOffset: {x: 543, y: 0}
   snappedTo: []
   xButton: {fileID: 9033188572247112245}
+  myParts:
+  - {fileID: 7429436447279230072}
+  - {fileID: 6053911615993356031}
+  - {fileID: 6104184488409584656}
+  - {fileID: 4038831915967437399}
+  - {fileID: 5681095185346528901}
+  actionBlock: 0
 --- !u!114 &5504538427691382844
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -437,9 +448,13 @@ MonoBehaviour:
   rectTransform: {fileID: 2802746026532854051}
   technical: 
   notNestable: 0
+  logical: 0
   varOnly: 0
   var: 0
+  padAmt: 0
   parent: {fileID: 4025812495762750249}
+  logicPad: {fileID: 0}
+  nestedSpot: 0
 --- !u!1 &6245661604138910682
 GameObject:
   m_ObjectHideFlags: 0
@@ -493,9 +508,13 @@ MonoBehaviour:
   rectTransform: {fileID: 2314885666329331214}
   technical: 
   notNestable: 0
+  logical: 0
   varOnly: 0
   var: 0
+  padAmt: 0
   parent: {fileID: 4025812495762750249}
+  logicPad: {fileID: 0}
+  nestedSpot: 0
 --- !u!1 &7544855855252568468
 GameObject:
   m_ObjectHideFlags: 0
@@ -549,9 +568,13 @@ MonoBehaviour:
   rectTransform: {fileID: 5604877607431853044}
   technical: 
   notNestable: 0
+  logical: 0
   varOnly: 0
   var: 0
+  padAmt: 0
   parent: {fileID: 4025812495762750249}
+  logicPad: {fileID: 0}
+  nestedSpot: 1
 --- !u!1 &7704227412093687404
 GameObject:
   m_ObjectHideFlags: 0
@@ -896,9 +919,13 @@ MonoBehaviour:
   rectTransform: {fileID: 662774987492109473}
   technical: 
   notNestable: 0
+  logical: 0
   varOnly: 0
   var: 0
+  padAmt: 0
   parent: {fileID: 4025812495762750249}
+  logicPad: {fileID: 0}
+  nestedSpot: 0
 --- !u!1 &9033188572247112245
 GameObject:
   m_ObjectHideFlags: 0

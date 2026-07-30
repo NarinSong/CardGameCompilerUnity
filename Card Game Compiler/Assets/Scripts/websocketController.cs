@@ -156,7 +156,8 @@ public class websocketController : MonoBehaviour
         socket.On("gameEnded", message =>
         {
             UnityMainThreadDispatcher.Instance().Enqueue(() =>
-            {         
+            {   
+                popupPane.GetComponent<popupPane>().ResetPanel();   
                 PM.setMain();
                 tN.swapFields("lobbyVar");
             });

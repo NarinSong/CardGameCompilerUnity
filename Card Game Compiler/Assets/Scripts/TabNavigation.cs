@@ -28,11 +28,22 @@ public class TabNavigation : MonoBehaviour
     public Button signUpB;
     public Button signInB;
     public Button userSettingsB;
+    public Button joinB;
     public string selectedField;
+    private int delay;
+    public string varField;
 
     void Start()
     {
         var = fields;
+    }
+
+    void FixedUpdate()
+    {
+        if(delay < 60)
+        {
+            delay ++;
+        }
     }
 
     void Update()
@@ -78,7 +89,7 @@ public class TabNavigation : MonoBehaviour
                 }
             }
         }
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.Return) && delay > 15)
         {
             if(selectedField == "signIn")
             {
@@ -92,6 +103,10 @@ public class TabNavigation : MonoBehaviour
             {
                 userSettingsB.onClick.Invoke(); 
             }
+            else if(selectedField == "join")
+            {
+                joinB.onClick.Invoke(); 
+            }
         }
     }
 
@@ -101,6 +116,7 @@ public class TabNavigation : MonoBehaviour
         if(newFields != "var")
         {
             var = fields;
+            varField = newFields;
         }
         switch(newFields)
         {
@@ -160,12 +176,14 @@ public class TabNavigation : MonoBehaviour
                 break;
             case "var":
                 fields = var;
+                selectedField = varField;
                 break;
             case "lobbyVar":
                 fields = lobbyVar;
                 break;
 
         }
+        delay = 0;
         bool reverse = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
             GameObject current = EventSystem.current.currentSelectedGameObject;
             int index = -1;
