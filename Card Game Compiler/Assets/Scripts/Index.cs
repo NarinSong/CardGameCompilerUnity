@@ -263,6 +263,13 @@ public class args
     {
         return name + " " + displayName + " " + type + " " + optional +"\n";
     }
+    public args(string n)
+    {
+        name = n;
+        displayName = n;
+        type = "LITERAL";
+        optional = false;
+    }
 }
 
 public enum ownership

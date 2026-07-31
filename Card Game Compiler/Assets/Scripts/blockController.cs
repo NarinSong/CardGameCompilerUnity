@@ -8,18 +8,22 @@ public class blockController : MonoBehaviour
     public string returnType;
     public args[] argumentsList;
     public TMP_Text display;
+    public TMP_InputField text;
+    public string litVal;
     public void Init(string n, string dN, string rT, args[] arg)
     {
         bname = n;
         returnType = rT;
         argumentsList = arg;
         display.text = dN;
-        if(arg != null)
+        if(n == "LITERAL")
         {
-            foreach(args argX in argumentsList)
-            {
-                Debug.Log(argX.ToString());
-            }
+            argumentsList = new args[]{new args("primary")};
         }
+    }
+
+    public void updateLitVal()
+    {
+        litVal = text.text;
     }
 }

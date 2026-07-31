@@ -7,7 +7,10 @@ using Newtonsoft.Json.Linq;
 using TMPro;
 using UnityEngine.UI;
 using System.Text.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json;
 
+[Newtonsoft.Json.JsonConverter(typeof(StringEnumConverter))]
 public class websocketController : MonoBehaviour
 {
     public string username;
@@ -272,7 +275,7 @@ public class websocketController : MonoBehaviour
                 Debug.Log(Message);
                 string blockList = Message.ToString();
                 blockList = blockList[1..^1];
-                blocks = System.Text.Json.JsonSerializer.Deserialize<List<block>>(blockList);
+                blocks = JsonConvert.DeserializeObject<List<block>>(blockList);
                 eBM.setBlockList(blocks);
                 eBM.drawBlocks();
                 Debug.Log(blocks.Count);
@@ -567,8 +570,10 @@ public class websocketController : MonoBehaviour
         });
     }
 
+
     public void sendGame(gameExport game)
     {
+        
         Debug.Log(Newtonsoft.Json.JsonConvert.SerializeObject(game));
         socket.Emit("saveGame",(Callback)=>
         {

@@ -22,6 +22,7 @@ public class editorBlockManager : MonoBehaviour
     public GameObject threeArgPrefab;
     public GameObject fourArgPrefab;
     public GameObject objectPrefab;
+    public GameObject literalPrefab;
     public float y;
     public float v;
     public float o;
@@ -44,8 +45,11 @@ public class editorBlockManager : MonoBehaviour
         }
         GameObject newBlock = null;
         newBlock = Instantiate(actionPrefab, blockParent.position + new Vector3(0.75f,y,0), Quaternion.identity, blockParent);
-        newBlock.GetComponent<blockController>().Init("Action","Action",null,null);
+        newBlock.GetComponent<blockController>().Init("ACTION","Action",null,null);
         y -= 1.455f;
+        newBlock = Instantiate(literalPrefab, blockParent.position + new Vector3(0.75f,y,0), Quaternion.identity, blockParent);
+        newBlock.GetComponent<blockController>().Init("LITERAL","Literal",null,new args[]{new args("primary")});
+        y -= 0.75f;
         foreach(block b in blockList)
         {
             if(b.name == "IF")
