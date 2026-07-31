@@ -272,7 +272,7 @@ public class websocketController : MonoBehaviour
                 Debug.Log(Message);
                 string blockList = Message.ToString();
                 blockList = blockList[1..^1];
-                blocks = JsonSerializer.Deserialize<List<block>>(blockList);
+                blocks = System.Text.Json.JsonSerializer.Deserialize<List<block>>(blockList);
                 eBM.setBlockList(blocks);
                 eBM.drawBlocks();
                 Debug.Log(blocks.Count);
@@ -565,6 +565,18 @@ public class websocketController : MonoBehaviour
                 tN.swapFields("lobbyVar");
             });
         });
+    }
+
+    public void sendGame(gameExport game)
+    {
+        Debug.Log(Newtonsoft.Json.JsonConvert.SerializeObject(game));
+        socket.Emit("saveGame",(Callback)=>
+        {
+            UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            {
+                Debug.Log(Callback);
+            });
+        },Newtonsoft.Json.JsonConvert.SerializeObject(game));
     }
 
     public string rgbToHex(float r, float g, float b)

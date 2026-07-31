@@ -147,8 +147,10 @@ public class pilesType
     public string pName {get; set;}
     public int type {get; set;}
     public vis visibility {get; set;}
+    public pileState pileState {get; set;}
     public locationsType location {get; set;}
     public List<string> actionRoles {get; set;}
+    public ownership ownership {get; set;}
     public pilesType(locationsType def)
     {
         pName = "NewPile";
@@ -156,6 +158,7 @@ public class pilesType
         visibility = vis.FACE_UP;
         location = def;
         actionRoles = new List<string>();
+        ownership = ownership.BOARD;
     }
 }
 
@@ -167,6 +170,7 @@ public class buttonsType
     public locationsType location {get; set;}
     public List<string> actionRoles {get; set;}
     public rangeObj range {get; set;}
+    public ownership ownership {get; set;}
     public buttonsType(locationsType def)
     {
         bName = "NewButton";
@@ -175,6 +179,7 @@ public class buttonsType
         location = def;
         actionRoles = new List<string>();
         range = new rangeObj();
+        ownership = ownership.BOARD;
     }
 }
 
@@ -185,6 +190,7 @@ public class countersType
     public vis visibility {get; set;}
     public locationsType location {get; set;}
     public List<string> actionRoles {get; set;}
+    public ownership ownership {get; set;}
     public countersType(locationsType def)
     {
         cName = "NewCounter";
@@ -192,6 +198,7 @@ public class countersType
         visibility = vis.FACE_UP;
         location = def;
         actionRoles = new List<string>();
+        ownership = ownership.BOARD;
     }
 }
 
@@ -256,6 +263,19 @@ public class args
     {
         return name + " " + displayName + " " + type + " " + optional +"\n";
     }
+}
+
+public enum ownership
+{
+    PLAYER,
+    BOARD
+}
+
+public enum pileState
+{
+    EMPTY,
+    SHUFFLED
+
 }
 
 public enum vis
@@ -379,51 +399,64 @@ public class gamestate
     //public board boardstate {get; set;}
 }
 
+public class gameExport
+{
+    public gameMeta gameMeta;
+    public Dictionary<string, dynamic> playerDefinition;
+    public Dictionary<string, dynamic> boardDefinition;
+    public List<phaseExport> phases {get; set;}
+    public gameExport()
+    {
+        gameMeta = new();
+        playerDefinition = new();
+        boardDefinition = new();
+        phases = new();
+    }
+}
+
+public class gameMeta
+{
+    public int minPlayers {get; set;}
+    public int maxPlayers {get; set;}
+    public string name {get; set;}
+    public string description {get; set;}
+    public Dictionary<string, string> variables;
+    public Dictionary<string, dynamic> locations;
+    public gameMeta()
+    {
+        variables = new();
+        locations = new();
+    }
+}
+
 public class phaseExport
 {
     public string name {get; set;}
-    public stepExport[] steps {get; set;}
+    public List<stepExport> steps {get; set;}
+    public phaseExport()
+    {
+        steps = new();
+    }
 }
 
 public class stepExport
 {
     public string name {get; set;}
-    public actionExport[] actions {get; set;}
+    public List<actionExport> actions {get; set;}
+    public stepExport()
+    {
+        actions = new();
+    }
 }
 
 public class actionExport
 {
-    public triggerExport trigger {get; set;}
-    public filterExport filterExport {get; set;}
-    public resultExport result {get; set;}
-}
-
-public class blockExport
-{
-    public string kind {get; set;}
-    public string block {get; set;}
-    public argExport args {get; set;}
-}
-
-public class triggerExport
-{
-    public triggerType type {get; set;}
-    public string target {get; set;}
-}
-
-public class filterExport
-{
-    public string idk {get; set;}
-}
-
-public class resultExport
-{
-    public string kind {get; set;}
-    public blockExport blocks {get; set;}
-}
-
-public class argExport
-{
-    public string kind {get; set;}
-    public string block {get; set;}
+    public Dictionary<string, dynamic> trigger;
+    public dynamic filter;
+    public Dictionary<string, dynamic> result;
+    public actionExport()
+    {
+        trigger = new();
+        result = new();
+    }
 }

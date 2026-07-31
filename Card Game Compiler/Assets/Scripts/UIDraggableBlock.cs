@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.Assertions.Must;
 using System.Linq;
 using Unity.VisualScripting;
+using System.Dynamic;
 
 /*
  * UIDraggableBlock
@@ -502,21 +503,46 @@ public class UIDraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, 
         return count;
     }
 
-    public void evalutate()
+    public List<dynamic> evalutate()
+    {
+        List<dynamic> blockList = new List<dynamic>();
+        IDictionary<string, object> blockDef = new ExpandoObject();
+        Dictionary<string, dynamic> blockDict = new();
+        blockDict.Add("type", this.GetComponent<blockController>().bname);
+        if(this.GetComponent<blockController>().argumentsList != null)
+        {
+            for(int i = 0; i < this.GetComponent<blockController>().argumentsList.Length; i++)
+            {
+                if(findArg(i) != null)
+                {
+                    blockDict.Add(this.GetComponent<blockController>().argumentsList[i].name, findArg(i).evalutate()[0]);
+                }
+            }
+        }
+        foreach(var kvp in blockDict)
+        {
+            blockDef.Add(kvp.Key, kvp.Value);
+        }
+        blockList.Add(blockDef);
+        foreach(SnappablePart part in myParts)
+        {
+            if(part.name == "Bottom Snapping Point" && part.GetComponentInChildren<UIDraggableBlock>() != null)
+            {
+                blockList.AddRange(part.GetComponentInChildren<UIDraggableBlock>().evalutate());
+            }
+        }
+        return blockList;
+    }
+
+    public UIDraggableBlock findArg(int x)
     {
         foreach(SnappablePart part in myParts)
         {
-            if(part.name == "Nested Snapping Point")
+            if(part.name == "Nested Snapping Point" && part.nestedSpot == x)
             {
-                //add checks for nested snapping value for final assignment
-                UIDraggableBlock temp = part.transform.GetComponentInChildren<UIDraggableBlock>();
-                temp.evalutate();
-            }
-            if(part.name == "Bottom Snapping Point")
-            {
-                UIDraggableBlock temp = part.transform.GetComponentInChildren<UIDraggableBlock>();
-                temp.evalutate();
+                return part.GetComponentInChildren<UIDraggableBlock>();
             }
         }
+        return null;
     }
 }

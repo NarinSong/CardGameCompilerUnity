@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Newtonsoft.Json;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -19,6 +21,12 @@ public class editorController : MonoBehaviour
     public Transform phaseParent;
     public Transform stepParent;
     public editorBlockManager bM;
+    public variableController vC;
+    public TMP_InputField gameName;
+    public TMP_InputField gameDescription;
+    public TMP_InputField minPlayers;
+    public TMP_InputField maxPlayers;
+    public websocketController wS;
 
     public void Start()
     {
@@ -26,7 +34,7 @@ public class editorController : MonoBehaviour
         steps = new List<List<GameObject>>();
         List<string> nL = new List<string>();
         stepNames.Add(nL);
-        stepNames[0].Add("Step 1");
+        stepNames[0].Add("Step1");
         currentPhase = 0;
         currentStep = 0;
         List<GameObject> startList = new List<GameObject>();
@@ -94,7 +102,7 @@ public class editorController : MonoBehaviour
     public void addPhase()
     {
         int x = phases.Count+1;
-        phaseNames.Add("Phase " + x);
+        phaseNames.Add("Phase" + x);
         GameObject newPhase = Instantiate(phasePrefab, phaseParent);
         phases.Add(newPhase);
         stepParent = phases[phases.Count-1].transform.Find("Steps/StepsPanel Parent").GetComponent<Transform>();
@@ -104,7 +112,7 @@ public class editorController : MonoBehaviour
         sL.Add(newStep);
         steps.Add(sL);
         List<string> sN = new List<string>();
-        sN.Add("Step 1");
+        sN.Add("Step1");
         stepNames.Add(sN);
         setPhase(phases.Count-1);
         phaseList.ClearOptions();
@@ -120,7 +128,7 @@ public class editorController : MonoBehaviour
     {
         Debug.Log("Attempting step creation at " + currentPhase + " s : " + currentStep);
         int x = steps[currentPhase].Count+1;
-        stepNames[currentPhase].Add("Step " + x);
+        stepNames[currentPhase].Add("Step" + x);
         GameObject newStep = Instantiate(stepPrefab, stepParent);
         steps[currentPhase].Add(newStep);
         stepList.ClearOptions();
@@ -171,18 +179,119 @@ public class editorController : MonoBehaviour
 
     public void compile()
     {
-        for(int x = 0; x < phases.Count; x++)
+        gameExport game = new gameExport();
+        game.gameMeta.minPlayers = int.Parse(minPlayers.text);
+        game.gameMeta.maxPlayers = int.Parse(maxPlayers.text);
+        game.gameMeta.name = gameName.text;
+        game.gameMeta.description = gameDescription.text;
+        foreach(variablesType v in vC.variablesList)
         {
-            setPhase(x);
-            for(int y = 0; y < steps[x].Count; y++)
+            game.gameMeta.variables.Add(v.vName, v.returnType());
+        }
+        foreach(locationsType l in vC.locationsList)
+        {
+            game.gameMeta.locations.Add(l.lName, new {anchor = new {x = l.x, y = l.y}, direction = l.vertHori, verticalOffset = l.yOff, horizontalOffset = l.xOff, wrapAt = l.wrapAt, wrapTo = l.wrapTo});
+        }
+        List<dynamic> board = new List<dynamic>();
+        List<dynamic> player = new List<dynamic>();
+        foreach(pilesType p in vC.pilesList)
+        {
+            if(p.ownership == ownership.BOARD)
             {
-                setStep(y);
-                actionBlockController[] actionBlocks = steps[x][y].GetComponentsInChildren<actionBlockController>();
-                foreach(actionBlockController block in actionBlocks)
+                board.Add(new {label = p.pName, actionRoles = p.actionRoles , initialState = p.pileState, visibility = p.visibility, location = new {locationsType = "relative", location = p.location}});
+            }
+            else if(p.ownership == ownership.PLAYER)
+            {
+                player.Add(new {label = p.pName, actionRoles = p.actionRoles , initialState = p.pileState, visibility = p.visibility, location = new {locationsType = "relative", location = p.location}});
+            }
+        }
+        game.boardDefinition.Add("piles", board);
+        game.playerDefinition.Add("piles", player);
+        board.Clear();
+        player.Clear();
+        foreach(buttonsType b in vC.buttonsList)
+        {
+            if(b.ownership == ownership.BOARD)
+            {
+                if(b.type == ButtonType.CLICK)
                 {
-                    block.GetComponent<UIDraggableBlock>().evalutate();
+                    board.Add(new {label = b.bName, actionRoles = b.actionRoles , type = b.type, location = new {locationsType = "relative", location = b.location}, visibility = b.visibility});
+                }
+                else if(b.type == ButtonType.NUMBER)
+                {
+                    board.Add(new {label = b.bName, actionRoles = b.actionRoles , range = b.range, type = b.type, location = new {locationsType = "relative", location = b.location}, visibility = b.visibility});
+                }
+            }
+            else if(b.ownership == ownership.PLAYER)
+            {
+                if(b.type == ButtonType.CLICK)
+                {
+                    player.Add(new {label = b.bName, actionRoles = b.actionRoles , type = b.type, location = new {locationsType = "relative", location = b.location}, visibility = b.visibility});
+                }
+                else if(b.type == ButtonType.NUMBER)
+                {
+                    player.Add(new {label = b.bName, actionRoles = b.actionRoles , range = b.range, type = b.type, location = new {locationsType = "relative", location = b.location}, visibility = b.visibility});
                 }
             }
         }
+        game.boardDefinition.Add("buttons", board);
+        game.playerDefinition.Add("buttons", player);
+        board.Clear();
+        player.Clear();
+        foreach(countersType c in vC.countersList)
+        {
+            if(c.ownership == ownership.BOARD)
+            {
+                board.Add(new {label = c.cName, actionRoles = c.actionRoles , number = c.number, visibility = c.visibility, location = new {locationsType = "relative", location = c.location}});
+            }
+            else if(c.ownership == ownership.PLAYER)
+            {
+                board.Add(new {label = c.cName, actionRoles = c.actionRoles , number = c.number, visibility = c.visibility, location = new {locationsType = "relative", location = c.location}});
+            }
+        }
+        game.boardDefinition.Add("counters", board);
+        game.playerDefinition.Add("counters", player);
+        for(int x = 0; x < phases.Count; x++)
+        {
+            setPhase(x);
+            game.phases.Add(new phaseExport());
+            game.phases[x].name = phaseNames[x];
+            for(int y = 0; y < steps[x].Count; y++)
+            {
+                game.phases[x].steps.Add(new stepExport());
+                game.phases[x].steps[y].name = stepNames[x][y];
+                setStep(y);
+                actionBlockController[] actionBlocks = steps[x][y].GetComponentsInChildren<actionBlockController>();
+                Debug.Log(actionBlocks.Length + " Action blocks found in step");
+                for(int z = 0; z < actionBlocks.Length; z++)
+                {
+                    game.phases[x].steps[y].actions.Add(new actionExport());
+                    game.phases[x].steps[y].actions[z].trigger.Add("type", actionBlocks[z].returnType());
+                    Debug.Log(z);
+                    if(actionBlocks[z].returnType() == "CLICK")
+                    {
+                        if(actionBlocks[z].GetComponent<UIDraggableBlock>().myParts[0].transform.GetComponentInChildren<blockController>() != null)
+                        {
+                            game.phases[x].steps[y].actions[z].trigger.Add("target", actionBlocks[z].GetComponent<UIDraggableBlock>().myParts[0].transform.GetComponentInChildren<blockController>().bname);
+                        }
+                    }
+                    if(actionBlocks[z].GetComponent<UIDraggableBlock>().myParts[1].transform.GetComponentInChildren<blockController>() != null)
+                    {
+                        game.phases[x].steps[y].actions[z].filter = actionBlocks[z].GetComponent<UIDraggableBlock>().myParts[1].transform.GetComponentInChildren<UIDraggableBlock>().evalutate()[0];
+                    }
+                    else
+                    {
+                        game.phases[x].steps[y].actions[z].filter = null;
+                    }
+                    game.phases[x].steps[y].actions[z].result.Add("type", "SEQUENCE");
+                    if(actionBlocks[z].GetComponent<UIDraggableBlock>().myParts[2].transform.GetComponentInChildren<UIDraggableBlock>() != null)
+                    {
+                        List<dynamic> evalResult = actionBlocks[z].GetComponent<UIDraggableBlock>().myParts[2].transform.GetComponentInChildren<UIDraggableBlock>().evalutate();
+                        game.phases[x].steps[y].actions[z].result.Add("primary", evalResult);
+                    }
+                }
+            }
+        }
+        wS.sendGame(game);
     }
 }
