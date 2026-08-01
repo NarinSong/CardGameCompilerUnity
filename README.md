@@ -1,2 +1,7 @@
-This is the frontend for the Card Game Compiler project for CSE 4316/4317
+This is the frontend for the Card Game Compiler project made in unity
+
+Backend Repo:
+https://github.com/NarinSong/CardGameCompilerBackend/tree/main
+
+Future plans:
 https://trello.com/b/sXoke3gS/card-game-compiler
