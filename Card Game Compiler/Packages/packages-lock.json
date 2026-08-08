@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "com.itisnajim.socketiounity": {
-      "version": "file:C:/Users/austi/OneDrive/Desktop/Senior Design Project/SocketIOUnity-main",
+      "version": "file:C:/Users/austi/Downloads/SocketIOUnity-main/SocketIOUnity-main",
       "depth": 0,
       "source": "local",
       "dependencies": {

@@ -160,6 +160,35 @@ public class pilesType
         actionRoles = new List<string>();
         ownership = ownership.BOARD;
     }
+    public string returnType()
+    {
+        if(pileState == pileState.EMPTY)
+        {
+            return "EMPTY";
+        }
+        else if(pileState == pileState.SHUFFLED)
+        {
+            return "SHUFFLED";
+        }
+        return null;
+    }
+
+    public string returnVis()
+    {
+        if(visibility == vis.FACE_DOWN)
+        {
+            return "FACE_DOWN";
+        }
+        else if(visibility ==  vis.FACE_UP)
+        {
+            return "FACE_UP";
+        }
+        else if(visibility == vis.INVISIBLE)
+        {
+            return "INVISIBLE";
+        }
+        return null;
+    }
 }
 
 public class buttonsType
@@ -181,6 +210,22 @@ public class buttonsType
         range = new rangeObj();
         ownership = ownership.BOARD;
     }
+    public string returnVis()
+    {
+        if(visibility == vis.FACE_DOWN)
+        {
+            return "FACE_DOWN";
+        }
+        else if(visibility ==  vis.FACE_UP)
+        {
+            return "FACE_UP";
+        }
+        else if(visibility == vis.INVISIBLE)
+        {
+            return "INVISIBLE";
+        }
+        return null;
+    }
 }
 
 public class countersType
@@ -199,6 +244,22 @@ public class countersType
         location = def;
         actionRoles = new List<string>();
         ownership = ownership.BOARD;
+    }
+    public string returnVis()
+    {
+        if(visibility == vis.FACE_DOWN)
+        {
+            return "FACE_DOWN";
+        }
+        else if(visibility ==  vis.FACE_UP)
+        {
+            return "FACE_UP";
+        }
+        else if(visibility == vis.INVISIBLE)
+        {
+            return "INVISIBLE";
+        }
+        return null;
     }
 }
 
@@ -223,6 +284,18 @@ public class locationsType
         wrapAt = 0;
         wrapTo = 0;
         vertHori = locationRenderType.HORIZONTAL;
+    }
+    public string convertVertHori()
+    {
+        if(vertHori == locationRenderType.VERTICAL)
+        {
+            return "VERTICAL";
+        }
+        if(vertHori == locationRenderType.HORIZONTAL)
+        {
+            return "HORIZONTAL";
+        }
+        return null;
     }
 }
 

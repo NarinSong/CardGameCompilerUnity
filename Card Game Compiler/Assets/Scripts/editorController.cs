@@ -190,67 +190,67 @@ public class editorController : MonoBehaviour
         }
         foreach(locationsType l in vC.locationsList)
         {
-            game.gameMeta.locations.Add(l.lName, new {anchor = new {x = l.x, y = l.y}, direction = l.vertHori, verticalOffset = l.yOff, horizontalOffset = l.xOff, wrapAt = l.wrapAt, wrapTo = l.wrapTo});
+            game.gameMeta.locations.Add(l.lName, new {anchor = new {x = l.x, y = l.y}, direction = l.convertVertHori(), verticalOffset = l.yOff, horizontalOffset = l.xOff, wrapAt = l.wrapAt, wrapTo = l.wrapTo});
         }
-        List<dynamic> board = new List<dynamic>();
-        List<dynamic> player = new List<dynamic>();
+        List<dynamic> boardPiles = new List<dynamic>();
+        List<dynamic> playerPiles = new List<dynamic>();
         foreach(pilesType p in vC.pilesList)
         {
             if(p.ownership == ownership.BOARD)
             {
-                board.Add(new {label = p.pName, actionRoles = p.actionRoles , initialState = p.pileState, visibility = p.visibility, location = new {locationsType = "relative", location = p.location}});
+                boardPiles.Add(new {label = p.pName, actionRoles = p.actionRoles , initialState = p.returnType(), visibility = p.returnVis(), location = new {locationType = "relative", location = p.location.lName}});
             }
             else if(p.ownership == ownership.PLAYER)
             {
-                player.Add(new {label = p.pName, actionRoles = p.actionRoles , initialState = p.pileState, visibility = p.visibility, location = new {locationsType = "relative", location = p.location}});
+                playerPiles.Add(new {label = p.pName, actionRoles = p.actionRoles , initialState = p.returnType(), visibility = p.returnVis(), location = new {locationType = "relative", location = p.location.lName}});
             }
         }
-        game.boardDefinition.Add("piles", board);
-        game.playerDefinition.Add("piles", player);
-        board.Clear();
-        player.Clear();
+        game.boardDefinition.Add("piles", boardPiles);
+        game.playerDefinition.Add("piles", playerPiles);
+        List<dynamic> boardButtons = new List<dynamic>();
+        List<dynamic> playerButtons = new List<dynamic>();
         foreach(buttonsType b in vC.buttonsList)
         {
             if(b.ownership == ownership.BOARD)
             {
                 if(b.type == ButtonType.CLICK)
                 {
-                    board.Add(new {label = b.bName, actionRoles = b.actionRoles , type = b.type, location = new {locationsType = "relative", location = b.location}, visibility = b.visibility});
+                    boardButtons.Add(new {label = b.bName, actionRoles = b.actionRoles , type = b.type, location = new {locationType = "relative", location = b.location.lName}, visibility = b.returnVis()});
                 }
                 else if(b.type == ButtonType.NUMBER)
                 {
-                    board.Add(new {label = b.bName, actionRoles = b.actionRoles , range = b.range, type = b.type, location = new {locationsType = "relative", location = b.location}, visibility = b.visibility});
+                    boardButtons.Add(new {label = b.bName, actionRoles = b.actionRoles , range = b.range, type = b.type, location = new {locationType = "relative", location = b.location.lName}, visibility = b.returnVis()});
                 }
             }
             else if(b.ownership == ownership.PLAYER)
             {
                 if(b.type == ButtonType.CLICK)
                 {
-                    player.Add(new {label = b.bName, actionRoles = b.actionRoles , type = b.type, location = new {locationsType = "relative", location = b.location}, visibility = b.visibility});
+                    playerButtons.Add(new {label = b.bName, actionRoles = b.actionRoles , type = b.type, location = new {locationType = "relative", location = b.location.lName}, visibility = b.returnVis()});
                 }
                 else if(b.type == ButtonType.NUMBER)
                 {
-                    player.Add(new {label = b.bName, actionRoles = b.actionRoles , range = b.range, type = b.type, location = new {locationsType = "relative", location = b.location}, visibility = b.visibility});
+                    playerButtons.Add(new {label = b.bName, actionRoles = b.actionRoles , range = b.range, type = b.type, location = new {locationType = "relative", location = b.location.lName}, visibility = b.returnVis()});
                 }
             }
         }
-        game.boardDefinition.Add("buttons", board);
-        game.playerDefinition.Add("buttons", player);
-        board.Clear();
-        player.Clear();
+        game.boardDefinition.Add("buttons", boardButtons);
+        game.playerDefinition.Add("buttons", playerButtons);
+        List<dynamic> boardCounters = new List<dynamic>();
+        List<dynamic> playerCounters = new List<dynamic>();
         foreach(countersType c in vC.countersList)
         {
             if(c.ownership == ownership.BOARD)
             {
-                board.Add(new {label = c.cName, actionRoles = c.actionRoles , number = c.number, visibility = c.visibility, location = new {locationsType = "relative", location = c.location}});
+                boardCounters.Add(new {label = c.cName, actionRoles = c.actionRoles , number = c.number, visibility = c.returnVis(), location = new {locationType = "relative", location = c.location.lName}});
             }
             else if(c.ownership == ownership.PLAYER)
             {
-                board.Add(new {label = c.cName, actionRoles = c.actionRoles , number = c.number, visibility = c.visibility, location = new {locationsType = "relative", location = c.location}});
+                boardCounters.Add(new {label = c.cName, actionRoles = c.actionRoles , number = c.number, visibility = c.returnVis(), location = new {locationType = "relative", location = c.location.lName}});
             }
         }
-        game.boardDefinition.Add("counters", board);
-        game.playerDefinition.Add("counters", player);
+        game.boardDefinition.Add("counters", boardCounters);
+        game.playerDefinition.Add("counters", playerCounters);
         for(int x = 0; x < phases.Count; x++)
         {
             setPhase(x);

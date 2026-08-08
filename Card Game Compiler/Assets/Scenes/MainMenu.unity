@@ -202,7 +202,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1348267818}
   m_Direction: 2
   m_Value: 1.0000005
-  m_Size: 0.10592867
+  m_Size: 0.10592868
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -6880,6 +6880,7 @@ MonoBehaviour:
   threeArgPrefab: {fileID: 4025812495762750249, guid: ac8e60a73881a8949af6905967b07cac, type: 3}
   fourArgPrefab: {fileID: 4025812495762750249, guid: 8d383b9f046a18b4b8db0e03e9e3e582, type: 3}
   objectPrefab: {fileID: 4025812495762750249, guid: 72b96847a5c1f9c48af069c5516703d3, type: 3}
+  literalPrefab: {fileID: 4025812495762750249, guid: 0dfe53134abd25c4282a4376ee884292, type: 3}
   y: 0
   v: 0
   o: 0
@@ -32304,8 +32305,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1796095235}
   m_HandleRect: {fileID: 1796095234}
   m_Direction: 2
-  m_Value: 1.0000002
-  m_Size: 0.50574046
+  m_Value: 1.0000004
+  m_Size: 0.5057406
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -40402,7 +40403,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 508056225}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.99999994
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -46893,7 +46894,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1366725713}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.12782289
+  m_Size: 0.1278229
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -60156,7 +60157,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1907172044}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.12782289
+  m_Size: 0.1278229
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -70956,7 +70957,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 269262058}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.12782289
+  m_Size: 0.1278229
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
