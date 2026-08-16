@@ -12,6 +12,7 @@ public class logicBlockController : MonoBehaviour
     public GameObject place2;
     public bool isIf;
     public GameObject thing;
+    public bool elseOn;
 
     void Update()
     {
@@ -24,6 +25,7 @@ public class logicBlockController : MonoBehaviour
         {
             bottomSnappingPointAligner = place1;
             elseSect.SetActive(false);
+            elseOn = false;
             elseSnappingPoint.SetActive(false);
             thing.SetActive(false);
         }
@@ -31,6 +33,7 @@ public class logicBlockController : MonoBehaviour
         {
             elseSect.SetActive(true);
             elseSnappingPoint.SetActive(true);
+            elseOn = true;
             thing.SetActive(true);
             bottomSnappingPointAligner = place2;
         }

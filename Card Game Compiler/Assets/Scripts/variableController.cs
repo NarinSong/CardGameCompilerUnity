@@ -28,6 +28,7 @@ public class variableController : MonoBehaviour
     public TMP_Dropdown pileVis;
     public TMP_Dropdown pileLoc;
     public TMP_Dropdown pileARole;
+    public TMP_Dropdown pileOwner;
     public List<pilesType> pilesList;
     public List<string> pileNames;
     public int currentPile;
@@ -42,6 +43,7 @@ public class variableController : MonoBehaviour
     public TMP_Dropdown buttonRange;
     public TMP_InputField rangeIn;
     public GameObject buttonRangeObj;
+    public TMP_Dropdown buttonOwner;
     public List<buttonsType> buttonsList;
     public List<string> buttonNames;
     public int currentButton;
@@ -54,6 +56,7 @@ public class variableController : MonoBehaviour
     public TMP_Dropdown counterVis;
     public TMP_Dropdown counterLoc;
     public TMP_Dropdown counterARole;
+    public TMP_Dropdown counterOwner;
     public List<countersType> countersList;
     public List<string> counterNames;
     public int currentCounter;
@@ -100,6 +103,8 @@ public class variableController : MonoBehaviour
         pRolesList = new List<string>();
         aRolesList = new List<string>();
         newLocation();
+        locationName.text = "DEFAULT";
+        locationsList[0].editable = false;
         modifyLocation();
     }
 
@@ -299,10 +304,17 @@ public class variableController : MonoBehaviour
         {
             pileNames[currentPile] = pileName.text;
             pilesList[currentPile].pName = pileName.text;
-            pilesList[currentPile].type = pileType.value;
             if(locationsList.Count > 0)
             {
                 pilesList[currentPile].location = locationsList[pileLoc.value];
+            }
+            if(pileType.value == 0)
+            {
+                pilesList[currentPile].pileState = pileState.SHUFFLED;
+            }
+            else if(pileType.value == 1)
+            {
+                pilesList[currentPile].pileState = pileState.EMPTY;
             }
             if(pileVis.value == 0)
             {
@@ -315,6 +327,30 @@ public class variableController : MonoBehaviour
             else if(pileVis.value == 2)
             {
                 pilesList[currentPile].visibility = vis.INVISIBLE;
+            }
+            else if(pileVis.value == 3)
+            {
+                pilesList[currentPile].visibility = vis.FACE_UP_SPREAD;
+            }
+            else if(pileVis.value == 4)
+            {
+                pilesList[currentPile].visibility = vis.FACE_DOWN_SPREAD;
+            }
+            else if(pileVis.value == 5)
+            {
+                pilesList[currentPile].visibility = vis.PRIVATE;
+            }
+            else if(pileVis.value == 6)
+            {
+                pilesList[currentPile].visibility = vis.PRIVATE_SPREAD;
+            }
+            if(pileOwner.value == 0)
+            {
+                pilesList[currentPile].ownership = ownership.BOARD;
+            }
+            else if(pileOwner.value == 1)
+            {
+                pilesList[currentPile].ownership = ownership.PLAYER;
             }
             int[] r = bitFieldToInt(pileARole.value);
             List<string> temp = new List<string>();
@@ -341,10 +377,17 @@ public class variableController : MonoBehaviour
         {
             currentPile = pilesD.value;
             pileName.text = pileNames[currentPile];
-            pileType.value = pilesList[currentPile].type;
             if(locationsList.Count > 0)
             {
                 pileLoc.value = pilesList[currentPile].location.index;
+            }
+            if(pilesList[currentPile].pileState == pileState.SHUFFLED)
+            {
+                pileType.value = 0;
+            }
+            else if(pilesList[currentPile].pileState == pileState.EMPTY)
+            {
+                pileType.value = 1;
             }
             if(pilesList[currentPile].visibility == vis.FACE_UP)
             {
@@ -357,6 +400,30 @@ public class variableController : MonoBehaviour
             else if(pilesList[currentPile].visibility == vis.INVISIBLE)
             {
                 pileVis.value = 2;
+            }
+            else if(pilesList[currentPile].visibility == vis.FACE_UP_SPREAD)
+            {
+                pileVis.value = 3;
+            }
+            else if(pilesList[currentPile].visibility == vis.FACE_DOWN_SPREAD)
+            {
+                pileVis.value = 4;
+            }
+            else if(pilesList[currentPile].visibility == vis.PRIVATE)
+            {
+                pileVis.value = 5;
+            }
+            else if(pilesList[currentPile].visibility == vis.PRIVATE_SPREAD)
+            {
+                pileVis.value = 6;
+            }
+            if(pilesList[currentPile].ownership == ownership.BOARD)
+            {
+                pileOwner.value = 0;
+            }
+            else if(pilesList[currentPile].ownership == ownership.PLAYER)
+            {
+                pileOwner.value = 1;
             }
             pileARole.value = InttoBitfield(pilesList[currentPile].actionRoles);
         }
@@ -435,6 +502,18 @@ public class variableController : MonoBehaviour
             else if(buttonVis.value == 2)
             {
                 buttonsList[currentButton].visibility = vis.INVISIBLE;
+            }
+            else if(buttonVis.value == 3)
+            {
+                buttonsList[currentButton].visibility = vis.PRIVATE;
+            }
+            if(buttonOwner.value == 0)
+            {
+                buttonsList[currentButton].ownership = ownership.BOARD;
+            }
+            else if(buttonOwner.value == 1)
+            {
+                buttonsList[currentButton].ownership = ownership.PLAYER;
             }
             int[] r = bitFieldToInt(buttonARole.value);
             List<string> temp = new List<string>();
@@ -517,6 +596,18 @@ public class variableController : MonoBehaviour
             else if(buttonsList[currentButton].visibility == vis.INVISIBLE)
             {
                 buttonVis.value = 2;
+            }
+            else if(buttonsList[currentButton].visibility == vis.PRIVATE)
+            {
+                buttonVis.value = 3;
+            }
+            if(buttonsList[currentButton].ownership == ownership.BOARD)
+            {
+                buttonOwner.value = 0;
+            }
+            else if(buttonsList[currentButton].ownership == ownership.PLAYER)
+            {
+                buttonOwner.value = 1;
             }
             buttonName.text = buttonNames[currentButton];
             loadMinMaxButton();
@@ -618,6 +709,18 @@ public class variableController : MonoBehaviour
             {
                 countersList[currentCounter].visibility = vis.INVISIBLE;
             }
+            else if(counterVis.value == 3)
+            {
+                countersList[currentCounter].visibility = vis.PRIVATE;
+            }
+            if(counterOwner.value == 0)
+            {
+                countersList[currentCounter].ownership = ownership.BOARD;
+            }
+            else if(counterOwner.value == 1)
+            {
+                countersList[currentCounter].ownership = ownership.PLAYER;
+            }
             int[] r = bitFieldToInt(counterARole.value);
             List<string> temp = new List<string>();
             for(int i = 0; i < aRolesList.Count; i++)
@@ -658,6 +761,18 @@ public class variableController : MonoBehaviour
             else if(countersList[currentCounter].visibility == vis.INVISIBLE)
             {
                 counterVis.value = 2;
+            }
+            else if(countersList[currentCounter].visibility == vis.PRIVATE)
+            {
+                counterVis.value = 3;
+            }
+            if(countersList[currentCounter].ownership == ownership.BOARD)
+            {
+                counterOwner.value = 0;
+            }
+            else if(countersList[currentCounter].ownership == ownership.PLAYER)
+            {
+                counterOwner.value = 1;
             }
             counterARole.value = InttoBitfield(countersList[currentCounter].actionRoles);
         }
@@ -765,20 +880,50 @@ public class variableController : MonoBehaviour
         {
             currentLocation = locationsD.value;
             locationsList[currentLocation].index = currentLocation;
-            locationName.text = locationNames[currentLocation];
-            locationX.text = locationsList[currentLocation].x.ToString();
-            locationY.text = locationsList[currentLocation].y.ToString();
-            locationXOff.text = locationsList[currentLocation].xOff.ToString();
-            locationYOff.text = locationsList[currentLocation].yOff.ToString();
-            locationWrapAt.text = locationsList[currentLocation].wrapAt.ToString();
-            locationWrapTo.text = locationsList[currentLocation].wrapTo.ToString();
-            if(locationsList[currentLocation].vertHori == locationRenderType.HORIZONTAL)
+            if(locationsList[currentLocation].editable == false)
             {
+                locationName.interactable = false;
+                locationX.interactable = false;
+                locationY.interactable = false;
+                locationXOff.interactable = false;
+                locationYOff.interactable = false;
+                locationWrapAt.interactable = false;
+                locationWrapTo.interactable = false;
+                locationOption.interactable = false;
+                locationName.text = locationNames[currentLocation];
+                locationX.text = "-";
+                locationY.text = "-";
+                locationXOff.text = "-";
+                locationYOff.text = "-";
+                locationWrapAt.text = "-";
+                locationWrapTo.text = "-";
                 locationOption.value = 0;
             }
-            if(locationsList[currentLocation].vertHori == locationRenderType.VERTICAL)
+            else
             {
-                locationOption.value = 1;
+                locationName.interactable = true;
+                locationX.interactable = true;
+                locationY.interactable = true;
+                locationXOff.interactable = true;
+                locationYOff.interactable = true;
+                locationWrapAt.interactable = true;
+                locationWrapTo.interactable = true;
+                locationOption.interactable = true;
+                locationName.text = locationNames[currentLocation];
+                locationX.text = locationsList[currentLocation].x.ToString();
+                locationY.text = locationsList[currentLocation].y.ToString();
+                locationXOff.text = locationsList[currentLocation].xOff.ToString();
+                locationYOff.text = locationsList[currentLocation].yOff.ToString();
+                locationWrapAt.text = locationsList[currentLocation].wrapAt.ToString();
+                locationWrapTo.text = locationsList[currentLocation].wrapTo.ToString();
+                if(locationsList[currentLocation].vertHori == locationRenderType.HORIZONTAL)
+                {
+                    locationOption.value = 0;
+                }
+                if(locationsList[currentLocation].vertHori == locationRenderType.VERTICAL)
+                {
+                    locationOption.value = 1;
+                }
             }
             redrawLocations();
         }

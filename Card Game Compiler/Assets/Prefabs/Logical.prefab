@@ -754,7 +754,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 7.69, y: -41.7}
+  m_AnchoredPosition: {x: 7.484, y: -41.671}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2416945658708288713
@@ -781,6 +781,7 @@ MonoBehaviour:
   parent: {fileID: 4025812495762750249}
   logicPad: {fileID: 7110176127500993038}
   nestedSpot: 1
+  logicNestable: 1
 --- !u!1 &4025812495762750249
 GameObject:
   m_ObjectHideFlags: 0
@@ -908,7 +909,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   bname: 
   returnType: 
+  argumentsList: []
   display: {fileID: 5292994840198176307}
+  text: {fileID: 0}
+  litDrop: {fileID: 0}
+  litOption: {fileID: 0}
+  litOption2: {fileID: 0}
+  litOptionO: {fileID: 0}
+  litOption2O: {fileID: 0}
+  selectorO: {fileID: 0}
+  textO: {fileID: 0}
+  litValS: 
+  litValN: 0
 --- !u!114 &169322203877942761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -930,6 +942,7 @@ MonoBehaviour:
   place2: {fileID: 5548161373405602266}
   isIf: 1
   thing: {fileID: 7855604729332335933}
+  elseOn: 0
 --- !u!1 &4179966484749005826
 GameObject:
   m_ObjectHideFlags: 0
@@ -1476,6 +1489,7 @@ MonoBehaviour:
   parent: {fileID: 4025812495762750249}
   logicPad: {fileID: 0}
   nestedSpot: 0
+  logicNestable: 0
 --- !u!1 &5547877254126408113
 GameObject:
   m_ObjectHideFlags: 0
@@ -2136,6 +2150,7 @@ MonoBehaviour:
   parent: {fileID: 4025812495762750249}
   logicPad: {fileID: 0}
   nestedSpot: 0
+  logicNestable: 0
 --- !u!1 &7855604729332335933
 GameObject:
   m_ObjectHideFlags: 0
@@ -2381,7 +2396,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -61.383, y: 41.7}
+  m_AnchoredPosition: {x: -61.383, y: 40.675}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &3028827205365974565
@@ -2408,6 +2423,7 @@ MonoBehaviour:
   parent: {fileID: 4025812495762750249}
   logicPad: {fileID: 0}
   nestedSpot: 0
+  logicNestable: 0
 --- !u!1 &8514528140765272955
 GameObject:
   m_ObjectHideFlags: 0
@@ -2551,7 +2567,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -50.79, y: -53.130005}
+  m_AnchoredPosition: {x: -50.33, y: -52.491}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &289632251962011762
@@ -2578,6 +2594,7 @@ MonoBehaviour:
   parent: {fileID: 4025812495762750249}
   logicPad: {fileID: 5247952222784916260}
   nestedSpot: 2
+  logicNestable: 1
 --- !u!1 &8876917892549144002
 GameObject:
   m_ObjectHideFlags: 0

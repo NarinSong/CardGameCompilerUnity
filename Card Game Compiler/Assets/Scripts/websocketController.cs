@@ -574,14 +574,14 @@ public class websocketController : MonoBehaviour
     public void sendGame(gameExport game)
     {
         
-        Debug.Log(Newtonsoft.Json.JsonConvert.SerializeObject(game));
+        Debug.Log(Newtonsoft.Json.JsonConvert.SerializeObject(game, Formatting.Indented));
         socket.Emit("saveGame",(Callback)=>
         {
             UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 Debug.Log(Callback);
             });
-        },Newtonsoft.Json.JsonConvert.SerializeObject(game));
+        },game);
     }
 
     public string rgbToHex(float r, float g, float b)

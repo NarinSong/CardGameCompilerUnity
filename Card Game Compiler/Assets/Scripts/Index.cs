@@ -34,6 +34,7 @@ public class editorState
     //add meta
 }
 
+
 public class phase
 {
     public string name {get; set;}
@@ -145,7 +146,6 @@ public class variablesType
 public class pilesType
 {
     public string pName {get; set;}
-    public int type {get; set;}
     public vis visibility {get; set;}
     public pileState pileState {get; set;}
     public locationsType location {get; set;}
@@ -154,7 +154,7 @@ public class pilesType
     public pilesType(locationsType def)
     {
         pName = "NewPile";
-        type = 0;
+        pileState = pileState.SHUFFLED;
         visibility = vis.FACE_UP;
         location = def;
         actionRoles = new List<string>();
@@ -187,10 +187,25 @@ public class pilesType
         {
             return "INVISIBLE";
         }
+        else if(visibility == vis.FACE_DOWN_SPREAD)
+        {
+            return "FACE_DOWN_SPREAD";
+        }
+        else if(visibility == vis.FACE_UP_SPREAD)
+        {
+            return "FACE_UP_SPREAD";
+        }
+        else if(visibility == vis.PRIVATE)
+        {
+            return "PRIVATE";
+        }
+        else if(visibility == vis.PRIVATE_SPREAD)
+        {
+            return "PRIVATE_SPREAD";
+        }
         return null;
     }
 }
-
 public class buttonsType
 {
     public string bName {get; set;}
@@ -210,6 +225,18 @@ public class buttonsType
         range = new rangeObj();
         ownership = ownership.BOARD;
     }
+    public string returnType()
+    {
+        if(type == ButtonType.CLICK)
+        {
+            return "CLICK";
+        }
+        else if(type == ButtonType.NUMBER)
+        {
+            return "NUMBER";
+        }
+        return null;
+    }
     public string returnVis()
     {
         if(visibility == vis.FACE_DOWN)
@@ -223,6 +250,10 @@ public class buttonsType
         else if(visibility == vis.INVISIBLE)
         {
             return "INVISIBLE";
+        }
+        else if(visibility == vis.PRIVATE)
+        {
+            return "PRIVATE";
         }
         return null;
     }
@@ -259,6 +290,10 @@ public class countersType
         {
             return "INVISIBLE";
         }
+        else if(visibility == vis.PRIVATE)
+        {
+            return "PRIVATE";
+        }
         return null;
     }
 }
@@ -273,9 +308,11 @@ public class locationsType
     public float yOff {get; set;}
     public float wrapAt {get; set;}
     public float wrapTo {get; set;}
+    public bool editable {get; set;}
     public locationRenderType vertHori {get; set;}
     public locationsType()
     {
+        lName = "NewLocation";
         x = 0;
         y = 0;
         index = 0;
@@ -283,6 +320,7 @@ public class locationsType
         yOff = 0;
         wrapAt = 0;
         wrapTo = 0;
+        editable = true;
         vertHori = locationRenderType.HORIZONTAL;
     }
     public string convertVertHori()
@@ -322,19 +360,26 @@ public class block
     public args[] arguments {get; set;}
     public override string ToString()
     {
-        return name + " " + displayName + " " + returnType + " " + arguments + "\n";
+        string temp = name + " " + displayName + " " + returnType + " ";
+        foreach(args x in arguments)
+        {
+            temp += x.ToString();
+        }
+        return temp;
+
     }
 }
 
+[Serializable]
 public class args
 {
-    public string name {get; set;}
-    public string displayName {get; set;}
-    public string type {get; set;}
-    public bool optional {get; set;}
+    public string name;
+    public string displayName;
+    public string type;
+    public bool optional;
     public override string ToString()
     {
-        return name + " " + displayName + " " + type + " " + optional +"\n";
+        return name + " " + displayName + " " + type + " " + optional +", ";
     }
     public args(string n)
     {
@@ -413,7 +458,6 @@ public class player
     public int id {get; set;}
 }
 
-
 public class counter
 {
     public int owner {get; set;}
@@ -424,6 +468,7 @@ public class counter
     public string displayName {get; set;}
     public string[] actionRoles {get; set;}
 }
+
 public class pile
 {
     public int owner {get; set;}

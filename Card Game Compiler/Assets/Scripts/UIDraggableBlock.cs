@@ -188,7 +188,7 @@ public class UIDraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, 
             {
                 if(x.logicPad != null)
                 {
-                    x.logicPad.GetComponent<RectTransform>().anchoredPosition += new Vector2(0,71.3071f*findLogicPadAmt());
+                    x.logicPad.GetComponent<RectTransform>().anchoredPosition += new Vector2(0,findLogicPadAmt(0,""));
                     foreach(SnappablePart pt in this.GetComponentsInChildren<SnappablePart>())
                     {
                         pt.logicPad = null;
@@ -200,10 +200,13 @@ public class UIDraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, 
             {
                 if(x.logicPad != null)
                 {
-                    x.logicPad.GetComponent<RectTransform>().anchoredPosition += new Vector2(0,71.3071f*findLogicPadAmt());
+                    x.logicPad.GetComponent<RectTransform>().anchoredPosition += new Vector2(0,findLogicPadAmt(0,""));
                     foreach(SnappablePart pt in this.GetComponentsInChildren<SnappablePart>())
                     {
-                        pt.logicPad = null;
+                        if(!pt.logical)
+                        {
+                            pt.logicPad = null;
+                        }
                     }
                 }
                 Transform TargetBound = x.transform.parent.Find("Bound");
@@ -287,7 +290,7 @@ public class UIDraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, 
                 if(!targetPart.GetComponent<SnappablePart>().isOn) continue;
                 if(myPart.name == targetPart.name) continue;
                 if(myPart.name == "Bottom Snapping Point" && targetPart.name == "Nested Snapping Point") continue;
-                if(myPart.GetComponent<SnappablePart>().notNestable && targetPart.name == "Nested Snapping Point") continue;
+                if(myPart.GetComponent<SnappablePart>().notNestable && targetPart.name == "Nested Snapping Point" && !targetPart.logicNestable) continue;
                 if(!myPart.GetComponent<SnappablePart>().var && targetPart.GetComponent<SnappablePart>().varOnly) continue;
                 if(myPart.name == "Nested Snapping Point") continue;
                 if(targetPart.transform.IsChildOf(this.transform)) continue;
@@ -317,7 +320,7 @@ public class UIDraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, 
                 bestTargetPart.padAmt += 1;
                 if(bestTargetPart.logicPad != null)
                 {
-                    bestTargetPart.logicPad.GetComponent<RectTransform>().anchoredPosition -= new Vector2(0,71.3071f*findLogicPadAmt());
+                    bestTargetPart.logicPad.GetComponent<RectTransform>().anchoredPosition -= new Vector2(0,findLogicPadAmt(0,""));
                     foreach(SnappablePart part in myParts)
                     {
                         if(part.name == "Bottom Snapping Point")
@@ -336,7 +339,11 @@ public class UIDraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, 
                         if(bestTargetPart.logical && part.name == "Bottom Snapping Point")
                         {
                             part.logicPad = bestTargetPart.logicPad;
-                            part.logicPad.GetComponent<RectTransform>().anchoredPosition -= new Vector2(0,71.3071f*(findLogicPadAmt()+1));
+                            if(GetComponent<logicBlockController>() != null)
+                            {
+                                part.logicPad.GetComponent<RectTransform>().anchoredPosition -= new Vector2(0,findLogicPadAmt(0,"l"));
+                            }
+                            part.logicPad.GetComponent<RectTransform>().anchoredPosition -= new Vector2(0,findLogicPadAmt(0,""));
                             continue;
                         }
                         part.setIsOn(false);
@@ -418,7 +425,7 @@ public class UIDraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, 
             {
                 if(x.logicPad != null)
                 {
-                    x.logicPad.GetComponent<RectTransform>().anchoredPosition += new Vector2(0,71.3071f*findLogicPadAmt());
+                    x.logicPad.GetComponent<RectTransform>().anchoredPosition += new Vector2(0,findLogicPadAmt(0,""));
                 }
             }
             if(x.name == "Nested Snapping Point")
@@ -426,7 +433,7 @@ public class UIDraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, 
                 Transform TargetBound = x.transform.parent.Find("Bound");
                 if(x.logicPad != null)
                 {
-                    x.logicPad.GetComponent<RectTransform>().anchoredPosition += new Vector2(0,71.3071f*(findLogicPadAmt()+1));
+                    x.logicPad.GetComponent<RectTransform>().anchoredPosition += new Vector2(0,findLogicPadAmt(1,""));
                 }
                 //Debug.Log(TargetBound);
                 if(TargetBound != null)
@@ -485,19 +492,44 @@ public class UIDraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, 
         return null;
     }
 
-    public int findLogicPadAmt()
+    public float findLogicPadAmt(int off, string logic)
     {
         UIDraggableBlock[] blockArr = this.GetComponentsInChildren<UIDraggableBlock>();
-        int count = 0;
+        float count = off*71.3071f;
         foreach(UIDraggableBlock block in blockArr)
         {
-            if(block.transform.parent.name == "Nested Snapping Point")
+            if(logic == "l")
+            {
+                if(block.GetComponent<logicBlockController>().elseOn)
+                {
+                    count = 290.8488f;
+                }
+                else
+                {
+                    count += 185.97f;
+                }
+            }
+            if(block.transform.parent.name == "Nested Snapping Point" && block.GetComponent<logicBlockController>() != null)
             {
                 continue;
             }
             else
             {
-                count ++;
+                if(block.GetComponent<logicBlockController>() != null)
+                {
+                    if(block.GetComponent<logicBlockController>().elseOn)
+                    {
+                        count += 290.8488f;
+                    }
+                    else
+                    {
+                        count += 185.97f;
+                    }
+                }
+                else
+                {
+                    count += 71.3071f;
+                }
             }
         }
         return count;
@@ -508,16 +540,59 @@ public class UIDraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, 
         List<dynamic> blockList = new List<dynamic>();
         IDictionary<string, object> blockDef = new ExpandoObject();
         Dictionary<string, dynamic> blockDict = new();
-        blockDict.Add("type", this.GetComponent<blockController>().bname);
-        if(this.GetComponent<blockController>().argumentsList != null)
+        Dictionary<string, dynamic> args = new();
+        blockController blockHolder = GetComponent<blockController>();
+        if(blockHolder.bname == "LITERAL")
         {
-            for(int i = 0; i < this.GetComponent<blockController>().argumentsList.Length; i++)
+            blockDict.Add("kind", "literal");
+            blockDict.Add("valueType", blockHolder.returnType);
+            if(blockHolder.returnType == "Number")
+            {
+                blockDict.Add("value", blockHolder.litValN);
+            }
+            else if(blockHolder.returnType == "Boolean")
+            {
+                blockDict.Add("value", blockHolder.litValB);
+            }
+            else
+            {
+                blockDict.Add("value", blockHolder.litValS);
+            }
+        }
+        else if(blockHolder.bname == "UPDATE_VARIABLE" || blockHolder.bname == "GET_VARIABLE")
+        {
+            blockDict.Add("kind", "variable");
+            blockDict.Add("block", blockHolder.bname);
+        }
+        else
+        {
+            blockDict.Add("kind", "block");
+            blockDict.Add("block", blockHolder.bname);
+        }
+        if(blockHolder.argumentsList != null)
+        {
+            for(int i = 0; i < blockHolder.argumentsList.Count; i++)
             {
                 if(findArg(i) != null)
                 {
-                    blockDict.Add(this.GetComponent<blockController>().argumentsList[i].name, findArg(i).evalutate()[0]);
+                    if(blockHolder.bname == "UPDATE_VARIABLE" || blockHolder.bname == "GET_VARIABLE")
+                    {
+                        blockDict.Add("variableTypeName", findArg(i).evalutate()[0]);
+                    }
+                    if((blockHolder.bname == "IF" || blockHolder.bname == "WHILE") && i != 0)
+                    {
+                        Dictionary<string, dynamic> logical = new Dictionary<string, dynamic>();
+                        logical.Add("kind", "sequence");
+                        logical.Add("blocks", findArg(i).evalutate());
+                        args.Add(blockHolder.argumentsList[i].name, logical);
+                    }
+                    else
+                    {
+                        args.Add(blockHolder.argumentsList[i].name, findArg(i).evalutate()[0]);
+                    }
                 }
             }
+            blockDict.Add("args", args);
         }
         foreach(var kvp in blockDict)
         {
@@ -534,6 +609,7 @@ public class UIDraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, 
         return blockList;
     }
 
+    //this function is vodoo i dont remember how it works and 2 am me cant figure out how it did i just know it works - N
     public UIDraggableBlock findArg(int x)
     {
         foreach(SnappablePart part in myParts)
@@ -543,6 +619,7 @@ public class UIDraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, 
                 return part.GetComponentInChildren<UIDraggableBlock>();
             }
         }
+        Debug.Log("Failed to find arg");
         return null;
     }
 }

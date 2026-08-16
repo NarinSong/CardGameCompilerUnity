@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Collections;
 using UnityEngine;
 
 public class editorBlockManager : MonoBehaviour
@@ -21,6 +22,10 @@ public class editorBlockManager : MonoBehaviour
     public GameObject twoArgPrefab;
     public GameObject threeArgPrefab;
     public GameObject fourArgPrefab;
+    public GameObject fiveArgPrefab;
+    public GameObject sixArgPrefab;
+    public GameObject sevenArgPrefab;
+    public GameObject eightArgPrefab;
     public GameObject objectPrefab;
     public GameObject literalPrefab;
     public float y;
@@ -46,9 +51,9 @@ public class editorBlockManager : MonoBehaviour
         GameObject newBlock = null;
         newBlock = Instantiate(actionPrefab, blockParent.position + new Vector3(0.75f,y,0), Quaternion.identity, blockParent);
         newBlock.GetComponent<blockController>().Init("ACTION","Action",null,null);
-        y -= 1.455f;
-        newBlock = Instantiate(literalPrefab, blockParent.position + new Vector3(0.75f,y,0), Quaternion.identity, blockParent);
-        newBlock.GetComponent<blockController>().Init("LITERAL","Literal",null,new args[]{new args("primary")});
+        y -= 1.5f;
+        newBlock = Instantiate(literalPrefab, blockParent.position + new Vector3(0.7f,y,0), Quaternion.identity, blockParent);
+        newBlock.GetComponent<blockController>().Init("LITERAL","Literal","Number",null);
         y -= 0.75f;
         foreach(block b in blockList)
         {
@@ -84,6 +89,22 @@ public class editorBlockManager : MonoBehaviour
             {
                 newBlock = Instantiate(fourArgPrefab, blockParent.position + new Vector3(0,y,0), Quaternion.identity, blockParent);
             }
+            else if(b.arguments.Length == 5)
+            {
+                newBlock = Instantiate(fiveArgPrefab, blockParent.position + new Vector3(0,y,0), Quaternion.identity, blockParent);
+            }
+            else if(b.arguments.Length == 6)
+            {
+                newBlock = Instantiate(sixArgPrefab, blockParent.position + new Vector3(0,y,0), Quaternion.identity, blockParent);
+            }
+            else if(b.arguments.Length == 7)
+            {
+                newBlock = Instantiate(sevenArgPrefab, blockParent.position + new Vector3(0,y,0), Quaternion.identity, blockParent);
+            }
+            else if(b.arguments.Length == 8)
+            {
+                newBlock = Instantiate(eightArgPrefab, blockParent.position + new Vector3(0,y,0), Quaternion.identity, blockParent);
+            }
             else
             {
                 newBlock = Instantiate(noArgPrefab, blockParent.position + new Vector3(0,y,0), Quaternion.identity, blockParent);
@@ -108,43 +129,43 @@ public class editorBlockManager : MonoBehaviour
         foreach(variablesType b in variables)
         {
             GameObject newBlock = Instantiate(objectPrefab, variableBlockParent.position + new Vector3(0,v,0), Quaternion.identity, variableBlockParent);
-            newBlock.GetComponent<blockController>().Init(b.vName,b.vName,b.returnType(),null);
+            newBlock.GetComponent<blockController>().Init("LITERAL",b.vName,b.returnType(),null);
             v -= 0.75f;
         }
         foreach(pilesType b in piles)
         {
             GameObject newBlock = Instantiate(objectPrefab, objectBlockParent.position + new Vector3(0,o,0), Quaternion.identity, objectBlockParent);
-            newBlock.GetComponent<blockController>().Init(b.pName,b.pName,"Pile",null);
+            newBlock.GetComponent<blockController>().Init("LITERAL",b.pName,"PileLabel",null);
             o -= 0.75f;
         }
         foreach(buttonsType b in buttons)
         {
             GameObject newBlock = Instantiate(objectPrefab, objectBlockParent.position + new Vector3(0,o,0), Quaternion.identity, objectBlockParent);
-            newBlock.GetComponent<blockController>().Init(b.bName,b.bName,"Button",null);
+            newBlock.GetComponent<blockController>().Init("LITERAL",b.bName,"ButtonLabel",null);
             o -= 0.75f;
         }
         foreach(countersType b in counters)
         {
             GameObject newBlock = Instantiate(objectPrefab, objectBlockParent.position + new Vector3(0,o,0), Quaternion.identity, objectBlockParent);
-            newBlock.GetComponent<blockController>().Init(b.cName,b.cName,"Counter",null);
+            newBlock.GetComponent<blockController>().Init("LITERAL",b.cName,"CounterLabel",null);
             o -= 0.75f;
         }
         foreach(locationsType b in locations)
         {
             GameObject newBlock = Instantiate(objectPrefab, objectBlockParent.position + new Vector3(0,o,0), Quaternion.identity, objectBlockParent);
-            newBlock.GetComponent<blockController>().Init(b.lName,b.lName,"Location",null);
+            newBlock.GetComponent<blockController>().Init("LITERAL",b.lName,"Location",null);
             o -= 0.75f;
         }
         foreach(string b in aRoles)
         {
             GameObject newBlock = Instantiate(objectPrefab, objectBlockParent.position + new Vector3(0,o,0), Quaternion.identity, objectBlockParent);
-            newBlock.GetComponent<blockController>().Init(b,b,"ActionRole",null);
+            newBlock.GetComponent<blockController>().Init("LITERAL",b,"ActionRole",null);
             o -= 0.75f;
         }
         foreach(string b in pRoles)
         {
             GameObject newBlock = Instantiate(objectPrefab, objectBlockParent.position + new Vector3(0,o,0), Quaternion.identity, objectBlockParent);
-            newBlock.GetComponent<blockController>().Init(b,b,"PlayerRole",null);
+            newBlock.GetComponent<blockController>().Init("LITERAL",b,"PlayerRole",null);
             o -= 0.75f;
         }
     }
@@ -159,13 +180,13 @@ public class editorBlockManager : MonoBehaviour
         foreach(string b in steps)
         {
             GameObject newBlock = Instantiate(objectPrefab, sPBlockParent.position + new Vector3(0,sP,0), Quaternion.identity, sPBlockParent);
-            newBlock.GetComponent<blockController>().Init(b,b,"Step",null);
+            newBlock.GetComponent<blockController>().Init("LITERAL",b,"Step",null);
             sP -= 0.75f;
         }
         foreach(string b in phases)
         {
             GameObject newBlock = Instantiate(objectPrefab, sPBlockParent.position + new Vector3(0,sP,0), Quaternion.identity, sPBlockParent);
-            newBlock.GetComponent<blockController>().Init(b,b,"Phase",null);
+            newBlock.GetComponent<blockController>().Init("LITERAL",b,"Phase",null);
             sP -= 0.75f;
         }
     }
