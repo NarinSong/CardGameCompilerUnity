@@ -28,18 +28,23 @@ public class editorBlockManager : MonoBehaviour
     public GameObject eightArgPrefab;
     public GameObject objectPrefab;
     public GameObject literalPrefab;
+    public GameObject arrayPrefab;
+    public GameObject oneArgVarPrefab;
+    public GameObject twoArgVarPrefab;
     public float y;
     public float v;
     public float o;
     public float sP;
-
-    //all blocks are literal except main and location
 
     public void setBlockList(List<block> bL)
     {
         blockList = bL;
         drawBlocks();
     }
+
+    //Fix magic numbers and find better way to do block offsets after rendering please! - N
+    
+    //Add better handling for scrollable list to dynamically size the list based on the # of blocks - N
 
     public void drawBlocks()
     {
@@ -54,6 +59,17 @@ public class editorBlockManager : MonoBehaviour
         y -= 1.5f;
         newBlock = Instantiate(literalPrefab, blockParent.position + new Vector3(0.7f,y,0), Quaternion.identity, blockParent);
         newBlock.GetComponent<blockController>().Init("LITERAL","Literal","Number",null);
+        y -= 0.75f;
+        newBlock = Instantiate(arrayPrefab, blockParent.position + new Vector3(0.6f,y,0), Quaternion.identity, blockParent);
+        newBlock.GetComponent<blockController>().Init("ARRAY","Array","Array",null);
+        y -= 0.75f;
+        args[] variableArgs = new args[]{new args("name","variable",false), new args("value","variable",true)};
+        args[] getVariableArgs = new args[]{new args("name","variable",false)};
+        newBlock = Instantiate(oneArgVarPrefab, blockParent.position + new Vector3(0f,y,0f),Quaternion.identity, blockParent);
+        newBlock.GetComponent<blockController>().Init("GET_VARIABLE","Get Variable","Number",getVariableArgs);
+        y -= 0.75f;
+        newBlock = Instantiate(twoArgVarPrefab, blockParent.position + new Vector3(0f,y,0f),Quaternion.identity, blockParent);
+        newBlock.GetComponent<blockController>().Init("UPDATE_VARIABLE","Set Variable","Number",variableArgs);
         y -= 0.75f;
         foreach(block b in blockList)
         {
@@ -129,7 +145,7 @@ public class editorBlockManager : MonoBehaviour
         foreach(variablesType b in variables)
         {
             GameObject newBlock = Instantiate(objectPrefab, variableBlockParent.position + new Vector3(0,v,0), Quaternion.identity, variableBlockParent);
-            newBlock.GetComponent<blockController>().Init("LITERAL",b.vName,b.returnType(),null);
+            newBlock.GetComponent<blockController>().Init("LITERAL",b.vName,"String",null);
             v -= 0.75f;
         }
         foreach(pilesType b in piles)

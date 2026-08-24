@@ -45,6 +45,11 @@ public class blockController : MonoBehaviour
         display.text = dN;
     }
 
+    public void updateVariableType()
+    {
+        returnType = getReturnType(litDrop.value);
+    }
+
     public void updateType()
     {
         if(litDrop.value == 0)
@@ -266,8 +271,52 @@ public class blockController : MonoBehaviour
         }
     }
 
-    public void returnLitVal()
+    public string getReturnType(int x)
     {
-        
+        switch(x)
+        {
+            case 0:
+                return "Number";
+            case 1:
+                return "String";
+            case 2:
+                return "Boolean";
+            case 3:
+                return "PileLabel";
+            case 4:
+                return "CounterLabel";
+            case 5:
+                return "ButtonLabel";
+            case 6:
+                return "ActionRole";
+            case 7:
+                return "PileState";
+            case 8:
+                return "Visibility";
+            case 9:
+                return "Card";
+            case 10:
+                return "ID";
+            case 11:
+                return "Player";
+            case 12:
+                return "PlayerRole";
+            case 13:
+                return "Phase";
+            case 14:
+                return "Step";
+            case 15:
+                return "Location";
+            case 16:
+                return "ButtonRange";
+            case 17:
+                return "Rank";
+            case 18:
+                return "Suit";
+            case 19:
+                return "Array";
+
+        }
+        return "null";
     }
 }

@@ -137,6 +137,8 @@ public class variablesType
                 return "Rank";
             case 18:
                 return "Suit";
+            case 19:
+                return "Array";
 
         }
         return "null";
@@ -149,6 +151,7 @@ public class pilesType
     public vis visibility {get; set;}
     public pileState pileState {get; set;}
     public locationsType location {get; set;}
+    public locationsType ownerLocation {get; set;}
     public List<string> actionRoles {get; set;}
     public ownership ownership {get; set;}
     public pilesType(locationsType def)
@@ -157,6 +160,7 @@ public class pilesType
         pileState = pileState.SHUFFLED;
         visibility = vis.FACE_UP;
         location = def;
+        ownerLocation = def;
         actionRoles = new List<string>();
         ownership = ownership.BOARD;
     }
@@ -212,6 +216,7 @@ public class buttonsType
     public ButtonType type {get; set;}
     public vis visibility {get; set;}
     public locationsType location {get; set;}
+    public locationsType ownerLocation {get; set;}
     public List<string> actionRoles {get; set;}
     public rangeObj range {get; set;}
     public ownership ownership {get; set;}
@@ -221,6 +226,7 @@ public class buttonsType
         type = ButtonType.CLICK;
         visibility = vis.FACE_UP;
         location = def;
+        ownerLocation = def;
         actionRoles = new List<string>();
         range = new rangeObj();
         ownership = ownership.BOARD;
@@ -265,6 +271,7 @@ public class countersType
     public float number {get; set;}
     public vis visibility {get; set;}
     public locationsType location {get; set;}
+    public locationsType ownerLocation {get; set;}
     public List<string> actionRoles {get; set;}
     public ownership ownership {get; set;}
     public countersType(locationsType def)
@@ -273,6 +280,7 @@ public class countersType
         number = 0;
         visibility = vis.FACE_UP;
         location = def;
+        ownerLocation = def;
         actionRoles = new List<string>();
         ownership = ownership.BOARD;
     }
@@ -381,12 +389,13 @@ public class args
     {
         return name + " " + displayName + " " + type + " " + optional +", ";
     }
-    public args(string n)
+
+    public args(string n, string t, bool o)
     {
         name = n;
         displayName = n;
-        type = "LITERAL";
-        optional = false;
+        type = t;
+        optional = o;
     }
 }
 

@@ -213,26 +213,46 @@ public class editorController : MonoBehaviour
         List<dynamic> playerPiles = new List<dynamic>();
         foreach(pilesType p in vC.pilesList)
         {   
+            dynamic locationBuilder;
+            if(p.location.lName != "DEFAULT")
+            {
+                if(p.ownerLocation.lName != "DEFAULT")
+                {
+                    locationBuilder = new {locationType = "relative", location = p.location.lName, ownerLocation = p.ownerLocation.lName};
+                }
+                else
+                {
+                    locationBuilder = new {locationType = "relative", location = p.location.lName};
+                }
+            }
+            else if(p.ownerLocation.lName != "DEFAULT")
+            {
+                locationBuilder = new {locationType = "relative", ownerLocation = p.ownerLocation.lName};
+            }
+            else
+            {
+                locationBuilder = null;
+            }
             if(p.ownership == ownership.BOARD)
             {
-                if(p.location.lName == "DEFAULT")
+                if(locationBuilder == null)
                 {
                     boardPiles.Add(new {label = p.pName, actionRoles = p.actionRoles , initialState = p.returnType(), visibility = p.returnVis()});
                 }
                 else
                 {
-                    boardPiles.Add(new {label = p.pName, actionRoles = p.actionRoles , initialState = p.returnType(), visibility = p.returnVis(), location = new{locationType = "relative", location = p.location.lName}});
+                    boardPiles.Add(new {label = p.pName, actionRoles = p.actionRoles , initialState = p.returnType(), visibility = p.returnVis(), location = locationBuilder});
                 }
             }
             else if(p.ownership == ownership.PLAYER)
             {
-                if(p.location.lName == "DEFAULT")
+                if(locationBuilder == null)
                 {
                     playerPiles.Add(new {label = p.pName, actionRoles = p.actionRoles , initialState = p.returnType(), visibility = p.returnVis()});
                 }
                 else
                 {
-                    playerPiles.Add(new {label = p.pName, actionRoles = p.actionRoles , initialState = p.returnType(), visibility = p.returnVis(), location = new{locationType = "relative", location = p.location.lName}});
+                    playerPiles.Add(new {label = p.pName, actionRoles = p.actionRoles , initialState = p.returnType(), visibility = p.returnVis(), location = locationBuilder});
                 }
             }
         }
@@ -242,9 +262,29 @@ public class editorController : MonoBehaviour
         List<dynamic> playerButtons = new List<dynamic>();
         foreach(buttonsType b in vC.buttonsList)
         {
+            dynamic locationBuilder;
+            if(b.location.lName != "DEFAULT")
+            {
+                if(b.ownerLocation.lName != "DEFAULT")
+                {
+                    locationBuilder = new {locationType = "relative", location = b.location.lName, ownerLocation = b.ownerLocation.lName};
+                }
+                else
+                {
+                    locationBuilder = new {locationType = "relative", location = b.location.lName};
+                }
+            }
+            else if(b.ownerLocation.lName != "DEFAULT")
+            {
+                locationBuilder = new {locationType = "relative", ownerLocation = b.ownerLocation.lName};
+            }
+            else
+            {
+                locationBuilder = null;
+            }
             if(b.ownership == ownership.BOARD)
             {
-                if(b.location.lName == "DEFAULT")
+                if(locationBuilder == null)
                 {
                     if(b.type == ButtonType.CLICK)
                     {
@@ -259,17 +299,17 @@ public class editorController : MonoBehaviour
                 {
                     if(b.type == ButtonType.CLICK)
                     {
-                        boardButtons.Add(new {label = b.bName, actionRoles = b.actionRoles , type = b.returnType(), location = new {locationType = "relative", location = b.location.lName}, visibility = b.returnVis()});
+                        boardButtons.Add(new {label = b.bName, actionRoles = b.actionRoles , type = b.returnType(), visibility = b.returnVis(), location = locationBuilder});
                     }
                     else if(b.type == ButtonType.NUMBER)
                     {
-                        boardButtons.Add(new {label = b.bName, actionRoles = b.actionRoles , range = b.range, type = b.returnType(), location = new {locationType = "relative", location = b.location.lName}, visibility = b.returnVis()});
+                        boardButtons.Add(new {label = b.bName, actionRoles = b.actionRoles , range = b.range, type = b.returnType(), visibility = b.returnVis(), location = locationBuilder});
                     }
                 }
             }
             else if(b.ownership == ownership.PLAYER)
             {
-                if(b.location.lName == "DEFAULT")
+                if(locationBuilder == null)
                 {
                     if(b.type == ButtonType.CLICK)
                     {
@@ -284,11 +324,11 @@ public class editorController : MonoBehaviour
                 {
                     if(b.type == ButtonType.CLICK)
                     {
-                        playerButtons.Add(new {label = b.bName, actionRoles = b.actionRoles , type = b.returnType(), location = new {locationType = "relative", location = b.location.lName}, visibility = b.returnVis()});
+                        playerButtons.Add(new {label = b.bName, actionRoles = b.actionRoles , type = b.returnType(), location = locationBuilder, visibility = b.returnVis()});
                     }
                     else if(b.type == ButtonType.NUMBER)
                     {
-                        playerButtons.Add(new {label = b.bName, actionRoles = b.actionRoles , range = b.range, type = b.returnType(), location = new {locationType = "relative", location = b.location.lName}, visibility = b.returnVis()});
+                        playerButtons.Add(new {label = b.bName, actionRoles = b.actionRoles , range = b.range, type = b.returnType(), location = locationBuilder, visibility = b.returnVis()});
                     }
                 }
             }
@@ -299,26 +339,46 @@ public class editorController : MonoBehaviour
         List<dynamic> playerCounters = new List<dynamic>();
         foreach(countersType c in vC.countersList)
         {
+            dynamic locationBuilder;
+            if(c.location.lName != "DEFAULT")
+            {
+                if(c.ownerLocation.lName != "DEFAULT")
+                {
+                    locationBuilder = new {locationType = "relative", location = c.location.lName, ownerLocation = c.ownerLocation.lName};
+                }
+                else
+                {
+                    locationBuilder = new {locationType = "relative", location = c.location.lName};
+                }
+            }
+            else if(c.ownerLocation.lName != "DEFAULT")
+            {
+                locationBuilder = new {locationType = "relative", ownerLocation = c.ownerLocation.lName};
+            }
+            else
+            {
+                locationBuilder = null;
+            }
             if(c.ownership == ownership.BOARD)
             {
-                if(c.location.lName == "DEFAULT")
+                if(locationBuilder == null)
                 {
                     boardCounters.Add(new {label = c.cName, actionRoles = c.actionRoles , number = c.number, visibility = c.returnVis()});
                 }
                 else
                 {
-                    boardCounters.Add(new {label = c.cName, actionRoles = c.actionRoles , number = c.number, visibility = c.returnVis(), location = new {locationType = "relative", location = c.location.lName}});
+                    boardCounters.Add(new {label = c.cName, actionRoles = c.actionRoles , number = c.number, visibility = c.returnVis(), location = locationBuilder});
                 }
             }
             else if(c.ownership == ownership.PLAYER)
             {
-                if(c.location.lName == "DEFAULT")
+                if(locationBuilder == null)
                 {
                     playerCounters.Add(new {label = c.cName, actionRoles = c.actionRoles , number = c.number, visibility = c.returnVis()});
                 }
                 else
                 {
-                    playerCounters.Add(new {label = c.cName, actionRoles = c.actionRoles , number = c.number, visibility = c.returnVis(), location = new {locationType = "relative", location = c.location.lName}});
+                    playerCounters.Add(new {label = c.cName, actionRoles = c.actionRoles , number = c.number, visibility = c.returnVis(), location = locationBuilder});
                 }
             }
         }

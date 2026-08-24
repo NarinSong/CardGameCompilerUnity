@@ -27,6 +27,7 @@ public class variableController : MonoBehaviour
     public TMP_Dropdown pileType;
     public TMP_Dropdown pileVis;
     public TMP_Dropdown pileLoc;
+    public TMP_Dropdown pileOwnerLoc;
     public TMP_Dropdown pileARole;
     public TMP_Dropdown pileOwner;
     public List<pilesType> pilesList;
@@ -39,6 +40,7 @@ public class variableController : MonoBehaviour
     public TMP_Dropdown buttonType;
     public TMP_Dropdown buttonVis;
     public TMP_Dropdown buttonLoc;
+    public TMP_Dropdown buttonOwnerLoc;
     public TMP_Dropdown buttonARole;
     public TMP_Dropdown buttonRange;
     public TMP_InputField rangeIn;
@@ -55,6 +57,7 @@ public class variableController : MonoBehaviour
     public TMP_Dropdown counterOption;
     public TMP_Dropdown counterVis;
     public TMP_Dropdown counterLoc;
+    public TMP_Dropdown counterOwnerLoc;
     public TMP_Dropdown counterARole;
     public TMP_Dropdown counterOwner;
     public List<countersType> countersList;
@@ -160,13 +163,9 @@ public class variableController : MonoBehaviour
     {
         masterList = new List<string>();
         masterList.Clear();
-        masterList.AddRange(variableNames);
         masterList.AddRange(pileNames);
         masterList.AddRange(buttonNames);
         masterList.AddRange(counterNames);
-        masterList.AddRange(locationNames);
-        masterList.AddRange(aRolesList);
-        masterList.AddRange(pRolesList);
         for(int x = 0; x < masterList.Count; x++)
         {
             if(masterList[x] == "" || masterList[x] == null)
@@ -183,7 +182,44 @@ public class variableController : MonoBehaviour
                 }
             }
         }
+        for(int x = 0; x < variableNames.Count; x++)
+        {
+            if(variableNames[x] == "" || variableNames[x] == null)
+            {
+                throwError("A variable is undeclared or unnamed");
+                return;
+            }
+            for(int y = 0; y < variableNames.Count; y++)
+            {
+                if(y != x && variableNames[x] == variableNames[y])
+                {
+                    throwError("Two variables share the same name: " + variableNames[x]);
+                    return;
+                }
+            }
+        }
+        for(int x = 0; x < locationNames.Count; x++)
+        {
+            if(locationNames[x] == "" || locationNames[x] == null)
+            {
+                throwError("A variable is undeclared or unnamed");
+                return;
+            }
+            for(int y = 0; y < locationNames.Count; y++)
+            {
+                if(y != x && locationNames[x] == locationNames[y])
+                {
+                    throwError("Two variables share the same name: " + locationNames[x]);
+                    return;
+                }
+            }
+        }
+        
         Debug.Log("variable name check passed");
+        masterList.AddRange(variableNames);
+        masterList.AddRange(locationNames);
+        masterList.AddRange(aRolesList);
+        masterList.AddRange(pRolesList);
         foreach(buttonsType x in buttonsList)
         {
             if(x.range.min > x.range.max && x.type == ButtonType.NUMBER)
@@ -250,12 +286,16 @@ public class variableController : MonoBehaviour
         inLoad = true;
         if(variablesList.Count > 0)
         {
+            variableName.interactable = true;
+            variableType.interactable = true;
             currentVariable = variablesD.value;
             variableName.text = variableNames[currentVariable];
             variableType.value = variablesList[currentVariable].type;
         }
         else
         {
+            variableName.interactable = false;
+            variableType.interactable = false;
             currentVariable = 0;
             variableType.value = 0;
             variableName.text = "";
@@ -307,6 +347,7 @@ public class variableController : MonoBehaviour
             if(locationsList.Count > 0)
             {
                 pilesList[currentPile].location = locationsList[pileLoc.value];
+                pilesList[currentPile].ownerLocation = locationsList[pileOwnerLoc.value];
             }
             if(pileType.value == 0)
             {
@@ -347,6 +388,7 @@ public class variableController : MonoBehaviour
             if(pileOwner.value == 0)
             {
                 pilesList[currentPile].ownership = ownership.BOARD;
+                pilesList[currentPile].ownerLocation = locationsList[0];
             }
             else if(pileOwner.value == 1)
             {
@@ -375,11 +417,19 @@ public class variableController : MonoBehaviour
         inLoad = true;
         if(pilesList.Count > 0)
         {
+            pileName.interactable = true;
+            pileLoc.interactable = true;
+            pileOwnerLoc.interactable = true;
+            pileVis.interactable = true;
+            pileOwner.interactable = true;
+            pileType.interactable = true;
+            pileARole.interactable = true;
             currentPile = pilesD.value;
             pileName.text = pileNames[currentPile];
             if(locationsList.Count > 0)
             {
                 pileLoc.value = pilesList[currentPile].location.index;
+                pileOwnerLoc.value = pilesList[currentPile].ownerLocation.index;
             }
             if(pilesList[currentPile].pileState == pileState.SHUFFLED)
             {
@@ -420,10 +470,12 @@ public class variableController : MonoBehaviour
             if(pilesList[currentPile].ownership == ownership.BOARD)
             {
                 pileOwner.value = 0;
+                pileOwnerLoc.interactable = false;
             }
             else if(pilesList[currentPile].ownership == ownership.PLAYER)
             {
                 pileOwner.value = 1;
+                pileOwnerLoc.interactable = true;
             }
             pileARole.value = InttoBitfield(pilesList[currentPile].actionRoles);
         }
@@ -433,8 +485,16 @@ public class variableController : MonoBehaviour
             pileName.text = "";
             pileType.value = 0;
             pileLoc.value = 0;
+            pileOwnerLoc.value = 0;
             pileVis.value = 0;
             pileARole.value = 0;
+            pileName.interactable = false;
+            pileLoc.interactable = false;
+            pileOwnerLoc.interactable = false;
+            pileVis.interactable = false;
+            pileOwner.interactable = false;
+            pileType.interactable = false;
+            pileARole.interactable = false;
         }
         inLoad = false;
     }
@@ -490,6 +550,7 @@ public class variableController : MonoBehaviour
             if(locationsList.Count > 0)
             {
                 buttonsList[currentButton].location = locationsList[buttonLoc.value];
+                buttonsList[currentButton].ownerLocation = locationsList[buttonOwnerLoc.value];
             }
             if(buttonVis.value == 0)
             {
@@ -510,6 +571,7 @@ public class variableController : MonoBehaviour
             if(buttonOwner.value == 0)
             {
                 buttonsList[currentButton].ownership = ownership.BOARD;
+                buttonsList[currentButton].ownerLocation = locationsList[0];
             }
             else if(buttonOwner.value == 1)
             {
@@ -569,6 +631,13 @@ public class variableController : MonoBehaviour
         inLoad = true;
         if(buttonsList.Count > 0)
         {
+            buttonARole.interactable = true;
+            buttonLoc.interactable = true;
+            buttonVis.interactable = true;
+            buttonType.interactable = true;
+            buttonOwner.interactable = true;
+            buttonOwnerLoc.interactable = true;
+            buttonName.interactable = true;
             currentButton = buttonsD.value;
             buttonARole.value = InttoBitfield(buttonsList[currentButton].actionRoles);
             if(buttonsList[currentButton].type == ButtonType.CLICK)
@@ -584,6 +653,7 @@ public class variableController : MonoBehaviour
             if(locationsList.Count > 0)
             {
                 buttonLoc.value = buttonsList[currentButton].location.index;
+                buttonOwnerLoc.value = buttonsList[currentButton].ownerLocation.index;
             }
             if(buttonsList[currentButton].visibility == vis.FACE_UP)
             {
@@ -604,10 +674,12 @@ public class variableController : MonoBehaviour
             if(buttonsList[currentButton].ownership == ownership.BOARD)
             {
                 buttonOwner.value = 0;
+                buttonOwnerLoc.interactable = false;
             }
             else if(buttonsList[currentButton].ownership == ownership.PLAYER)
             {
                 buttonOwner.value = 1;
+                buttonOwnerLoc.interactable = true;
             }
             buttonName.text = buttonNames[currentButton];
             loadMinMaxButton();
@@ -619,8 +691,16 @@ public class variableController : MonoBehaviour
             buttonType.value = 0;
             buttonRangeObj.SetActive(false);
             buttonLoc.value = 0;
+            buttonOwnerLoc.value = 0;
             buttonVis.value = 0;
             buttonARole.value = 0;
+            buttonARole.interactable = false;
+            buttonLoc.interactable = false;
+            buttonOwnerLoc.interactable = false;
+            buttonVis.interactable = false;
+            buttonType.interactable = false;
+            buttonOwner.interactable = false;
+            buttonName.interactable = false;
         }
         inLoad = false;
     }
@@ -696,6 +776,7 @@ public class variableController : MonoBehaviour
             if(locationsList.Count > 0)
             {
                 countersList[currentCounter].location = locationsList[counterLoc.value];
+                countersList[currentCounter].ownerLocation = locationsList[counterOwnerLoc.value];
             }
             if(counterVis.value == 0)
             {
@@ -716,6 +797,7 @@ public class variableController : MonoBehaviour
             if(counterOwner.value == 0)
             {
                 countersList[currentCounter].ownership = ownership.BOARD;
+                countersList[currentCounter].ownerLocation = locationsList[0];
             }
             else if(counterOwner.value == 1)
             {
@@ -743,12 +825,20 @@ public class variableController : MonoBehaviour
         inLoad = true;
         if(countersList.Count > 0)
         {
+            counterName.interactable = true;
+            counterValue.interactable = true;
+            counterVis.interactable = true;
+            counterLoc.interactable = true;
+            counterOwnerLoc.interactable = true;
+            counterOwner.interactable = true;
+            counterARole.interactable = true;
             currentCounter = countersD.value;
             counterName.text = counterNames[currentCounter];
             counterValue.text = countersList[currentCounter].number.ToString();
             if(locationsList.Count > 0)
             {
                 counterLoc.value = countersList[currentCounter].location.index;
+                counterOwnerLoc.value = countersList[currentCounter].ownerLocation.index;
             }
             if(countersList[currentCounter].visibility == vis.FACE_UP)
             {
@@ -769,10 +859,12 @@ public class variableController : MonoBehaviour
             if(countersList[currentCounter].ownership == ownership.BOARD)
             {
                 counterOwner.value = 0;
+                counterOwnerLoc.interactable = false;
             }
             else if(countersList[currentCounter].ownership == ownership.PLAYER)
             {
                 counterOwner.value = 1;
+                counterOwnerLoc.interactable = true;
             }
             counterARole.value = InttoBitfield(countersList[currentCounter].actionRoles);
         }
@@ -782,8 +874,16 @@ public class variableController : MonoBehaviour
             counterName.text = "";
             counterValue.text = "";
             counterLoc.value = 0;
+            counterOwnerLoc.value = 0;
             counterVis.value = 0;
             counterARole.value = 0;
+            counterName.interactable = false;
+            counterValue.interactable = false;
+            counterVis.interactable = false;
+            counterLoc.interactable = false;
+            counterOwnerLoc.interactable = false;
+            counterOwner.interactable = false;
+            counterARole.interactable = false;
         }
         inLoad = false;
     }
@@ -946,42 +1046,63 @@ public class variableController : MonoBehaviour
     {
         pileLoc.ClearOptions();
         pileLoc.AddOptions(locationNames);
+        pileOwnerLoc.ClearOptions();
+        pileOwnerLoc.AddOptions(locationNames);
         if(pilesList.Count > 0)
         {
             if(pilesList[currentPile].location.index < locationsList.Count)
             {
                 pileLoc.value = pilesList[currentPile].location.index;
             }
+            if(pilesList[currentPile].ownerLocation.index < locationsList.Count)
+            {
+                pileOwnerLoc.value = pilesList[currentPile].ownerLocation.index;
+            }
         }
         else
         {
             pileLoc.value = 0;
+            pileOwnerLoc.value = 0;
         }
         buttonLoc.ClearOptions();
         buttonLoc.AddOptions(locationNames);
+        buttonOwnerLoc.ClearOptions();
+        buttonOwnerLoc.AddOptions(locationNames);
         if(buttonsList.Count > 0)
         {
             if(buttonsList[currentButton].location.index < locationsList.Count)
             {
                 buttonLoc.value = buttonsList[currentButton].location.index;
             }
+            if(buttonsList[currentButton].ownerLocation.index < locationsList.Count)
+            {
+                buttonOwnerLoc.value = buttonsList[currentButton].ownerLocation.index;
+            }
         }
         else
         {
             buttonLoc.value = 0;
+            buttonOwnerLoc.value = 0;
         }
         counterLoc.ClearOptions();
         counterLoc.AddOptions(locationNames);
+        counterOwnerLoc.ClearOptions();
+        counterOwnerLoc.AddOptions(locationNames);
         if(countersList.Count > 0)
         {
             if(countersList[currentCounter].location.index < locationsList.Count)
             {
                 counterLoc.value = countersList[currentCounter].location.index;
             }
+            if(countersList[currentCounter].ownerLocation.index < locationsList.Count)
+            {
+                counterOwnerLoc.value = countersList[currentCounter].ownerLocation.index;
+            }
         }
         else
         {
             counterLoc.value = 0;
+            counterOwnerLoc.value = 0;
         }
     }
 
@@ -1033,11 +1154,13 @@ public class variableController : MonoBehaviour
     {
         if(pRolesList.Count > 0)
         {
+            pRoleName.interactable = true;
             currentPRole = pRolesD.value;
             pRoleName.text = pRolesList[currentPRole];
         }
         else
         {
+            pRoleName.interactable = false;
             currentPRole = 0;
             pRoleName.text = "";
         }
@@ -1091,11 +1214,13 @@ public class variableController : MonoBehaviour
     {
         if(aRolesList.Count > 0)
         {
+            aRoleName.interactable = true;
             currentARole = aRolesD.value;
             aRoleName.text = aRolesList[currentARole];
         }
         else
         {
+            aRoleName.interactable = false;
             currentARole = 0;
             aRoleName.text = "";
         }

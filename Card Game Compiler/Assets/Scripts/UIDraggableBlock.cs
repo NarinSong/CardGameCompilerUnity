@@ -492,6 +492,7 @@ public class UIDraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, 
         return null;
     }
 
+    //Fix magic numbers please -N
     public float findLogicPadAmt(int off, string logic)
     {
         UIDraggableBlock[] blockArr = this.GetComponentsInChildren<UIDraggableBlock>();
@@ -563,6 +564,15 @@ public class UIDraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, 
         {
             blockDict.Add("kind", "variable");
             blockDict.Add("block", blockHolder.bname);
+            blockDict.Add("variableType", blockHolder.returnType);
+        }
+        else if(blockHolder.bname == "ARRAY")
+        {
+            blockDict.Add("Kind", "array");
+            blockDict.Add("valueType", blockHolder.returnType);
+            Dictionary<string, dynamic> logical = new Dictionary<string, dynamic>();
+            logical.Add("value", findArg(0).evalutate());
+            args.Add(blockHolder.argumentsList[0].name, logical);
         }
         else
         {
@@ -575,10 +585,6 @@ public class UIDraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, 
             {
                 if(findArg(i) != null)
                 {
-                    if(blockHolder.bname == "UPDATE_VARIABLE" || blockHolder.bname == "GET_VARIABLE")
-                    {
-                        blockDict.Add("variableTypeName", findArg(i).evalutate()[0]);
-                    }
                     if((blockHolder.bname == "IF" || blockHolder.bname == "WHILE") && i != 0)
                     {
                         Dictionary<string, dynamic> logical = new Dictionary<string, dynamic>();
@@ -619,7 +625,7 @@ public class UIDraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, 
                 return part.GetComponentInChildren<UIDraggableBlock>();
             }
         }
-        Debug.Log("Failed to find arg");
+        //Debug.Log("Failed to find arg");
         return null;
     }
 }
