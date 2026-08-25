@@ -758,7 +758,7 @@ MonoBehaviour:
   actionName: Action
   isPaletteItem: 1
   snapDistance: 1
-  blockOffset: {x: 412, y: 0}
+  blockOffset: {x: 400.4, y: 0}
   snappedTo: []
   xButton: {fileID: 7400335558218888136}
   myParts:
@@ -1826,7 +1826,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 181, y: 0}
+  m_AnchoredPosition: {x: 175.19995, y: 0}
   m_SizeDelta: {x: 50, y: 71.3071}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1808599632964380719

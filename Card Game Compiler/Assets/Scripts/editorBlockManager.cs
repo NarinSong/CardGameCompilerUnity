@@ -60,8 +60,8 @@ public class editorBlockManager : MonoBehaviour
         newBlock = Instantiate(literalPrefab, blockParent.position + new Vector3(0.7f,y,0), Quaternion.identity, blockParent);
         newBlock.GetComponent<blockController>().Init("LITERAL","Literal","Number",null);
         y -= 0.75f;
-        newBlock = Instantiate(arrayPrefab, blockParent.position + new Vector3(0.6f,y,0), Quaternion.identity, blockParent);
-        newBlock.GetComponent<blockController>().Init("ARRAY","Array","Array",null);
+        newBlock = Instantiate(arrayPrefab, blockParent.position + new Vector3(0.5f,y,0), Quaternion.identity, blockParent);
+        newBlock.GetComponent<blockController>().Init("ARRAY","Array","Number",null);
         y -= 0.75f;
         args[] variableArgs = new args[]{new args("name","variable",false), new args("value","variable",true)};
         args[] getVariableArgs = new args[]{new args("name","variable",false)};

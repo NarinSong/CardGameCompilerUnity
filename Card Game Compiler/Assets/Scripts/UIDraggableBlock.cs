@@ -40,7 +40,7 @@ public class UIDraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, 
     public Vector2 blockOffset;
     public List<SnappablePart> snappedTo;
     public GameObject xButton;
-    public SnappablePart[] myParts;
+    public List<SnappablePart> myParts;
     public bool actionBlock;
 
     void Awake()
@@ -104,7 +104,7 @@ public class UIDraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, 
             cloneScript.isPaletteItem = false;
             cloneScript.xButton.SetActive(true);
             //Debug.Log("setting snapping points to not palette items");
-            SnappablePart[] myPartsTemp = cloneScript.myParts;
+            List<SnappablePart> myPartsTemp = cloneScript.myParts;
             foreach(SnappablePart x in myPartsTemp)
             {
                 x.GetComponent<SnappablePart>().setPaletteItemFalse();
@@ -568,11 +568,17 @@ public class UIDraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, 
         }
         else if(blockHolder.bname == "ARRAY")
         {
-            blockDict.Add("Kind", "array");
+            blockDict.Add("kind", "array");
             blockDict.Add("valueType", blockHolder.returnType);
-            Dictionary<string, dynamic> logical = new Dictionary<string, dynamic>();
-            logical.Add("value", findArg(0).evalutate());
-            args.Add(blockHolder.argumentsList[0].name, logical);
+            List<dynamic> array = new List<dynamic>();
+            for(int i = 0; i < blockHolder.GetComponent<arrayController>().pointArray.Count; i++)
+            {
+                if(findArg(i) != null)
+                {
+                    array.Add(findArg(i).evalutate()[0]);
+                }
+            }
+            blockDict.Add("value", array);
         }
         else
         {
@@ -625,7 +631,7 @@ public class UIDraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, 
                 return part.GetComponentInChildren<UIDraggableBlock>();
             }
         }
-        //Debug.Log("Failed to find arg");
+        Debug.Log("Failed to find arg");
         return null;
     }
 }

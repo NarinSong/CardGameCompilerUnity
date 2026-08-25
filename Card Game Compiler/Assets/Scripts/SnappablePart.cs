@@ -23,6 +23,21 @@ public class SnappablePart : MonoBehaviour
         technical = name + transform.parent.gameObject.name;
     }
 
+    public void Init(int x,GameObject p)
+    {
+        isPaletteItem = false;
+        isOn = true;
+        rectTransform = GetComponent<RectTransform>();
+        technical = name;
+        notNestable = true;
+        logical = false;
+        varOnly = false;
+        var = false;
+        nestedSpot = x;
+        parent = p;
+        logicNestable = false;
+    }
+
     public void setPaletteItemFalse()
     {
         //Debug.Log("set " + technical + " to false");

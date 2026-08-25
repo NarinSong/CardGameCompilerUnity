@@ -231,7 +231,7 @@ MonoBehaviour:
   actionName: Action
   isPaletteItem: 1
   snapDistance: 1
-  blockOffset: {x: 281, y: 0}
+  blockOffset: {x: 275.2, y: 0}
   snappedTo: []
   xButton: {fileID: 276379616325612547}
   myParts:
@@ -252,10 +252,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   bname: 
+  dname: 
   returnType: 
+  argumentsList: []
   display: {fileID: 5292994840198176307}
   text: {fileID: 0}
-  litVal: 
+  litDrop: {fileID: 0}
+  litOption: {fileID: 0}
+  litOption2: {fileID: 0}
+  litOptionO: {fileID: 0}
+  litOption2O: {fileID: 0}
+  selectorO: {fileID: 0}
+  textO: {fileID: 0}
+  litValS: 
+  litValN: 0
+  litValB: 0
 --- !u!1 &5511663123664964672
 GameObject:
   m_ObjectHideFlags: 0
@@ -316,6 +327,7 @@ MonoBehaviour:
   parent: {fileID: 4025812495762750249}
   logicPad: {fileID: 0}
   nestedSpot: 0
+  logicNestable: 0
 --- !u!1 &6203674461975814054
 GameObject:
   m_ObjectHideFlags: 0
@@ -513,6 +525,7 @@ MonoBehaviour:
   parent: {fileID: 4025812495762750249}
   logicPad: {fileID: 0}
   nestedSpot: 0
+  logicNestable: 0
 --- !u!1 &8048733403789907417
 GameObject:
   m_ObjectHideFlags: 0
@@ -547,7 +560,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 181, y: 0}
+  m_AnchoredPosition: {x: 175.20001, y: 0}
   m_SizeDelta: {x: 50, y: 71.3071}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1808599632964380719
@@ -785,3 +798,4 @@ MonoBehaviour:
   parent: {fileID: 4025812495762750249}
   logicPad: {fileID: 0}
   nestedSpot: 0
+  logicNestable: 0

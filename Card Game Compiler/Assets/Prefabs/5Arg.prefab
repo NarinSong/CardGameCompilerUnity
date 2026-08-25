@@ -137,6 +137,7 @@ MonoBehaviour:
   parent: {fileID: 4025812495762750249}
   logicPad: {fileID: 0}
   nestedSpot: 2
+  logicNestable: 0
 --- !u!1 &2228679302728297771
 GameObject:
   m_ObjectHideFlags: 0
@@ -449,7 +450,7 @@ MonoBehaviour:
   actionName: Action
   isPaletteItem: 1
   snapDistance: 1
-  blockOffset: {x: 674, y: 0}
+  blockOffset: {x: 776, y: 0}
   snappedTo: []
   xButton: {fileID: 8118545274029285032}
   myParts:
@@ -474,6 +475,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   bname: 
+  dname: 
   returnType: 
   argumentsList: []
   display: {fileID: 5292994840198176307}
@@ -487,6 +489,7 @@ MonoBehaviour:
   textO: {fileID: 0}
   litValS: 
   litValN: 0
+  litValB: 0
 --- !u!1 &5260413904665691105
 GameObject:
   m_ObjectHideFlags: 0
@@ -547,6 +550,7 @@ MonoBehaviour:
   parent: {fileID: 4025812495762750249}
   logicPad: {fileID: 0}
   nestedSpot: 4
+  logicNestable: 0
 --- !u!1 &5511663123664964672
 GameObject:
   m_ObjectHideFlags: 0
@@ -607,6 +611,7 @@ MonoBehaviour:
   parent: {fileID: 4025812495762750249}
   logicPad: {fileID: 0}
   nestedSpot: 0
+  logicNestable: 0
 --- !u!1 &5700043344144638019
 GameObject:
   m_ObjectHideFlags: 0
@@ -667,6 +672,7 @@ MonoBehaviour:
   parent: {fileID: 4025812495762750249}
   logicPad: {fileID: 0}
   nestedSpot: 3
+  logicNestable: 0
 --- !u!1 &5781640726869522829
 GameObject:
   m_ObjectHideFlags: 0
@@ -802,6 +808,7 @@ MonoBehaviour:
   parent: {fileID: 4025812495762750249}
   logicPad: {fileID: 0}
   nestedSpot: 0
+  logicNestable: 0
 --- !u!1 &7544855855252568468
 GameObject:
   m_ObjectHideFlags: 0
@@ -862,6 +869,7 @@ MonoBehaviour:
   parent: {fileID: 4025812495762750249}
   logicPad: {fileID: 0}
   nestedSpot: 1
+  logicNestable: 0
 --- !u!1 &7704227412093687404
 GameObject:
   m_ObjectHideFlags: 0
@@ -975,7 +983,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 181, y: 0}
+  m_AnchoredPosition: {x: 175.2, y: 0}
   m_SizeDelta: {x: 50, y: 71.3071}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1808599632964380719
@@ -1346,3 +1354,4 @@ MonoBehaviour:
   parent: {fileID: 4025812495762750249}
   logicPad: {fileID: 0}
   nestedSpot: 0
+  logicNestable: 0
