@@ -25,6 +25,7 @@ public class TabNavigation : MonoBehaviour
     public Selectable[] userSettings;
     public Selectable[] var;
     public Selectable[] lobbyVar;
+    public Selectable[] myGames;
     public Button signUpB;
     public Button signInB;
     public Button userSettingsB;
@@ -181,7 +182,9 @@ public class TabNavigation : MonoBehaviour
             case "lobbyVar":
                 fields = lobbyVar;
                 break;
-
+            case "myGames":
+                fields = myGames;
+                break;
         }
         delay = 0;
         bool reverse = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);

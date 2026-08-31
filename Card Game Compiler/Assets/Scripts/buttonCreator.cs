@@ -49,6 +49,11 @@ public class buttonCreator : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
+        if(games.Length/5 > 4)
+        {
+            buttonPane.sizeDelta = new Vector2(1400f, 700 + 300*(games.Length/5-4));
+            sb.value = 1;
+        }
         for(int i = 0; i < games.Length; i++)
         {
             //Debug.Log("Drawing Buttons..." + games.Length);
@@ -63,11 +68,6 @@ public class buttonCreator : MonoBehaviour
                 counter = 0;
                 rows ++;
                 transform.position = new Vector3(startingX,transform.position.y+incY,0);
-                if(rows > 4)
-                {
-                    buttonPane.sizeDelta = new Vector2(1375.5f, 840 + 150*(rows-4));
-                    sb.value = 0;
-                }
             }
         }
     }
