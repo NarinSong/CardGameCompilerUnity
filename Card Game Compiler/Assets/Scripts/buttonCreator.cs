@@ -2,6 +2,7 @@ using UnityEngine;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class buttonCreator : MonoBehaviour
 {
@@ -10,11 +11,14 @@ public class buttonCreator : MonoBehaviour
     public float incY;
     public int cols;
     private int counter;
+    public int rows;
     public Transform buttonParent;
     public string gameList;
     private float startingX;
     private float startingY;
+    public RectTransform buttonPane;
     public List<GameObject> buttons;
+    public Scrollbar sb;
 
     void Start()
     {
@@ -39,6 +43,8 @@ public class buttonCreator : MonoBehaviour
     {
         transform.position = new Vector3(startingX,startingY,0);
         counter = 0;
+        rows = 1;
+        buttonPane.sizeDelta = new Vector2(1375.5f, 840);
         foreach (Transform child in buttonParent) 
         {
             Destroy(child.gameObject);
@@ -55,7 +61,13 @@ public class buttonCreator : MonoBehaviour
             if(counter == cols)
             {
                 counter = 0;
+                rows ++;
                 transform.position = new Vector3(startingX,transform.position.y+incY,0);
+                if(rows > 4)
+                {
+                    buttonPane.sizeDelta = new Vector2(1375.5f, 840 + 150*(rows-4));
+                    sb.value = 0;
+                }
             }
         }
     }
