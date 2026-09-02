@@ -198,6 +198,10 @@ public class editorController : MonoBehaviour
         }
         game.gameMeta.name = gameName.text;
         game.gameMeta.description = gameDescription.text;
+        foreach(mapsType m in vC.mapsList)
+        {
+            game.gameMeta.maps.Add(m.mName, m.mapToDict());
+        }
         foreach(variablesType v in vC.variablesList)
         {
             game.gameMeta.variables.Add(v.vName, v.returnType());

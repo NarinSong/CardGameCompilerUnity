@@ -666,7 +666,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1348267818}
   m_Direction: 2
   m_Value: 0.99999994
-  m_Size: 0.11631571
+  m_Size: 0.116315715
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -25288,7 +25288,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Horizontal
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -28632,7 +28632,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -244, y: 474.40005}
+  m_AnchoredPosition: {x: -244, y: 474.40012}
   m_SizeDelta: {x: 488, y: 940}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &617867542
@@ -32528,7 +32528,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0.000030517578, y: -1014.91}
+  m_AnchoredPosition: {x: 0.000030517578, y: -3155.5598}
   m_SizeDelta: {x: 491.4, y: 3155.56}
   m_Pivot: {x: 0, y: 0}
 --- !u!1 &694328656
@@ -40175,7 +40175,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1796095235}
   m_HandleRect: {fileID: 1796095234}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 0.9999999
   m_Size: 0.32162598
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -42492,7 +42492,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -244, y: 474.40005}
+  m_AnchoredPosition: {x: -244, y: 474.40012}
   m_SizeDelta: {x: 488, y: 940}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &940812592
@@ -45275,13 +45275,7 @@ MonoBehaviour:
   m_Value: 0
   m_MultiSelect: 0
   m_Options:
-    m_Options:
-    - m_Text: Horizontal
-      m_Image: {fileID: 0}
-      m_Color: {r: 1, g: 1, b: 1, a: 1}
-    - m_Text: Vertical
-      m_Image: {fileID: 0}
-      m_Color: {r: 1, g: 1, b: 1, a: 1}
+    m_Options: []
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -48352,7 +48346,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -243.93, y: 474.40005}
+  m_AnchoredPosition: {x: -243.93, y: 474.40012}
   m_SizeDelta: {x: 488, y: 940}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1069765407
@@ -58912,7 +58906,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1366725713}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.5092751
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -59566,16 +59560,16 @@ MonoBehaviour:
   aRoleName: {fileID: 91798721}
   aRolesList: []
   currentARole: 0
-  mapsD: {fileID: 0}
-  mapName: {fileID: 0}
-  mapKeyDropdown: {fileID: 0}
-  mapKey: {fileID: 0}
-  mapValue: {fileID: 0}
+  mapsD: {fileID: 1669272720}
+  mapName: {fileID: 1910343065}
+  mapKeyDropdown: {fileID: 994018674}
+  mapKey: {fileID: 524718716}
+  mapValue: {fileID: 3994096}
   currentMap: 0
   currentMapKey: 0
   mapNames: []
-  valueAdd: {fileID: 0}
-  valueDelete: {fileID: 0}
+  valueAdd: {fileID: 618724021}
+  valueDelete: {fileID: 1547198419}
 --- !u!1 &1279016352
 GameObject:
   m_ObjectHideFlags: 0
@@ -76007,7 +76001,7 @@ MonoBehaviour:
       - m_Target: {fileID: 1278779881}
         m_TargetAssemblyTypeName: variableController, Assembly-CSharp
         m_MethodName: loadMap
-        m_Mode: 1
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -76667,7 +76661,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1907172044}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.5092751
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -79847,8 +79841,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1291371343}
-  - {fileID: 112739996}
   - {fileID: 1317500549}
+  - {fileID: 112739996}
   m_Father: {fileID: 240460051}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -89942,7 +89936,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 269262058}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.5092751
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -90693,7 +90687,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2044990206
 MonoBehaviour:
   m_ObjectHideFlags: 0

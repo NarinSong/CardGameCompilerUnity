@@ -137,7 +137,7 @@ public class editorBlockManager : MonoBehaviour
         }
     }
 
-    public void drawMetaBlocks(List<variablesType> variables, List<pilesType> piles, List<buttonsType> buttons, List<countersType> counters, List<locationsType> locations, List<string> pRoles, List<string> aRoles)
+    public void drawMetaBlocks(List<variablesType> variables, List<pilesType> piles, List<buttonsType> buttons, List<countersType> counters, List<locationsType> locations, List<string> pRoles, List<string> aRoles, List<mapsType> maps)
     {
         v = 0;
         o = 0;
@@ -170,7 +170,7 @@ public class editorBlockManager : MonoBehaviour
             v -= 0.75f;
         }
         vertAmt = 0;
-        int objs = piles.Count + buttons.Count + counters.Count + locations.Count + aRoles.Count + pRoles.Count;
+        int objs = piles.Count + buttons.Count + counters.Count + locations.Count + aRoles.Count + pRoles.Count + maps.Count;
         if(objs > 11)
         {
             vertAmt = 940f + 82f*(objs-11);
@@ -218,6 +218,12 @@ public class editorBlockManager : MonoBehaviour
         {
             GameObject newBlock = Instantiate(objectPrefab, objectBlockParent.position + new Vector3(0,o,0), Quaternion.identity, objectBlockParent);
             newBlock.GetComponent<blockController>().Init("LITERAL",b,"PlayerRole",null);
+            o -= 0.75f;
+        }
+        foreach(mapsType m in maps)
+        {
+            GameObject newBlock = Instantiate(objectPrefab, objectBlockParent.position + new Vector3(0,o,0), Quaternion.identity, objectBlockParent);
+            newBlock.GetComponent<blockController>().Init("LITERAL",m.mName,"Map",null);
             o -= 0.75f;
         }
     }

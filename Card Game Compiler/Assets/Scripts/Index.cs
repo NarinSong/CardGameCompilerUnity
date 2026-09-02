@@ -348,11 +348,32 @@ public class locationsType
 public class mapsType
 {
     public string mName;
-    public Dictionary<string, int> map;
+    public List<mapVal> map;
     public mapsType()
     {
         mName = "NewMap";
-        map = new Dictionary<string, int>();
+        map = new List<mapVal>();
+    }
+
+    public Dictionary<string, int> mapToDict()
+    {
+        Dictionary<string, int> x = new Dictionary<string, int>();
+        foreach(mapVal y in map)
+        {
+            x.Add(y.key,y.value);
+        }
+        return x;
+    }
+}
+
+public class mapVal
+{
+    public string key;
+    public int value;
+    public mapVal()
+    {
+        key = "NewKey";
+        value = 0;
     }
 }
 
@@ -574,10 +595,12 @@ public class gameMeta
     public string description {get; set;}
     public Dictionary<string, string> variables;
     public Dictionary<string, dynamic> locations;
+    public Dictionary<string, Dictionary<string, int>> maps;
     public gameMeta()
     {
         variables = new();
         locations = new();
+        maps = new();
     }
 }
 

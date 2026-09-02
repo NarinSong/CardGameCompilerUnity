@@ -119,6 +119,8 @@ public class variableController : MonoBehaviour
         locationNames = new List<string>();
         pRolesList = new List<string>();
         aRolesList = new List<string>();
+        mapsList = new List<mapsType>();
+        mapNames = new List<string>();
         newLocation();
         locationName.text = "DEFAULT";
         locationsList[0].editable = false;
@@ -228,7 +230,23 @@ public class variableController : MonoBehaviour
                 }
             }
         }
-        
+        for(int x = 0; x < mapNames.Count; x++)
+        {
+            if(mapNames[x] == "" || mapNames[x] == null)
+            {
+                throwError("A variable is undeclared or unnamed");
+                return;
+            }
+            for(int y = 0; y < mapNames.Count; y++)
+            {
+                if(y != x && mapNames[x] == mapNames[y])
+                {
+                    throwError("Two variables share the same name: " + mapNames[x]);
+                    return;
+                }
+            }
+        }
+
         Debug.Log("variable name check passed");
         masterList.AddRange(variableNames);
         masterList.AddRange(locationNames);
@@ -243,7 +261,7 @@ public class variableController : MonoBehaviour
             }
         }
         Debug.Log("counter check passed");
-        bM.drawMetaBlocks(variablesList, pilesList, buttonsList, countersList, locationsList, aRolesList, pRolesList);
+        bM.drawMetaBlocks(variablesList, pilesList, buttonsList, countersList, locationsList, aRolesList, pRolesList,mapsList);
     }
 
 //  VARIABLES =========================
@@ -1279,11 +1297,12 @@ public class variableController : MonoBehaviour
     public void newMap()
     {
         mapsList.Add(new mapsType());
+        mapNames.Add("NewMap");
         mapsD.ClearOptions();
         mapsD.AddOptions(mapNames);
         currentMap = mapsList.Count-1;
         mapsD.value = currentMap;
-        loadActionRole();
+        loadMap(0);
     }
 
     public void deleteMap()
@@ -1303,7 +1322,7 @@ public class variableController : MonoBehaviour
                 currentMap = mapsList.Count-1;
                 mapsD.value = currentMap;
             }
-            loadMap();
+            loadMap(0);
         }
     }
 
@@ -1316,27 +1335,42 @@ public class variableController : MonoBehaviour
             mapsD.ClearOptions();
             mapsD.AddOptions(mapNames);
             mapsD.value = currentMap;
-            loadMap();
+            loadMap(1);
         }
     }
 
-    public void loadMap()
+    public void loadMap(int code)
     {
         inLoad = true;
         if(mapsList.Count > 0)
         {
             mapName.interactable = true;
-            mapValue.interactable = true;
             mapKeyDropdown.interactable = true;
             valueAdd.interactable = true;
             valueDelete.interactable = true;
+            currentMap = mapsD.value;
+            mapKeyDropdown.ClearOptions();
+            List<string> temp = new List<string>();
+            foreach(mapVal x in mapsList[currentMap].map)
+            {
+                temp.Add(x.key);
+            }
+            mapKeyDropdown.AddOptions(temp);
             if(mapsList[currentMap].map.Count > 0)
             {
                 mapValue.interactable = true;
                 mapKey.interactable = true;
+                if(code == 0)
+                {
+                    currentMapKey = 0;
+                    loadValue();
+                }
+            }
+            else
+            {
+                currentMapKey = 0;
                 loadValue();
             }
-            currentMap = mapsD.value;
             mapName.text = mapNames[currentMap];
         }
         else
@@ -1348,7 +1382,6 @@ public class variableController : MonoBehaviour
             mapKey.text = "";
             mapValue.text = "";
             mapName.interactable = false;
-            mapValue.interactable = false;
             mapKeyDropdown.interactable = false;
             mapValue.interactable = false;
             mapKey.interactable = false;
@@ -1360,21 +1393,88 @@ public class variableController : MonoBehaviour
 
     public void newValue()
     {
-        
+        mapsList[currentMap].map.Add(new mapVal());
+        mapKeyDropdown.ClearOptions();
+        List<string> temp = new List<string>();
+        foreach(mapVal x in mapsList[currentMap].map)
+        {
+            temp.Add(x.key);
+        }
+        mapKeyDropdown.AddOptions(temp);
+        currentMapKey = mapsList[currentMap].map.Count-1;
+        mapKeyDropdown.value = currentMapKey;
+        loadValue();
     }
 
     public void deleteValue()
     {
-        
+        if(mapsList[currentMap].map.Count > 0)
+        {
+            mapsList[currentMap].map.RemoveAt(currentMapKey);
+            mapKeyDropdown.ClearOptions();
+            List<string> temp = new List<string>();
+            foreach(mapVal x in mapsList[currentMap].map)
+            {
+                temp.Add(x.key);
+            }
+            mapKeyDropdown.AddOptions(temp);
+            if(mapsList[currentMap].map.Count > 0)
+            {
+                mapKeyDropdown.value = currentMapKey;
+            }
+            else if(mapsList[currentMap].map.Count+2 == currentMapKey)
+            {
+                currentMapKey = mapsList[currentMap].map.Count-1;
+                mapKeyDropdown.value = currentMapKey;
+            }
+            loadValue();
+        }
     }
 
     public void modifyValue()
     {
-        
+        if(inLoad == false && mapsList[currentMap].map.Count > 0)
+        {
+            mapsList[currentMap].map[currentMapKey].key = mapKey.text;
+            int x;
+            if(int.TryParse(mapValue.text,out x))
+            {
+                mapsList[currentMap].map[currentMapKey].value = x;
+            }
+            else
+            {
+                mapsList[currentMap].map[currentMapKey].value = 0;
+            }
+            mapKeyDropdown.ClearOptions();
+            List<string> temp = new List<string>();
+            foreach(mapVal y in mapsList[currentMap].map)
+            {
+                temp.Add(y.key);
+            }
+            mapKeyDropdown.AddOptions(temp);
+            mapKeyDropdown.value = currentMapKey;
+            loadValue();
+        }
     }
 
     public void loadValue()
     {
-        
+        inLoad = true;
+        if(mapsList[currentMap].map.Count > 0)
+        {
+            currentMapKey = mapKeyDropdown.value;
+            mapValue.interactable = true;
+            mapKey.interactable = true;
+            mapValue.text = mapsList[currentMap].map[currentMapKey].value.ToString();
+            mapKey.text = mapsList[currentMap].map[currentMapKey].key;
+        }
+        else
+        {
+            mapValue.text = "0";
+            mapKey.text = "";
+            mapValue.interactable = false;
+            mapKey.interactable = false;
+        }
+        inLoad = false;
     }
 }
