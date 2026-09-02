@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class variableController : MonoBehaviour
 {
@@ -90,6 +91,19 @@ public class variableController : MonoBehaviour
     public TMP_InputField aRoleName;
     public List<string> aRolesList;
     public int currentARole;
+
+    [Header("Maps")]
+    public TMP_Dropdown mapsD;
+    public TMP_InputField mapName;
+    public TMP_Dropdown mapKeyDropdown;
+    public TMP_InputField mapKey;
+    public TMP_InputField mapValue;
+    public int currentMap;
+    public int currentMapKey;
+    public List<mapsType> mapsList;
+    public List<string> mapNames;
+    public Button valueAdd;
+    public Button valueDelete;
 
     void Start()
     {
@@ -1259,5 +1273,108 @@ public class variableController : MonoBehaviour
         {
             buttonARole.value = 0;
         }
+    }
+
+    //  MAPS ==============================================
+    public void newMap()
+    {
+        mapsList.Add(new mapsType());
+        mapsD.ClearOptions();
+        mapsD.AddOptions(mapNames);
+        currentMap = mapsList.Count-1;
+        mapsD.value = currentMap;
+        loadActionRole();
+    }
+
+    public void deleteMap()
+    {
+        if(mapsList.Count > 0)
+        {
+            mapsList.RemoveAt(currentMap);
+            mapNames.RemoveAt(currentMap);
+            mapsD.ClearOptions();
+            mapsD.AddOptions(mapNames);
+            if(mapsList.Count > 0)
+            {
+                mapsD.value = currentMap;
+            }
+            else if(mapsList.Count+2 == currentMap)
+            {
+                currentMap = mapsList.Count-1;
+                mapsD.value = currentMap;
+            }
+            loadMap();
+        }
+    }
+
+    public void modifyMap()
+    {
+        if(mapsList.Count > 0 && inLoad == false)
+        {
+            mapNames[currentMap] = mapName.text;
+            mapsList[currentMap].mName = mapName.text;
+            mapsD.ClearOptions();
+            mapsD.AddOptions(mapNames);
+            mapsD.value = currentMap;
+            loadMap();
+        }
+    }
+
+    public void loadMap()
+    {
+        inLoad = true;
+        if(mapsList.Count > 0)
+        {
+            mapName.interactable = true;
+            mapValue.interactable = true;
+            mapKeyDropdown.interactable = true;
+            valueAdd.interactable = true;
+            valueDelete.interactable = true;
+            if(mapsList[currentMap].map.Count > 0)
+            {
+                mapValue.interactable = true;
+                mapKey.interactable = true;
+                loadValue();
+            }
+            currentMap = mapsD.value;
+            mapName.text = mapNames[currentMap];
+        }
+        else
+        {
+            currentMap = 0;
+            currentMapKey = 0;
+            mapName.text = "";
+            mapValue.text = "";
+            mapKey.text = "";
+            mapValue.text = "";
+            mapName.interactable = false;
+            mapValue.interactable = false;
+            mapKeyDropdown.interactable = false;
+            mapValue.interactable = false;
+            mapKey.interactable = false;
+            valueAdd.interactable = false;
+            valueDelete.interactable = false;
+        }
+        inLoad = false;
+    }
+
+    public void newValue()
+    {
+        
+    }
+
+    public void deleteValue()
+    {
+        
+    }
+
+    public void modifyValue()
+    {
+        
+    }
+
+    public void loadValue()
+    {
+        
     }
 }

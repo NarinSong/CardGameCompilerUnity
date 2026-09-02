@@ -345,6 +345,17 @@ public class locationsType
     }
 }
 
+public class mapsType
+{
+    public string mName;
+    public Dictionary<string, int> map;
+    public mapsType()
+    {
+        mName = "NewMap";
+        map = new Dictionary<string, int>();
+    }
+}
+
 public class LobbyInfo
 {
     public user host {get; set;}
