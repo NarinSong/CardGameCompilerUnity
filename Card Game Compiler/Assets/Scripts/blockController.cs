@@ -14,6 +14,7 @@ public class blockController : MonoBehaviour
     [SerializeField]
     public List<args> argumentsList;
     public TMP_Text display;
+    public TMP_Text returnTypeDisplay;
     public TMP_InputField text;
     public TMP_Dropdown litDrop;
     public TMP_Dropdown litOption;
@@ -43,11 +44,19 @@ public class blockController : MonoBehaviour
             litValS = dN;
         }
         display.text = dN;
+        if(returnTypeDisplay != null)
+        {
+            returnTypeDisplay.text = rT;
+        }
     }
 
     public void updateVariableType()
     {
         returnType = getReturnType(litDrop.value);
+        if(returnTypeDisplay != null)
+        {
+            returnTypeDisplay.text = returnType;
+        }
     }
 
     public void updateType()
@@ -129,6 +138,10 @@ public class blockController : MonoBehaviour
             litOption.ClearOptions();
             litOption.AddOptions(new List<string> {"Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"});
             updateLitVal();
+        }
+        if(returnTypeDisplay != null)
+        {
+            returnTypeDisplay.text = returnType;
         }
     }
 

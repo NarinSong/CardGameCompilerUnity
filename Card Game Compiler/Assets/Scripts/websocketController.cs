@@ -22,6 +22,7 @@ public class websocketController : MonoBehaviour
     public PageManager PM;
     public editorBlockManager eBM;
     public TabNavigation tN;
+    public gameCardCreator gCC;
     public TMP_Text userText;
     public TMP_Text ErrorSignUp;
     public TMP_Text ErrorLogIn;
@@ -582,6 +583,31 @@ public class websocketController : MonoBehaviour
                 Debug.Log(Callback);
             });
         },game);
+    }
+
+    public void getMyGames()
+    {
+        socket.Emit("getMyGames",(Callback)=>
+        {
+            UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            {
+                string gameList = Callback.ToString();
+                gameList = gameList[1..^1];
+                List<myGameInfo> x = JsonConvert.DeserializeObject<List<myGameInfo>>(gameList);
+                gCC.drawCards(x);
+            });
+        });
+    }
+
+    public void deleteGame(int id)
+    {
+        socket.Emit("deleteGame",(Callback)=>
+        {
+            UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            {
+                getMyGames();
+            });
+        },id);
     }
 
     public string rgbToHex(float r, float g, float b)

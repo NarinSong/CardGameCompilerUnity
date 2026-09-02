@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class editorBlockManager : MonoBehaviour
 {
@@ -35,6 +36,12 @@ public class editorBlockManager : MonoBehaviour
     public float v;
     public float o;
     public float sP;
+    public RectTransform varPanel;
+    public RectTransform objPanel;
+    public RectTransform stepsPanel;
+    public Scrollbar varSB;
+    public Scrollbar objSB;
+    public Scrollbar stepsSB;
 
     public void setBlockList(List<block> bL)
     {
@@ -142,12 +149,41 @@ public class editorBlockManager : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
+        float vertAmt = 0;
+        if(variables.Count > 11)
+        {
+            vertAmt = 940f + 82f*(variables.Count-11);
+            varPanel.sizeDelta = new Vector2(488f, vertAmt);
+            vertAmt = 0.5f*vertAmt;
+        }
+        else
+        {
+            vertAmt = 940f/2;
+            varPanel.sizeDelta = new Vector2(488f, 940f);
+        }
+        variableBlockParent.GetComponent<RectTransform>().anchoredPosition = new Vector2(0,vertAmt-50);
+        varSB.value = 1;
         foreach(variablesType b in variables)
         {
             GameObject newBlock = Instantiate(objectPrefab, variableBlockParent.position + new Vector3(0,v,0), Quaternion.identity, variableBlockParent);
             newBlock.GetComponent<blockController>().Init("LITERAL",b.vName,"String",null);
             v -= 0.75f;
         }
+        vertAmt = 0;
+        int objs = piles.Count + buttons.Count + counters.Count + locations.Count + aRoles.Count + pRoles.Count;
+        if(objs > 11)
+        {
+            vertAmt = 940f + 82f*(objs-11);
+            objPanel.sizeDelta = new Vector2(488f, vertAmt);
+            vertAmt = 0.5f*vertAmt;
+        }
+        else
+        {
+            vertAmt = 940f/2;
+            objPanel.sizeDelta = new Vector2(488f, 940f);
+        }
+        objectBlockParent.GetComponent<RectTransform>().anchoredPosition = new Vector2(0,vertAmt-50);
+        objSB.value = 1;
         foreach(pilesType b in piles)
         {
             GameObject newBlock = Instantiate(objectPrefab, objectBlockParent.position + new Vector3(0,o,0), Quaternion.identity, objectBlockParent);
@@ -189,6 +225,20 @@ public class editorBlockManager : MonoBehaviour
     public void updateStepsPhasesBlocks(List<string> steps, List<string> phases)
     {
         sP = 0;
+        float vertAmt = 0;
+        if((steps.Count+phases.Count) > 11)
+        {
+            vertAmt = 940f + 82f*(steps.Count+phases.Count-11);
+            stepsPanel.sizeDelta = new Vector2(488f, vertAmt);
+            vertAmt = 0.5f*vertAmt;
+        }
+        else
+        {
+            vertAmt = 940f/2;
+            stepsPanel.sizeDelta = new Vector2(488f, 940f);
+        }
+        sPBlockParent.GetComponent<RectTransform>().anchoredPosition = new Vector2(0,vertAmt-50);
+        stepsSB.value = 1;
         foreach(Transform child in sPBlockParent) 
         {
             Destroy(child.gameObject);

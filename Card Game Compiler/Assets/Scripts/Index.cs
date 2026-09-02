@@ -360,6 +360,13 @@ public class gameInfo
     public string description {get; set;}
 }
 
+public class myGameInfo
+{
+    public string name {get; set;}
+    public string description {get; set;}
+    public int id {get; set;}
+}
+
 public class block
 {
     public string name {get; set;}
