@@ -44,14 +44,14 @@ public class buttonCreator : MonoBehaviour
         transform.position = new Vector3(startingX,startingY,0);
         counter = 0;
         rows = 1;
-        buttonPane.sizeDelta = new Vector2(1375.5f, 840);
+        buttonPane.sizeDelta = new Vector2(1375.5f, 697.9f);
         foreach (Transform child in buttonParent) 
         {
             Destroy(child.gameObject);
         }
         if(games.Length/5 > 4)
         {
-            buttonPane.sizeDelta = new Vector2(1400f, 700 + 300*(games.Length/5-4));
+            buttonPane.sizeDelta = new Vector2(1400f, 697.9f + 300*(games.Length/5-4));
             sb.value = 1;
         }
         for(int i = 0; i < games.Length; i++)
