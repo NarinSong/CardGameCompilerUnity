@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System;
+using UnityEngine.UI;
 
 public class lobbyController : MonoBehaviour
 {
@@ -20,6 +21,8 @@ public class lobbyController : MonoBehaviour
     public bool isHost = false;
     public string currentUser;
     public TabNavigation tN;
+    public RectTransform pane;
+    public Scrollbar sb;
     public void updateLobbyInfo(LobbyInfo lobby, string username)
     {
         user host = lobby.host;

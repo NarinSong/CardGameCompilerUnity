@@ -261,7 +261,7 @@ public class variableController : MonoBehaviour
             }
         }
         Debug.Log("counter check passed");
-        bM.drawMetaBlocks(variablesList, pilesList, buttonsList, countersList, locationsList, aRolesList, pRolesList,mapsList);
+        bM.drawMetaBlocks(variablesList, pilesList, buttonsList, countersList, locationsList, pRolesList, aRolesList,mapsList);
     }
 
 //  VARIABLES =========================
