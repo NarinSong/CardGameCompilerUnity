@@ -23,6 +23,7 @@ public class websocketController : MonoBehaviour
     public editorBlockManager eBM;
     public TabNavigation tN;
     public gameCardCreator gCC;
+    public editorRebuilder eDR;
     public TMP_Text userText;
     public TMP_Text ErrorSignUp;
     public TMP_Text ErrorLogIn;
@@ -606,6 +607,18 @@ public class websocketController : MonoBehaviour
             UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 getMyGames();
+            });
+        },id);
+    }
+
+    public void getGameCode(int id)
+    {
+        socket.Emit("getSavedGameBlocks",(Callback)=>
+        {
+            UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            {
+                EmitFetchBlocks();
+                eDR.parseGameJSON(Callback);
             });
         },id);
     }
