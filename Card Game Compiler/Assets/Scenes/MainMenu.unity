@@ -6071,6 +6071,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 112739995}
   m_CullTransparentMesh: 1
+--- !u!1 &113808138
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 113808139}
+  - component: {fileID: 113808140}
+  m_Layer: 0
+  m_Name: EditorBuilder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &113808139
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 113808138}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 451520384}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &113808140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 113808138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4517a88e3b2c364baa376d57d37033e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  vC: {fileID: 1278779881}
+  wS: {fileID: 1768564907}
+  eD: {fileID: 1145115528}
+  currentBlock: {fileID: 0}
+  prevBlock: {fileID: 0}
+  currentAction: {fileID: 0}
 --- !u!1 &116983787
 GameObject:
   m_ObjectHideFlags: 0
@@ -20654,6 +20704,7 @@ Transform:
   - {fileID: 66216102}
   - {fileID: 1672804792}
   - {fileID: 1882042391}
+  - {fileID: 113808139}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &452737312
@@ -80797,6 +80848,7 @@ MonoBehaviour:
   eBM: {fileID: 172089076}
   tN: {fileID: 66216103}
   gCC: {fileID: 1882042392}
+  eDR: {fileID: 0}
   userText: {fileID: 1967160988}
   ErrorSignUp: {fileID: 1102837864}
   ErrorLogIn: {fileID: 1556362665}
