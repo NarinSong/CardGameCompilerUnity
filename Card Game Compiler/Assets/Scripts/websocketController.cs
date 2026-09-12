@@ -186,6 +186,11 @@ public class websocketController : MonoBehaviour
         });
     }
 
+    public void recon()
+    {
+        Start();
+    }
+
     public static bool IsJSON(string str)
     {
         if (string.IsNullOrWhiteSpace(str)) { return false; }
@@ -584,6 +589,13 @@ public class websocketController : MonoBehaviour
                 Debug.Log(Callback);
             });
         },game);
+    }
+
+    public void sendManualGame(dynamic game)
+    {
+        
+        Debug.Log(Newtonsoft.Json.JsonConvert.SerializeObject(game, Formatting.Indented));
+        socket.Emit("saveGame",game);
     }
 
     public void getMyGames()

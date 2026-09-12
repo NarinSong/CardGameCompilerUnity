@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Nodes;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using TMPro;
 using UnityEngine;
@@ -26,6 +28,7 @@ public class editorController : MonoBehaviour
     public TMP_InputField gameDescription;
     public TMP_InputField minPlayers;
     public TMP_InputField maxPlayers;
+    public TMP_InputField handCode;
     public websocketController wS;
 
     public void Start()
@@ -175,6 +178,14 @@ public class editorController : MonoBehaviour
     {
         Debug.Log("called");
         setPhase(phaseList.value);
+    }
+
+    public void manualCompile()
+    {
+        string game = Regex.Replace(handCode.text, @"\s+", string.Empty);
+        dynamic json  = JsonConvert.DeserializeObject(game);
+        Debug.Log(json.ToString());
+        wS.sendManualGame(json);
     }
 
     public void compile()
