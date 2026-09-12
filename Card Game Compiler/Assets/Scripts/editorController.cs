@@ -182,7 +182,8 @@ public class editorController : MonoBehaviour
 
     public void manualCompile()
     {
-        string game = Regex.Replace(handCode.text, @"\s+", string.Empty);
+        //string game = Regex.Replace(handCode.text, @"\s+", string.Empty);
+        string game = handCode.text;
         dynamic json  = JsonConvert.DeserializeObject(game);
         Debug.Log(json.ToString());
         wS.sendManualGame(json);
